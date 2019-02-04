@@ -9,9 +9,14 @@ import java.util.List;
 
 @Service
 public class UserService {
+    private final UserDao userDao;
+    private String reg ="\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])\\S{8,}\\z";
+
     @Autowired
-    private UserDao userDao;
-    String reg ="\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])\\S{8,}\\z";
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     public User getUserById(Long id) {
         return userDao.getUserById(id);
     }

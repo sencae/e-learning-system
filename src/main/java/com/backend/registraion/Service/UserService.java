@@ -1,9 +1,7 @@
 package com.backend.registraion.Service;
 
 import com.backend.registraion.Dao.UserDao;
-import com.backend.registraion.Dao.UserGroupsDao;
 import com.backend.registraion.Entity.User;
-import com.backend.registraion.Entity.UserGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,7 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserDao userDao;
-
+    String reg ="\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])\\S{8,}\\z";
     public User getUserById(Long id) {
         return userDao.getUserById(id);
     }
@@ -21,7 +19,7 @@ public class UserService {
         return userDao.getAllUsers();
     }
     public synchronized boolean addUser(User user){
-        if(userDao.getUserByEmail(user.getEmail())||user.getPassword().length()<6)
+        if(userDao.getUserByEmail(user.getEmail())||!user.getPassword().matches(reg))
             return false;
         else {
             userDao.addUser(user);

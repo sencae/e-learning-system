@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>pom</packaging>
-    <groupId>com.backend</groupId>
-    <artifactId>registraion</artifactId>
+    <groupId>com.e-learning-system</groupId>
+    <artifactId>e-learning-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>registraion</name>
+    <name>e-learning-system</name>
     <description>project</description>
 
 
@@ -21,8 +21,8 @@
     </properties>
 
     <modules>
-        <module>frontend</module>
-        <module>backend</module>
+        <module>e-learning-system-frontend</module>
+        <module>e-learning-system-backend</module>
     </modules>
 
 

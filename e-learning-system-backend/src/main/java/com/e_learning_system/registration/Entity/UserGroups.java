@@ -1,9 +1,9 @@
-package com.backend.e_learning_system.com.backend.e_learning_system.registration.Entity;
+package com.e_learning_system.registration.Entity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_groups", schema = "public", catalog = "e_learning_system")
+@Table(name = "user_groups", schema = "public")
 public class UserGroups {
     private long id;
     private String groupName;

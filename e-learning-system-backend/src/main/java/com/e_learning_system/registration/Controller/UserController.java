@@ -1,10 +1,11 @@
-package com.backend.e_learning_system.com.backend.e_learning_system.registration.Controller;
+package com.e_learning_system.registration.Controller;
 
-import com.backend.e_learning_system.com.backend.e_learning_system.registration.Entity.User;
-import com.backend.e_learning_system.com.backend.e_learning_system.registration.Service.UserService;
+import com.e_learning_system.registration.Entity.User;
+import com.e_learning_system.registration.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,12 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("registration")
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("registration")
-    public String func() {
-        return "hello";
+    @Autowired
+    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping("user/{id}")
@@ -34,6 +36,7 @@ public class UserController {
 
     @PostMapping("user")
     public ResponseEntity<Void> addUser(@RequestBody User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         boolean flag = userService.addUser(user);
         if (!flag)
             return new ResponseEntity<>(HttpStatus.CONFLICT);

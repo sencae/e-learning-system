@@ -1,4 +1,4 @@
-package com.backend.e_learning_system;
+package com.e_learning_system;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,6 @@
-package com.backend.e_learning_system.com.backend.e_learning_system.registration.Dao;
+package com.e_learning_system.registration.Dao;
 
-import com.backend.e_learning_system.com.backend.e_learning_system.registration.Entity.User;
+import com.e_learning_system.registration.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,10 +11,14 @@ import java.util.List;
 @Repository
 @Transactional
 public class UserDao {
+    private final EntityManager entityManager;
+    private final UserGroupsDao userGroupsDao;
+
     @Autowired
-    private EntityManager entityManager;
-    @Autowired
-    private UserGroupsDao userGroupsDao;
+    public UserDao(EntityManager entityManager, UserGroupsDao userGroupsDao) {
+        this.entityManager = entityManager;
+        this.userGroupsDao = userGroupsDao;
+    }
 
     public User getUserById(Long id) {
         return entityManager.find(User.class, id);
@@ -24,6 +28,11 @@ public class UserDao {
         return entityManager.createQuery("from User as usr where usr.email=:eml")
                 .setParameter("eml", email).getResultList()
                 .size() > 0;
+    }
+
+    public User getUserByEmailAuth(String email) {
+        return (User) entityManager.createQuery("from User as usr where usr.email=:eml")
+                .setParameter("eml", email).getSingleResult();
     }
 
     public List<User> getAllUsers() {

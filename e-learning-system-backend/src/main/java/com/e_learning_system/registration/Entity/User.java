@@ -1,9 +1,9 @@
-package com.backend.e_learning_system.com.backend.e_learning_system.registration.Entity;
+package com.e_learning_system.registration.Entity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "User", schema = "public", catalog = "e_learning_system")
+@Table(name = "User", schema = "public")
 public class User {
 
     private long id;

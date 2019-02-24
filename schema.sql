@@ -147,8 +147,7 @@ CREATE TABLE public.courses (
     id bigint NOT NULL,
     title character varying(255) NOT NULL,
     description character varying(255),
-    professor_id bigint,
-    course_type integer
+    professor_id bigint
 );
 
 

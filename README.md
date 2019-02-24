@@ -1,7 +1,7 @@
 # e-learning-system
 
 ## To build and run application
-From the top level directory of our project, run: 
+From the top level directory of project, run: 
 ```
 mvn clean install
 cd e-learning-system-backend

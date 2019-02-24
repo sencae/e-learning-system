@@ -1,6 +1,8 @@
 package com.e_learning_system.security.jwt;
 
 import com.e_learning_system.registration.Entity.User;
+import com.e_learning_system.security.service.UserDetailsServiceImpl;
+import com.e_learning_system.security.service.UserPrinciple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,12 @@ import com.e_learning_system.registration.Service.UserService;
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
 
-    @Autowired
-    private UserService userService;
+
     @Autowired
     private JwtProvider tokenProvider;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -34,9 +38,9 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             String jwt = getJwt(request);
             if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
                 String email = tokenProvider.getEmailFromJwtToken(jwt);
-                User user = userService.getUserByEmailAuth(email);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        user, null, new ArrayList<>());
+                        userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -13,4 +13,8 @@ export class UserService {
   register(user: User) {
     return this.http.post(`/registration/user`, user);
   }
+
+  login(email: string, password: string) {
+    return this.http.post(`/login`, {email: email, password: password})
+  }
 }

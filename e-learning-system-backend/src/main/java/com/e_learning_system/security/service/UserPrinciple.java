@@ -1,4 +1,4 @@
-package com.e_learning_system.security.Service;
+package com.e_learning_system.security.service;
 
 import com.e_learning_system.registration.Entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,6 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class UserPrinciple implements UserDetails {
@@ -18,22 +20,27 @@ public class UserPrinciple implements UserDetails {
     private String email;
     @JsonIgnore
     private String password;
-    private GrantedAuthority authority;
+
+    private Collection<? extends GrantedAuthority> authorities;
 
     public UserPrinciple(Long id, String username, String firstName,
                          String lastName, String email, String password,
-                         GrantedAuthority authority) {
+                         Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.authority = authority;
+        this.authorities = authorities;
     }
 
     public static UserPrinciple build(User user) {
-        GrantedAuthority authority = new SimpleGrantedAuthority(user.getUserGroupsByRegId().getGroupName());
+        List<GrantedAuthority> authorities = Collections.singletonList(
+                new SimpleGrantedAuthority(
+                        user.getUserGroupsByRegId().getGroupName()
+                )
+        );
 
         return new UserPrinciple(
                 user.getId(),
@@ -42,13 +49,13 @@ public class UserPrinciple implements UserDetails {
                 user.getLastName(),
                 user.getEmail(),
                 user.getPassword(),
-                authority
+                authorities
         );
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -80,6 +87,7 @@ public class UserPrinciple implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 
     @Override
     public boolean equals(Object o) {

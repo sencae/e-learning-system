@@ -45,4 +45,8 @@ public class UserDao {
         entityManager.persist(user);
     }
 
+    public void updateUser(User user) {
+        entityManager.merge(user);
+    }
+
 }

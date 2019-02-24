@@ -1,4 +1,4 @@
-package com.e_learning_system.security.Service;
+package com.e_learning_system.security.service;
 
 import com.e_learning_system.registration.Dao.UserDao;
 import com.e_learning_system.registration.Entity.User;

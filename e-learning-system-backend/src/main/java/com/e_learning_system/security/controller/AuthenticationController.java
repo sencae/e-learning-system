@@ -1,6 +1,5 @@
 package com.e_learning_system.security.controller;
 
-import com.e_learning_system.registration.Service.UserService;
 import com.e_learning_system.security.jwt.JwtProvider;
 import com.e_learning_system.security.message.JwtResponse;
 import com.e_learning_system.security.request.LoginForm;
@@ -11,15 +10,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
+
 @RequestMapping("login")
 public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
@@ -30,7 +26,6 @@ public class AuthenticationController {
         this.authenticationManager = authenticationManager;
         this.jwtProvider = jwtProvider;
     }
-
 
     @PostMapping
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {

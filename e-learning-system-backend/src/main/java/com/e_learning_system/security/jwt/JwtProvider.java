@@ -1,7 +1,6 @@
 package com.e_learning_system.security.jwt;
 
-import com.e_learning_system.registration.Entity.User;
-import com.e_learning_system.security.Service.UserPrinciple;
+import com.e_learning_system.security.service.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.Date;
 
 @Component

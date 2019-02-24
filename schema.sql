@@ -5,7 +5,7 @@
 -- Dumped from database version 11.1
 -- Dumped by pg_dump version 11.1
 
--- Started on 2019-02-24 23:38:01
+-- Started on 2019-02-25 01:07:48
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -531,16 +531,16 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- TOC entry 2754 (class 2606 OID 57589)
--- Name: resources_of_course resources_of_course_courses_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2755 (class 2606 OID 57599)
+-- Name: resources_of_course resources_of_course_course_resources_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.resources_of_course
-    ADD CONSTRAINT resources_of_course_courses_id_fk FOREIGN KEY (resource_id) REFERENCES public.courses(id);
+    ADD CONSTRAINT resources_of_course_course_resources_id_fk FOREIGN KEY (resource_id) REFERENCES public.course_resources(id);
 
 
 --
--- TOC entry 2755 (class 2606 OID 57594)
+-- TOC entry 2754 (class 2606 OID 57594)
 -- Name: resources_of_course resources_of_course_courses_id_fk_2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -566,7 +566,7 @@ ALTER TABLE ONLY public.type_of_courses
     ADD CONSTRAINT type_of_courses_courses_id_fk FOREIGN KEY (course_id) REFERENCES public.courses(id);
 
 
--- Completed on 2019-02-24 23:38:01
+-- Completed on 2019-02-25 01:07:51
 
 --
 -- PostgreSQL database dump complete

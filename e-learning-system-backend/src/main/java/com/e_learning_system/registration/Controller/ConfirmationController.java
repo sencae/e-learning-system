@@ -1,10 +1,10 @@
 package com.e_learning_system.registration.Controller;
 
 
-import com.e_learning_system.registration.Dao.ConfirmationTokenDao;
-import com.e_learning_system.registration.Dao.UserGroupsDao;
-import com.e_learning_system.registration.Entity.ConfirmationToken;
-import com.e_learning_system.registration.Entity.User;
+import com.e_learning_system.dao.ConfirmationTokenDao;
+import com.e_learning_system.dao.UserGroupsDao;
+import com.e_learning_system.entities.ConfirmationToken;
+import com.e_learning_system.entities.User;
 import com.e_learning_system.registration.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

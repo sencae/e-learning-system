@@ -1,6 +1,6 @@
 package com.e_learning_system.security.service;
 
-import com.e_learning_system.registration.Entity.User;
+import com.e_learning_system.entities.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

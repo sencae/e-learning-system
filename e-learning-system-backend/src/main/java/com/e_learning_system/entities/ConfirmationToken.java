@@ -1,4 +1,4 @@
-package com.e_learning_system.registration.Entity;
+package com.e_learning_system.entities;
 
 import javax.persistence.*;
 import java.util.Date;

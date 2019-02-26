@@ -1,8 +1,6 @@
 package com.e_learning_system.security.jwt;
 
-import com.e_learning_system.registration.Entity.User;
 import com.e_learning_system.security.service.UserDetailsServiceImpl;
-import com.e_learning_system.security.service.UserPrinciple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-
-import com.e_learning_system.registration.Service.UserService;
 
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);

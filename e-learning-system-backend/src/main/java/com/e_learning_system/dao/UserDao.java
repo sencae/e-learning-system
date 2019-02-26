@@ -1,6 +1,6 @@
-package com.e_learning_system.registration.Dao;
+package com.e_learning_system.dao;
 
-import com.e_learning_system.registration.Entity.User;
+import com.e_learning_system.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

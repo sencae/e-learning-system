@@ -1,7 +1,7 @@
 package com.e_learning_system.registration.Service;
 
-import com.e_learning_system.registration.Dao.UserDao;
-import com.e_learning_system.registration.Entity.User;
+import com.e_learning_system.dao.UserDao;
+import com.e_learning_system.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

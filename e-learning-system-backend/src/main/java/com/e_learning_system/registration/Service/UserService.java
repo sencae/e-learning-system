@@ -1,6 +1,6 @@
 package com.e_learning_system.registration.Service;
 
-import com.e_learning_system.dao.UserDao;
+import com.e_learning_system.dao.UserRepository;
 import com.e_learning_system.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,39 +10,45 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private final UserDao userDao;
     private String reg = "\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])\\S{8,}\\z";
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
+    public UserService(UserRepository userRepository) {
+
+        this.userRepository = userRepository;
     }
 
     public User getUserById(Long id) {
-        return userDao.getUserById(id);
+        return userRepository.getUserById(id);
     }
 
     @Transactional
     public User getUserByEmailAuth(String email) {
-        return userDao.getUserByEmailAuth(email);
+        return userRepository.getUserByEmail(email);
     }
 
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return userRepository.findAll();
     }
 
-    public synchronized boolean addUser(User user) {
-        if (userDao.getUserByEmail(user.getEmail()) || !user.getPassword().matches(reg))
+    public boolean checkUser(String password) {
+        return password.matches(reg);
+    }
+
+    public boolean addUser(User user) {
+        if (userRepository.getUserByEmaila(user.getEmail()))
             return false;
         else {
-            userDao.addUser(user);
+            user.setReg_id(3L);
+            userRepository.save(user);
             return true;
         }
 
     }
 
     public void updateUser(User user) {
-        userDao.updateUser(user);
+        userRepository.save(user);
     }
 
 }

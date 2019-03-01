@@ -1,20 +1,20 @@
 package com.e_learning_system.entities;
 
-import org.springframework.web.bind.annotation.Mapping;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "courses", schema = "public")
 public class Courses {
 
+    @JsonIgnore
     private Long id;
+
     private String title;
     private String description;
-    private Long professor_id;
+    private Long professorId;
 
     //    @ManyToMany(fetch = FetchType.LAZY, targetEntity = CourseResources.class)
 //    private Set<CourseResources> resources = new HashSet<>();
@@ -24,17 +24,18 @@ public class Courses {
     public Courses() {
     }
 
-    public Courses(String title, String description, Long professor_id) {
+    public Courses(String title, String description, Long professorId) {
         this.title = title;
         this.description = description;
-        this.professor_id = professor_id;
+        this.professorId = professorId;
     }
 
+    @JsonIgnore
     @OneToOne
     private User userById;
 
     @OneToOne
-    @JoinColumn(name = "professor_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "professorId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public User getUserById() {
         return userById;
     }
@@ -103,13 +104,13 @@ public class Courses {
     }
 
     @Basic
-    @Column(name = "professor_id", nullable = false, insertable = false, updatable = false)
-    public Long getProfessor_id() {
-        return professor_id;
+    @Column(name = "professorId", nullable = false)
+    public Long getProfessorId() {
+        return professorId;
     }
 
-    public void setProfessor_id(Long professor_id) {
-        this.professor_id = professor_id;
+    public void setProfessorId(Long professorId) {
+        this.professorId = professorId;
     }
 
 
@@ -121,11 +122,11 @@ public class Courses {
         return Objects.equals(id, courses.id) &&
                 Objects.equals(title, courses.title) &&
                 Objects.equals(description, courses.description) &&
-                Objects.equals(professor_id, courses.professor_id);
+                Objects.equals(professorId, courses.professorId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, professor_id);
+        return Objects.hash(id, title, description, professorId);
     }
 }

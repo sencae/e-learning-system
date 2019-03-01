@@ -1,11 +1,15 @@
 package com.e_learning_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "course_type", schema = "public", catalog = "e-learning-system")
 public class CourseType {
+    @JsonIgnore
     private int id;
+
     private String typeName;
 
     @Id
@@ -19,7 +23,7 @@ public class CourseType {
     }
 
     @Basic
-    @Column(name = "type_name", nullable = true, length = 255)
+    @Column(name = "type_name")
     public String getTypeName() {
         return typeName;
     }

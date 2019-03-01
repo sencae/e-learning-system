@@ -5,7 +5,7 @@
 -- Dumped from database version 11.1
 -- Dumped by pg_dump version 11.1
 
--- Started on 2019-02-25 01:07:48
+-- Started on 2019-03-01 23:35:25
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -147,7 +147,7 @@ CREATE TABLE public.courses (
     id bigint NOT NULL,
     title character varying(255) NOT NULL,
     description character varying(255),
-    professor_id bigint
+    professor_id bigint NOT NULL
 );
 
 
@@ -328,7 +328,6 @@ ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.cour
 --
 
 
-
 --
 -- TOC entry 2890 (class 0 OID 57586)
 -- Dependencies: 209
@@ -369,7 +368,7 @@ INSERT INTO public.user_groups VALUES (4, 'professor', 'group of professors');
 -- Name: confirmation_token_token_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.confirmation_token_token_id_seq', 3, true);
+SELECT pg_catalog.setval('public.confirmation_token_token_id_seq', 1, false);
 
 
 --
@@ -405,7 +404,7 @@ SELECT pg_catalog.setval('public.courses_id_seq', 1, false);
 -- Name: id_increment; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.id_increment', 15, true);
+SELECT pg_catalog.setval('public.id_increment', 1, false);
 
 
 --
@@ -522,12 +521,12 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 2751 (class 2606 OID 57542)
+-- TOC entry 2751 (class 2606 OID 57604)
 -- Name: courses professor_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.courses
-    ADD CONSTRAINT professor_id FOREIGN KEY (id) REFERENCES public."user"(id);
+    ADD CONSTRAINT professor_id FOREIGN KEY (professor_id) REFERENCES public."user"(id);
 
 
 --
@@ -566,7 +565,7 @@ ALTER TABLE ONLY public.type_of_courses
     ADD CONSTRAINT type_of_courses_courses_id_fk FOREIGN KEY (course_id) REFERENCES public.courses(id);
 
 
--- Completed on 2019-02-25 01:07:51
+-- Completed on 2019-03-01 23:35:28
 
 --
 -- PostgreSQL database dump complete

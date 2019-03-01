@@ -1,10 +1,13 @@
 package com.e_learning_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user_groups", schema = "public")
 public class UserGroups {
+    @JsonIgnore
     private long id;
     private String groupName;
     private String description;

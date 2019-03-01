@@ -1,6 +1,6 @@
 package com.e_learning_system.security.service;
 
-import com.e_learning_system.dao.UserDao;
+import com.e_learning_system.dao.UserRepository;
 import com.e_learning_system.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,18 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    final
-    UserDao userDao;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userDao.getUserByEmailAuth(s);
+        User user = userRepository.getUserByEmail(s);
         return UserPrinciple.build(user);
     }
 

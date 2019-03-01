@@ -15,7 +15,7 @@ public class ConfirmationToken {
     private long token_id;
 
     @Column(name = "confirmation_token")
-    private String confirmation_Token;
+    private String confirmationToken;
 
     @Column(name = "created_date")
     private Date createdDate;
@@ -28,7 +28,7 @@ public class ConfirmationToken {
     public ConfirmationToken(User user) {
         this.user = user;
         createdDate = new Date();
-        confirmation_Token = UUID.randomUUID().toString();
+        confirmationToken = UUID.randomUUID().toString();
     }
 
     public ConfirmationToken() {
@@ -43,11 +43,11 @@ public class ConfirmationToken {
     }
 
     public String getConfirmationToken() {
-        return confirmation_Token;
+        return confirmationToken;
     }
 
     public void setConfirmationToken(String confirmationToken) {
-        this.confirmation_Token = confirmationToken;
+        this.confirmationToken = confirmationToken;
     }
 
     public Date getCreatedDate() {

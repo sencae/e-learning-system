@@ -1,17 +1,22 @@
 package com.e_learning_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "User", schema = "public")
 public class User {
 
+    @JsonIgnore
     private long id;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private String email;
+    private Long reg_id;
+    @JsonIgnore
     private UserGroups userGroupsByRegId;
 
     @Id
@@ -126,4 +131,15 @@ public class User {
     public void setId(long id) {
         this.id = id;
     }
+
+    @Basic
+    @Column(name = "reg_id", nullable = false, insertable = false, updatable = false)
+    public Long getReg_id() {
+        return reg_id;
+    }
+
+    public void setReg_id(Long reg_id) {
+        this.reg_id = reg_id;
+    }
+
 }

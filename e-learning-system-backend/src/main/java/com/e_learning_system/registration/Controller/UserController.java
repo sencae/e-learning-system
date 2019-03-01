@@ -1,8 +1,10 @@
 package com.e_learning_system.registration.Controller;
 
-import com.e_learning_system.dao.ConfirmationTokenDao;
+import com.e_learning_system.dao.ConfirmationTokenRepository;
+import com.e_learning_system.dao.UserRepository;
 import com.e_learning_system.entities.ConfirmationToken;
 import com.e_learning_system.entities.User;
+import com.e_learning_system.registration.Service.ConfirmationTokenService;
 import com.e_learning_system.registration.Service.EmailSenderService;
 import com.e_learning_system.registration.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +22,14 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ConfirmationTokenDao confirmationTokenDao;
+    private final ConfirmationTokenService confirmationTokenService;
     private final EmailSenderService emailSenderService;
 
     @Autowired
-    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenDao confirmationTokenDao, EmailSenderService emailSenderService) {
+    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.confirmationTokenDao = confirmationTokenDao;
+        this.confirmationTokenService = confirmationTokenService;
         this.emailSenderService = emailSenderService;
     }
 
@@ -48,23 +50,26 @@ public class UserController {
 
     @PostMapping("user")
     public ResponseEntity<Void> addUser(@RequestBody User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        boolean flag = userService.addUser(user);
-        if (!flag)
+        if (userService.checkUser(user.getPassword())) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            boolean flag = userService.addUser(user);
+            if (!flag)
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            else {
+                ConfirmationToken confirmationToken = new ConfirmationToken(user);
+                confirmationTokenService.save(confirmationToken);
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setTo(user.getEmail());
+                mailMessage.setSubject("Complete Registration!");
+                mailMessage.setText("To confirm your account, please click here : "
+                        + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
+
+                emailSenderService.sendEmail(mailMessage);
+
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        } else
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        else {
-            ConfirmationToken confirmationToken = new ConfirmationToken(user);
-            confirmationTokenDao.save(confirmationToken);
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(user.getEmail());
-            mailMessage.setSubject("Complete Registration!");
-            mailMessage.setText("To confirm your account, please click here : "
-                    + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
-
-            emailSenderService.sendEmail(mailMessage);
-
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
     }
 
 

@@ -1,41 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
-h2 {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 40px;
-  font-weight: 600;
-  color: #000000;
-  margin-top: 5%;
+
+.navbar{
+  background:#696969;
+}
+.nav-link , .navbar-brand{
+  color: #f4f4f4;
+  cursor: pointer;
+}
+.nav-link{
+  margin-right: 1em !important;
+}
+.btn{
+  margin-right: 1em !important;
+}
+.nav-link:hover{
+  background: #f4f4f4;
+  color: #696969;
+}
+.navbar-collapse{
+  justify-content: flex-end;
+}
+.navbar-toggler{
+  background:#fff !important;
+}
+.bg-dark{
+  background-color:#343a40!important
+}
+.bg-primary{
+  background-color:#343a40!important
+}
+
+
+.modules{
+  margin: 3em;
+  position: relative;
+}
+.modules h1{
+  color:#110000;
+  margin: 2em;
+}
+.bigimage{
+  background-image: url('assets/img/pencils-1280558_960_720.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 550px;
+  background-position: 50% 0px;
+}
+.desc{
+  padding: 2em;
+  color:#FBFAFA;
+  font-size: 50px;
+  width: 80%;
+  line-height: 1.5;
   text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 4px;
+}
+.menu{
+  padding: 2em;
+  background:#696969;
+  padding-bottom: 50px;
+  font-size: 25px;
 }
 
-.form-group {
-  width: 50%;
-  margin: 0 auto;
-}
-
-.btn {
-}
-
-nav a {
-  padding: 5px 10px;
-  text-decoration: none;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #eee;
-  border-radius: 4px;
-}
-
-nav a:visited, a:link {
-  color: #607d8b;
-}
-
-nav a:hover {
-  color: #039be5;
-  background-color: #cfd8dc;
-}
-
-nav a.active {
-  color: #039be5;
-}

@@ -1,0 +1,37 @@
+.mainpage{
+  background-image: url('../../../assets/img/notebook-1587525_960_720.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+
+}
+.overlay{
+  position: absolute;
+  min-height: 100%;
+  min-width: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(244, 244, 244, 0.79);
+}
+
+.description{
+  position: absolute;
+  top: 25%;
+  margin: auto;
+  padding: 8em;
+}
+.description h2{
+  color:#110000;
+  font-size: 35px;
+}
+.description p{
+  color:#666;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: center;
+}
+.description button{
+  border:1px  solid #696969;
+  background:#696969;
+  color:#fff;
+}

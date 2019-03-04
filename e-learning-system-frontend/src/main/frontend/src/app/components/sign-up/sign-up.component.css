@@ -1,19 +1,7 @@
-h2{
-  font-family: 'Open Sans' , sans-serif;
-  font-size: 40px;
-  font-weight: 600;
-  color: #000000;
-  margin-top: 5%;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-}
-.form-group{
-  width: 50%;
-  margin: 0 auto;
-}
-.form-group input{
-
+.invalid {
+  width: 100%;
+  font-size: 80%;
+  color: #dc3545;
 }
 
 

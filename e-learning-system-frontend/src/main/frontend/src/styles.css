@@ -1,5 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
-
+* {
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  height: 100%;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0 auto;
+}
+.content {
+  flex: 1 0 auto;
+}
+.footer {
+  flex: 0 0 auto;
+}
+.header{
+  padding: 10px;
+}
 .navbar{
   background:#696969;
 }
@@ -42,7 +63,6 @@
 .bigimage{
   background-image: url('assets/img/pencils-1280558_960_720.jpg');
   background-size: cover;
-  background-position: center;
   height: 550px;
   background-position: 50% 0px;
 }
@@ -60,4 +80,42 @@
   padding-bottom: 50px;
   font-size: 25px;
 }
+.card-body{
+  width: 500px;
+}
+.card{
+  position: center;
+}
+.divider-text {
+  position: relative;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.btn-vk {
+  background-color: #4d7198;
+  color: #fff;
+}
+.btn-twitter {
+  background-color: #1faee9;
+  color: #fff;
+}
+.btn-facebook {
+  background-color: #405D9D;
+  color: #fff;
+}
+.btn-google{
+  background-color: #d34836;
+  color: #fff;
+}
+.form-group {
+  width: fit-content;
+  margin: 0 auto;
+}
+.input-group {
+  width: 100%;
+}
+
+
 

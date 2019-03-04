@@ -3,10 +3,9 @@
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-
+  height: 720px;
 }
 .overlay{
-  position: absolute;
   min-height: 100%;
   min-width: 100%;
   left: 0;

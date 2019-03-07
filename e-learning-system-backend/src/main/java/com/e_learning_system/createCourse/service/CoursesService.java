@@ -20,7 +20,9 @@ public class CoursesService {
         coursesRep.save(course);
     }
 
-    public List<?> getAllCourses() {
+    public List<Courses> getAllCourses() {
         return coursesRep.findAll();
     }
+
+    public Courses getCourseById(Long id){ return coursesRep.getById(id);}
 }

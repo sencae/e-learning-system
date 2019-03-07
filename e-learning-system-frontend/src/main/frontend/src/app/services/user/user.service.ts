@@ -1,20 +1,25 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "../../models/user/User";
+import {User} from "../../models/User";
+import {TokenStorageService} from "../auth/token-storage.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private tokenStorage: TokenStorageService) {
   }
 
   register(user: User) {
     return this.http.post(`/registration/user`, user);
   }
 
-  login(email: string, password: string) {
-    return this.http.post(`/login`, {email: email, password: password})
+  hasAuthority(auth: string) {
+    return this.tokenStorage.getAuthorities().every(
+      authority => {
+        return !(authority === auth);
+      });
   }
+
 }

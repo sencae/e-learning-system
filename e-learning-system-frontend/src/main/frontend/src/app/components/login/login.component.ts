@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../services/user/user.service";
+import {AuthInfo} from "../../models/AuthInfo";
+import {AuthService} from "../../services/auth/auth.service";
+import {TokenStorageService} from "../../services/auth/token-storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -9,9 +12,17 @@ import {UserService} from "../../services/user/user.service";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  isLoggedIn: boolean;
+  isLoginFailed: boolean;
+  errorMessage: '';
+  private loginInfo: AuthInfo;
 
-  constructor(private userService: UserService) {
-  }
+
+  constructor(
+    private authService: AuthService,
+    private tokenStorage:TokenStorageService,
+    private router:Router
+  ) {  }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -30,14 +41,26 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.userService.login(this.f.email.value, this.f.password.value)
-      .subscribe(
-        data => {
-          console.log("success");
-        },
-        error => {
-          console.log("error");
-        });
+    this.loginInfo = new AuthInfo(
+      this.f.email.value,
+      this.f.password.value
+    );
+    this.authService.attemptAuth(this.loginInfo).subscribe(
+      data=> {
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUsername(data.email);
+        this.tokenStorage.saveAuthorities(data.authorities);
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+        this.router.navigate(['/']);
+      },
+      error => {
+        console.log(error);
+        this.errorMessage = error.error.message;
+        this.isLoginFailed = true;
+      }
+    );
+
 
 
   }

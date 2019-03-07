@@ -4,11 +4,19 @@ import {RouterModule, Routes} from '@angular/router';
 import {SignUpComponent} from "./components/sign-up/sign-up.component";
 import {LoginComponent} from "./components/login/login.component";
 import {MainpageComponent} from "./components/mainpage/mainpage.component";
+import {CreateCourseComponent} from "./components/create-course/create-course.component";
+import {NotFoundComponent} from "./components/not-found/not-found.component";
+import {CoursesComponent} from "./components/courses/courses.component";
+import {AuthorityGuard} from "./guards/authority.guard";
 
 const appRoutes: Routes = [
   {path: 'registration', component: SignUpComponent},
   {path: 'login', component: LoginComponent},
-  {path:'',component:MainpageComponent}
+  {path:'',component:MainpageComponent},
+  {path:'courses/create', component:CreateCourseComponent, canActivate:[AuthorityGuard]},
+  {path:'courses/all', component:CoursesComponent},
+  {path: '404', component:NotFoundComponent},
+  {path: '**', redirectTo: '404'}
 ];
 
 @NgModule({

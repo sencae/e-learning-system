@@ -5,8 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PatchClassForIndex {
-    @RequestMapping(value = "/{[path:[^\\.]*}")
+
+    @RequestMapping(value = "/**/{path:[^.]*}")
     public String redirect() {
         return "forward:/index.html";
     }
+
 }

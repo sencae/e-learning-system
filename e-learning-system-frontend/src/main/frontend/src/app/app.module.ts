@@ -11,6 +11,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MainpageComponent } from './components/mainpage/mainpage.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { CreateCourseComponent } from './components/create-course/create-course.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { CoursesComponent } from './components/courses/courses.component';
+import {httpInterceptorProviders} from "./services/auth/authInterceptor";
+import {AuthorityGuard} from "./guards/authority.guard";
 
 @NgModule({
   declarations: [
@@ -19,7 +24,10 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     LoginComponent,
     HeaderComponent,
     FooterComponent,
-    MainpageComponent
+    MainpageComponent,
+    CreateCourseComponent,
+    NotFoundComponent,
+    CoursesComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     AppRoutingModule,
     AngularFontAwesomeModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders,
+  AuthorityGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

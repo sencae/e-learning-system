@@ -8,6 +8,7 @@ import {CreateCourseComponent} from "./components/create-course/create-course.co
 import {NotFoundComponent} from "./components/not-found/not-found.component";
 import {CoursesComponent} from "./components/courses/courses.component";
 import {AuthorityGuard} from "./guards/authority.guard";
+import {CourseInfoComponent} from "./components/course-info/course-info.component";
 
 const appRoutes: Routes = [
   {path: 'registration', component: SignUpComponent},
@@ -15,6 +16,7 @@ const appRoutes: Routes = [
   {path:'',component:MainpageComponent},
   {path:'courses/create', component:CreateCourseComponent, canActivate:[AuthorityGuard]},
   {path:'courses/all', component:CoursesComponent},
+  {path:'course/:id',component:CourseInfoComponent},
   {path: '404', component:NotFoundComponent},
   {path: '**', redirectTo: '404'}
 ];

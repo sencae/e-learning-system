@@ -8,7 +8,7 @@ import {Course} from "../../models/Course";
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
-  boards: Course[];
+  courses: Course[];
 
   constructor(private courseService: CourseService) {
   }
@@ -20,7 +20,7 @@ export class CoursesComponent implements OnInit {
   private loadAllCourses() {
     this.courseService.getAllCourses().subscribe(
       courses=>{
-        this.boards = courses;
+        this.courses = courses;
       }
     );
   }

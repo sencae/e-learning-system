@@ -1,7 +1,7 @@
 <ul>
-  <li *ngFor="let board of boards">
-    <a routerLink="/detail/{{board.title}}">
-      <span class="badge">{{board.professorId}}</span> {{board.description}}
+  <li *ngFor="let course of courses">
+    <a routerLink="/course/{{course.id}}">
+       {{course.title}}
     </a>
   </li>
 </ul>

@@ -9,9 +9,8 @@ import java.util.Objects;
 @Table(name = "courses", schema = "public")
 public class Courses {
 
-    @JsonIgnore
-    private Long id;
 
+    private Long id;
     private String title;
     private String description;
     private Long professorId;

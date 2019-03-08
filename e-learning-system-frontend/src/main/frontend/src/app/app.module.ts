@@ -16,6 +16,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import {httpInterceptorProviders} from "./services/auth/authInterceptor";
 import {AuthorityGuard} from "./guards/authority.guard";
+import { CourseInfoComponent } from './components/course-info/course-info.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {AuthorityGuard} from "./guards/authority.guard";
     MainpageComponent,
     CreateCourseComponent,
     NotFoundComponent,
-    CoursesComponent
+    CoursesComponent,
+    CourseInfoComponent
   ],
   imports: [
     BrowserModule,

@@ -44,7 +44,5 @@ export class SignUpComponent implements OnInit {
         error => {
           console.log("error");
         });
-
-
   }
 }

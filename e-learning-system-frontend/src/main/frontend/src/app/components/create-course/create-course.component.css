@@ -1,0 +1,19 @@
+label{
+margin-bottom: 0;
+}
+.input-group-lg{
+  padding: 20px;
+  width: 100%;
+}
+.CourseDescription{
+  width: 100%;
+}
+textarea{
+  resize: none;
+}
+.courseTitle{
+width: 70%;
+}
+.title{
+  margin-top: 20px;
+}

@@ -10,12 +10,24 @@ public class JwtResponse {
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtResponse(String accessToken, String email, Collection<? extends GrantedAuthority> authorities) {
+
+
+    private Long id;
+
+    public JwtResponse(String accessToken, String email, Collection<? extends GrantedAuthority> authorities,Long id) {
         this.token = accessToken;
         this.email = email;
         this.authorities = authorities;
+        this.id = id;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getAccessToken() {
         return token;
     }

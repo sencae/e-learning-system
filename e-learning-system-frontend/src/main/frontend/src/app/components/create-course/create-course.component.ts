@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CourseService} from "../../services/course/course.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-course',
@@ -10,7 +11,8 @@ import {CourseService} from "../../services/course/course.service";
 export class CreateCourseComponent implements OnInit {
 
   courseCreateForm: FormGroup;
-  constructor(private courseService: CourseService) { }
+  constructor(private courseService: CourseService,
+              private router:Router) { }
 
   ngOnInit() {
     this.courseCreateForm = new FormGroup({
@@ -29,6 +31,7 @@ export class CreateCourseComponent implements OnInit {
       .subscribe(
         data => {
           console.log("success");
+          this.router.navigate(['/courses/all'])
         },
         error => {
           console.log("error");

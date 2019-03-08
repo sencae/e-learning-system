@@ -16,8 +16,8 @@ private getCourseUrl='api/course/';
   getAllCourses(): Observable<Course[]>{
     return this.http.get<Course[]>(this.allCoursesUrl)
   }
-  createCourse(course:CreateCourse){
-    return this.http.post(this.createCourseUrl,course)
+  createCourse(course:CreateCourse):Observable<number>{
+    return this.http.post<number>(this.createCourseUrl,course)
   }
   getCourse(id:number): Observable<Course>{
     return this.http.get<Course>(this.getCourseUrl+id)

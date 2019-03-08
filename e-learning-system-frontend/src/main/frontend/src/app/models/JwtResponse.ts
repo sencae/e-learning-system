@@ -3,4 +3,5 @@ export class JwtResponse {
   type: string;
   email: string;
   authorities: string[];
+  id: number
 }

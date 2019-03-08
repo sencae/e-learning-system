@@ -3,6 +3,7 @@ package com.e_learning_system.security.controller;
 import com.e_learning_system.security.jwt.JwtProvider;
 import com.e_learning_system.security.message.JwtResponse;
 import com.e_learning_system.security.request.LoginForm;
+import com.e_learning_system.security.service.UserPrinciple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class AuthenticationController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateJwtToken(authentication);
-        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getUsername(),userDetails.getAuthorities() ));
+        UserPrinciple userDetails = (UserPrinciple)authentication.getPrincipal();
+        return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getUsername(),userDetails.getAuthorities(), userDetails.getId() ));
     }
 }

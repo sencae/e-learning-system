@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="content" style="padding-top: 40px">
+    <div *ngIf="user">
+      <p>{{user.lastName}}</p>
+      <p>{{user.firstName}}</p>
+      <p>{{user.username}}</p>
+      <p>{{user.email}}</p>
+    </div>
+  </div>
+  <div class="footer">
+    <app-footer></app-footer>
+  </div>
+</div>

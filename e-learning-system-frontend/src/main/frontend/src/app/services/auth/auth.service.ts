@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-//import { SignUpInfo } from './signup-info';
 import {AuthInfo} from "../../models/AuthInfo";
 import {JwtResponse} from "../../models/JwtResponse";
+import {SignUpInfo} from "../../models/SignUpInfo";
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,8 +15,8 @@ const httpOptions = {
 })
 export class AuthService {
 
-  private loginUrl = 'http://localhost:8080/login';
-  private signupUrl = 'http://localhost:8080/api/auth/signup';
+  private loginUrl = '/login';
+  private signupUrl = 'registration/user';
 
   constructor(private http: HttpClient) {
   }
@@ -25,7 +25,7 @@ export class AuthService {
     return this.http.post<JwtResponse>(this.loginUrl, credentials, httpOptions);
   }
 
-  // signUp(info: SignUpInfo): Observable<string> {
-  //   return this.http.post<string>(this.signupUrl, info, httpOptions);
-  // }
+  signUp(info: SignUpInfo){
+    return this.http.post(this.signupUrl, info, httpOptions);
+  }
 }

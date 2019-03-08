@@ -17,4 +17,7 @@ public class UserGroupsService {
     public UserGroups getUserGroupsById(long id) {
         return userGroupsRepository.getById(id);
     }
+    public UserGroups getUserGroupsByGroupName(String name){
+        return userGroupsRepository.getUserGroupsByGroupName(name);
+    }
 }

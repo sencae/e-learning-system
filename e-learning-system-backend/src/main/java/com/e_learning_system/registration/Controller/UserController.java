@@ -1,11 +1,12 @@
 package com.e_learning_system.registration.Controller;
 
-import com.e_learning_system.dao.ConfirmationTokenRepository;
-import com.e_learning_system.dao.UserRepository;
+import com.e_learning_system.dto.ModelMapperUtil;
+import com.e_learning_system.dto.SignUpDto;
 import com.e_learning_system.entities.ConfirmationToken;
 import com.e_learning_system.entities.User;
 import com.e_learning_system.registration.Service.ConfirmationTokenService;
 import com.e_learning_system.registration.Service.EmailSenderService;
+import com.e_learning_system.registration.Service.UserGroupsService;
 import com.e_learning_system.registration.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,21 +25,20 @@ public class UserController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSenderService emailSenderService;
-
+    private final ModelMapperUtil modelMapperUtil;
+    private final UserGroupsService userGroupsService;
     @Autowired
-    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService) {
+    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService, ModelMapperUtil modelMapperUtil, UserGroupsService userGroupsService) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSenderService = emailSenderService;
+        this.modelMapperUtil = modelMapperUtil;
+        this.userGroupsService = userGroupsService;
     }
 
 
-    @GetMapping("user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
-        User user = userService.getUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+
 
     @PreAuthorize("hasAuthority('user')")
     @GetMapping("users")
@@ -49,8 +49,14 @@ public class UserController {
     }
 
     @PostMapping("user")
-    public ResponseEntity<Void> addUser(@RequestBody User user) {
-        if (userService.checkUser(user.getPassword())) {
+    public ResponseEntity<Void> addUser(@RequestBody SignUpDto signUpDto) {
+        if (userService.checkUser(signUpDto.getPassword())) {
+            User user = modelMapperUtil.map(signUpDto, User.class);
+            user.setReg_id(userGroupsService.getUserGroupsByGroupName(
+                    signUpDto.getProfession()
+                    )
+                    .getId()
+            );
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             boolean flag = userService.addUser(user);
             if (!flag)

@@ -34,7 +34,7 @@ public class CoursesGetController extends BaseGetController {
         return new ResponseEntity<>(coursesDto, HttpStatus.OK);
     }
     @GetMapping("/course/{id}")
-    public ResponseEntity<CoursesDto> getUserById(@PathVariable("id") long id) {
+    public ResponseEntity<CoursesDto> getCourseById(@PathVariable("id") long id) {
         Courses course = coursesService.getCourseById(id);
         CoursesDto coursesDto = modelMapperUtil.map(course,CoursesDto.class);
         return new ResponseEntity<>(coursesDto, HttpStatus.OK);

@@ -9,7 +9,7 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./course-info.component.css']
 })
 export class CourseInfoComponent implements OnInit {
-  @Input()course: Course;
+  course: Course;
   constructor(private courseService: CourseService,
               private route: ActivatedRoute) {
   }

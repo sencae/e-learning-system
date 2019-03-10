@@ -14,8 +14,20 @@
     <li class="navbar-item">
       <a href="#" class="nav-link">FAQ</a>
     </li>
+    <li class="navbar-item" >
+    <div *ngIf="auth===false; else other">
     <a class="btn btn-primary" routerLink="/login" role="button" aria-pressed="true">login</a>
     <button type="button" routerLink="/registration" class="btn btn-outline-light">register</button>
+    </div>
+    <ng-template #other>
+      <div>
+      <a [routerLink]="['/user',id]" class="nav-link">My page</a>
+      </div>
+    </ng-template>
+    </li>
+    <li *ngIf="auth===true; else hidden">
+    <a routerLink="/" (click)="logout()" class="nav-link">logout</a>
+    </li>
   </ul>
 </div>
 </nav>

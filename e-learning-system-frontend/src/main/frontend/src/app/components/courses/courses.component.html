@@ -1,7 +1,17 @@
-<ul>
-  <li *ngFor="let course of courses">
-    <a routerLink="/course/{{course.id}}">
-       {{course.title}}
-    </a>
-  </li>
-</ul>
+<div class="wrapper">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="content">
+    <ul>
+      <li *ngFor="let course of courses">
+        <a routerLink="/course/{{course.id}}">
+          {{course.title}}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="footer">
+    <app-footer></app-footer>
+  </div>
+</div>

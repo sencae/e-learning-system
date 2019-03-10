@@ -12,7 +12,9 @@
   top: 0;
   background: rgba(244, 244, 244, 0.79);
 }
-
+.content{
+  padding-top: 0;
+}
 .description{
   position: absolute;
   top: 25%;

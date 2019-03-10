@@ -10,8 +10,6 @@ public class JwtResponse {
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
 
-
-
     private Long id;
 
     public JwtResponse(String accessToken, String email, Collection<? extends GrantedAuthority> authorities,Long id) {

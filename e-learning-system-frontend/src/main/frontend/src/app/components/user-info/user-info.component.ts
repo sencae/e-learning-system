@@ -20,6 +20,7 @@ export class UserInfoComponent implements OnInit {
     this.getUser();
     if (this.tokenStorage.getToken()) {
       this.professor = !this.userService.hasAuthority('professor');
+
   }
   }
 getUser(){

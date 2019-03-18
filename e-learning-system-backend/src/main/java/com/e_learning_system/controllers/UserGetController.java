@@ -27,6 +27,7 @@ public class UserGetController extends BaseGetController {
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") long id) {
         User user = userService.getUserById(id);
         UserDto userDto = modelMapperUtil.map(user, UserDto.class);
+
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 

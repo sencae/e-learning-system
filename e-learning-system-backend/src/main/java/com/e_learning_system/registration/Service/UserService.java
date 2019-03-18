@@ -20,10 +20,9 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userRepository.getUserById(id);
+        return userRepository.getById(id);
     }
 
-    @Transactional
     public User getUserByEmailAuth(String email) {
         return userRepository.getUserByEmail(email);
     }

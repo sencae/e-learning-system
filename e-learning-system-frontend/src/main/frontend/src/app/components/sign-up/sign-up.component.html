@@ -114,10 +114,10 @@
           <span class="input-group-text"> <i class="fa fa-user"></i> </span>
         </div>
         <input type="text" formControlName="username"
-               class="form-control" [ngClass]="{ 'is-invalid': f.username.errors }"
+               class="form-control" [ngClass]="{ 'is-invalid': f.username.errors && (submitted ||f.username.touched)  }"
                placeholder="Username"
                id="username"/>
-        <div *ngIf=" f.username.errors" class="invalid-feedback">
+        <div *ngIf=" f.username.errors && (submitted ||f.username.touched)" class="invalid-feedback">
           <div *ngIf="f.username.errors.required">
             Username is required
           </div>
@@ -130,8 +130,8 @@
         <input type="text" formControlName="firstName" class="form-control"
                id="firstName"
                placeholder="First name"
-               [ngClass]="{ 'is-invalid':  f.firstName.errors }"/>
-        <div *ngIf="f.firstName.errors" class="invalid-feedback">
+               [ngClass]="{ 'is-invalid':  f.firstName.errors && (submitted ||f.firstName.touched)}"/>
+        <div *ngIf="f.firstName.errors && (submitted ||f.firstName.touched)" class="invalid-feedback">
           <div *ngIf="f.firstName.errors.required">
             First Name is required
           </div>
@@ -144,8 +144,8 @@
         <input type="text" formControlName="lastName" class="form-control"
                id="lastName"
                placeholder="Last name"
-               [ngClass]="{ 'is-invalid':  f.lastName.errors }"/>
-        <div *ngIf="f.lastName.errors" class="invalid-feedback">
+               [ngClass]="{ 'is-invalid':  f.lastName.errors && (submitted ||f.lastName.touched)}"/>
+        <div *ngIf="f.lastName.errors && (submitted ||f.lastName.touched)" class="invalid-feedback">
           <div *ngIf="f.lastName.errors.required">Last Name is required</div>
         </div>
       </div>
@@ -157,8 +157,8 @@
         <input type="text" formControlName="email" class="form-control"
                id="email"
                placeholder="Email"
-               [ngClass]="{ 'is-invalid': f.email.errors }"/>
-        <div *ngIf=" f.email.errors" class="invalid-feedback">
+               [ngClass]="{ 'is-invalid': f.email.errors && (submitted ||f.email.touched)}"/>
+        <div *ngIf=" f.email.errors && (submitted ||f.email.touched)" class="invalid-feedback">
           <div *ngIf="f.email.errors.required">
             The email is required
           </div>
@@ -176,8 +176,8 @@
         <input type="password" formControlName="password" class="form-control"
                id="password"
                placeholder="Password"
-               [ngClass]="{ 'is-invalid':  f.password.errors }"/>
-        <div *ngIf="f.password.errors" class="invalid-feedback">
+               [ngClass]="{ 'is-invalid':  f.password.errors && (submitted ||f.password.touched)}"/>
+        <div *ngIf="f.password.errors && (submitted ||f.password.touched)" class="invalid-feedback">
           <div *ngIf="f.password.errors.required">
             Password is required
           </div>

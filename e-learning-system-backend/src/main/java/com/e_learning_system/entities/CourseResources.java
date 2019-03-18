@@ -1,11 +1,15 @@
 package com.e_learning_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "course_resources", schema = "public")
 public class CourseResources {
+    @JsonIgnore
     private int id;
+
     private String description;
     private String url;
     private String title;

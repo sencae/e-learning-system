@@ -5,6 +5,33 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String email;
+    private String university;
+    private String url;
+    private String briefInformation;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getBriefInformation() {
+        return briefInformation;
+    }
+
+    public void setBriefInformation(String briefInformation) {
+        this.briefInformation = briefInformation;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(String university) {
+        this.university = university;
+    }
 
     public String getUsername() {
         return username;

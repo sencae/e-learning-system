@@ -16,8 +16,8 @@
     </li>
     <li class="navbar-item" >
     <div *ngIf="auth===false; else other">
-    <a class="btn btn-primary" routerLink="/login" role="button" aria-pressed="true">login</a>
-    <button type="button" routerLink="/registration" class="btn btn-outline-light">register</button>
+    <a class="btn btn-primary" routerLink="/login" role="button" aria-pressed="true">sign in</a>
+    <button type="button" routerLink="/signup" class="btn btn-outline-light">sign up</button>
     </div>
     <ng-template #other>
       <div>

@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Table(name = "User", schema = "public")
 public class User {
 
-    @JsonIgnore
     private long id;
     private String username;
     private String password;
@@ -16,6 +15,11 @@ public class User {
     private String lastName;
     private String email;
     private Long reg_id;
+
+
+    private UserInfoEntity userInfo;
+
+
     @JsonIgnore
     private UserGroups userGroupsByRegId;
 
@@ -106,7 +110,7 @@ public class User {
     }
 
     @ManyToOne
-    @JoinColumn(name = "reg_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "reg_id", referencedColumnName = "id", nullable = false,  insertable = false, updatable = false)
     public UserGroups getUserGroupsByRegId() {
         return userGroupsByRegId;
     }
@@ -115,9 +119,11 @@ public class User {
         this.userGroupsByRegId = userGroupsByRegId;
     }
 
+
+
     @Override
     public String toString() {
-        return "User{" +
+        return "UserInfo{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
@@ -133,7 +139,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "reg_id", nullable = false, insertable = false, updatable = false)
+    @Column(name = "reg_id", nullable = false)
     public Long getReg_id() {
         return reg_id;
     }
@@ -142,4 +148,12 @@ public class User {
         this.reg_id = reg_id;
     }
 
+    @OneToOne
+    @JoinColumn(name = "id",referencedColumnName = "user_id", nullable = false, insertable = false, updatable = false)
+    public UserInfoEntity getUserInfo() {
+        return userInfo;
+    }
+    public void setUserInfo(UserInfoEntity userInfo) {
+        this.userInfo = userInfo;
+    }
 }

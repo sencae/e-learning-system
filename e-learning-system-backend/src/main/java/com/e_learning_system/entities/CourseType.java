@@ -9,7 +9,6 @@ import javax.persistence.*;
 public class CourseType {
     @JsonIgnore
     private int id;
-
     private String typeName;
 
     @Id

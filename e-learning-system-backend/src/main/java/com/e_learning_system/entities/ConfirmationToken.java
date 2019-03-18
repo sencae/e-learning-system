@@ -28,7 +28,7 @@ public class ConfirmationToken {
     public ConfirmationToken(User user) {
         this.user = user;
         createdDate = new Date();
-        confirmationToken = UUID.randomUUID().toString();
+        confirmationToken = UUID.randomUUID().toString() + user.getReg_id();
     }
 
     public ConfirmationToken() {

@@ -52,13 +52,13 @@ public class UserController {
     public ResponseEntity<Void> addUser(@RequestBody SignUpDto signUpDto) {
         if (userService.checkUser(signUpDto.getPassword())) {
             User user = modelMapperUtil.map(signUpDto, User.class);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            boolean flag = userService.addUser(user);
             user.setReg_id(userGroupsService.getUserGroupsByGroupName(
                     signUpDto.getProfession()
                     )
-                    .getId()
+                            .getId()
             );
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            boolean flag = userService.addUser(user);
             if (!flag)
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             else {

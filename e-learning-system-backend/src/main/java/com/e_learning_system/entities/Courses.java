@@ -3,7 +3,9 @@ package com.e_learning_system.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses", schema = "public")
@@ -14,9 +16,7 @@ public class Courses {
     private String title;
     private String description;
     private Long professorId;
-
-    //    @ManyToMany(fetch = FetchType.LAZY, targetEntity = CourseResources.class)
-//    private Set<CourseResources> resources = new HashSet<>();
+    private Set<CourseResources> resources = new HashSet<>();
 //
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    private Set<CourseType> types = new HashSet<>();
@@ -34,7 +34,7 @@ public class Courses {
     private User userById;
 
     @OneToOne
-    @JoinColumn(name = "professorId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "professor_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public User getUserById() {
         return userById;
     }
@@ -44,17 +44,17 @@ public class Courses {
     }
 
 
-//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = CourseResources.class)
-//    @JoinTable(name = "resources_of_course",
-//            joinColumns = @JoinColumn(name = "course_id"),
-//            inverseJoinColumns = @JoinColumn(name = "resource_id"))
-//    public Set<CourseResources> getResources() {
-//        return resources;
-//    }
-//
-//    public void setResources(Set<CourseResources> resources) {
-//        this.resources = resources;
-//    }
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = CourseResources.class)
+    @JoinTable(name = "resources_of_course",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "resource_id"))
+    public Set<CourseResources> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<CourseResources> resources) {
+        this.resources = resources;
+    }
 //
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    @JoinTable(name = "type_of_courses",
@@ -103,7 +103,7 @@ public class Courses {
     }
 
     @Basic
-    @Column(name = "professorId", nullable = false)
+    @Column(name = "professor_id", nullable = false)
     public Long getProfessorId() {
         return professorId;
     }

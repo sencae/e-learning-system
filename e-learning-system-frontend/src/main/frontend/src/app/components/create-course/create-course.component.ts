@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 export class CreateCourseComponent implements OnInit {
 
   courseCreateForm: FormGroup;
+  submitted = false;
   constructor(private courseService: CourseService,
               private router:Router) { }
 
@@ -24,6 +25,7 @@ export class CreateCourseComponent implements OnInit {
     return this.courseCreateForm.controls;
   }
   onSubmit() {
+    this.submitted = true;
     if (this.courseCreateForm.invalid) {
       return;
     }

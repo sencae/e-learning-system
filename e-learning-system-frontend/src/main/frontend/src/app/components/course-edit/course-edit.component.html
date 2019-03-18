@@ -2,28 +2,23 @@
   <div class="header">
     <app-header></app-header>
   </div>
-  <div class="content" >
+  <div class="content">
     <div *ngIf="course">
       <h2>{{course.title}}</h2>
       <p>{{course.description}}</p>
       <p>{{course.professorId}}</p>
       <div class="resources">
-        <button class="button btn-info" *ngIf='showFile' (click)='showFiles(false)'>Hide Resources</button>
-        <button class="button btn-info" *ngIf='!showFile' (click)='showFiles(true)'>Show Resources</button>
-        <div [hidden]="!showFile">
           <div class="panel panel-primary">
             <div class="panel-heading">List of Files</div>
             <div *ngFor="let file of course.resources">
               <div class="panel-body">
                 <a href="{{file.url}}"> {{file.title}}</a>
+                <button class="delete" title="delete resource"
+                        (click)="deleteResource(file)">x</button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div *ngIf="isAuthor()">
-      <a class="siteLink" routerLink="edit">Edit Course</a>
     </div>
 
   </div>
@@ -31,3 +26,4 @@
     <app-footer></app-footer>
   </div>
 </div>
+

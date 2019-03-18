@@ -14,7 +14,7 @@
         </div>
         <input type="text" formControlName="email" class="form-control"
                id="email"
-               [ngClass]="{ 'is-invalid': f.email.errors }"
+               [ngClass]="{ 'is-invalid': f.email.errors && submitted }"
                placeholder="email"/>
         <div *ngIf=" f.email.errors" class="invalid-feedback">
           <div *ngIf="f.email.errors.required">
@@ -34,7 +34,13 @@
         </div>
         <input type="password" formControlName="password" class="form-control"
                id="password"
+               [ngClass]="{ 'is-invalid': f.password.errors && submitted }"
                 placeholder="password"/>
+        <div *ngIf=" f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">
+            The password is required
+          </div>
+        </div>
       </div> <!-- form-group// -->
       <div class="form-group" style="margin-top: 20px">
         <button type="submit" class="btn btn-primary"> Sign in </button>

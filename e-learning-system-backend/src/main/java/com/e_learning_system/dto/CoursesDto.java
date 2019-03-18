@@ -1,6 +1,10 @@
 package com.e_learning_system.dto;
 
 
+import com.e_learning_system.entities.CourseResources;
+
+import java.util.Set;
+
 public class CoursesDto {
 
 
@@ -8,6 +12,7 @@ public class CoursesDto {
     private String title;
     private String description;
     private Long professorId;
+    private Set<CourseResources> resources;
 
     public Long getId() {
         return id;
@@ -40,4 +45,14 @@ public class CoursesDto {
     public void setProfessorId(Long professorId) {
         this.professorId = professorId;
     }
+
+    public Set<CourseResources> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<CourseResources> resources) {
+        this.resources = resources;
+    }
+
+
 }

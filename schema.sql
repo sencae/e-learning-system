@@ -5,7 +5,7 @@
 -- Dumped from database version 11.1
 -- Dumped by pg_dump version 11.1
 
--- Started on 2019-03-01 23:35:25
+-- Started on 2019-03-19 01:10:17
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,6 +16,23 @@ SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- TOC entry 211 (class 1255 OID 65833)
+-- Name: create_user_function(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.create_user_function() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	INSERT INTO user_info(user_id) VALUES (new.ID);
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.create_user_function() OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -53,7 +70,7 @@ CREATE SEQUENCE public.confirmation_token_token_id_seq
 ALTER TABLE public.confirmation_token_token_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2896 (class 0 OID 0)
+-- TOC entry 2908 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: confirmation_token_token_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -93,7 +110,7 @@ CREATE SEQUENCE public.course_resources_id_seq
 ALTER TABLE public.course_resources_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2897 (class 0 OID 0)
+-- TOC entry 2909 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: course_resources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -130,7 +147,7 @@ CREATE SEQUENCE public.course_type_id_seq
 ALTER TABLE public.course_type_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2898 (class 0 OID 0)
+-- TOC entry 2910 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: course_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -169,7 +186,7 @@ CREATE SEQUENCE public.courses_id_seq
 ALTER TABLE public.courses_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2899 (class 0 OID 0)
+-- TOC entry 2911 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -266,7 +283,22 @@ CREATE TABLE public.user_groups (
 ALTER TABLE public.user_groups OWNER TO postgres;
 
 --
--- TOC entry 2729 (class 2604 OID 49347)
+-- TOC entry 210 (class 1259 OID 57627)
+-- Name: user_info; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_info (
+    user_id bigint NOT NULL,
+    avatar_url character varying(255),
+    university character varying(255),
+    brief_information character varying(255)
+);
+
+
+ALTER TABLE public.user_info OWNER TO postgres;
+
+--
+-- TOC entry 2735 (class 2604 OID 49347)
 -- Name: confirmation_token token_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -274,7 +306,7 @@ ALTER TABLE ONLY public.confirmation_token ALTER COLUMN token_id SET DEFAULT nex
 
 
 --
--- TOC entry 2732 (class 2604 OID 57578)
+-- TOC entry 2738 (class 2604 OID 57578)
 -- Name: course_resources id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -282,7 +314,7 @@ ALTER TABLE ONLY public.course_resources ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 2731 (class 2604 OID 57572)
+-- TOC entry 2737 (class 2604 OID 57572)
 -- Name: course_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -290,7 +322,7 @@ ALTER TABLE ONLY public.course_type ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 2730 (class 2604 OID 57549)
+-- TOC entry 2736 (class 2604 OID 57549)
 -- Name: courses id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -298,7 +330,7 @@ ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.cour
 
 
 --
--- TOC entry 2882 (class 0 OID 49344)
+-- TOC entry 2893 (class 0 OID 49344)
 -- Dependencies: 201
 -- Data for Name: confirmation_token; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -306,7 +338,7 @@ ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.cour
 
 
 --
--- TOC entry 2889 (class 0 OID 57575)
+-- TOC entry 2900 (class 0 OID 57575)
 -- Dependencies: 208
 -- Data for Name: course_resources; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -314,7 +346,7 @@ ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.cour
 
 
 --
--- TOC entry 2885 (class 0 OID 57550)
+-- TOC entry 2896 (class 0 OID 57550)
 -- Dependencies: 204
 -- Data for Name: course_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -322,14 +354,14 @@ ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.cour
 
 
 --
--- TOC entry 2883 (class 0 OID 57534)
+-- TOC entry 2894 (class 0 OID 57534)
 -- Dependencies: 202
 -- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 
 --
--- TOC entry 2890 (class 0 OID 57586)
+-- TOC entry 2901 (class 0 OID 57586)
 -- Dependencies: 209
 -- Data for Name: resources_of_course; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -337,7 +369,7 @@ ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.cour
 
 
 --
--- TOC entry 2886 (class 0 OID 57557)
+-- TOC entry 2897 (class 0 OID 57557)
 -- Dependencies: 205
 -- Data for Name: type_of_courses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -345,13 +377,13 @@ ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.cour
 
 
 --
--- TOC entry 2880 (class 0 OID 41150)
+-- TOC entry 2891 (class 0 OID 41150)
 -- Dependencies: 199
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 --
--- TOC entry 2878 (class 0 OID 32833)
+-- TOC entry 2889 (class 0 OID 32833)
 -- Dependencies: 197
 -- Data for Name: user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -360,28 +392,38 @@ INSERT INTO public.user_groups VALUES (1, 'admin', 'admin group');
 INSERT INTO public.user_groups VALUES (2, 'user', 'simple user group');
 INSERT INTO public.user_groups VALUES (3, 'unconfirmed user', 'group of unconfirmed users');
 INSERT INTO public.user_groups VALUES (4, 'professor', 'group of professors');
+INSERT INTO public.user_groups VALUES (5, 'student', 'group of students');
 
 
 --
--- TOC entry 2900 (class 0 OID 0)
+-- TOC entry 2902 (class 0 OID 57627)
+-- Dependencies: 210
+-- Data for Name: user_info; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.user_info VALUES (15, 'https://drive.google.com/uc?id=1Sp0yct_nZDFlwo-sXb-LDe5dLjqxVBui&export=download', 'vgtu', NULL);
+
+
+--
+-- TOC entry 2912 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: confirmation_token_token_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.confirmation_token_token_id_seq', 1, false);
+SELECT pg_catalog.setval('public.confirmation_token_token_id_seq', 6, true);
 
 
 --
--- TOC entry 2901 (class 0 OID 0)
+-- TOC entry 2913 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: course_resources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.course_resources_id_seq', 1, false);
+SELECT pg_catalog.setval('public.course_resources_id_seq', 1, true);
 
 
 --
--- TOC entry 2902 (class 0 OID 0)
+-- TOC entry 2914 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: course_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -390,34 +432,34 @@ SELECT pg_catalog.setval('public.course_type_id_seq', 1, false);
 
 
 --
--- TOC entry 2903 (class 0 OID 0)
+-- TOC entry 2915 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.courses_id_seq', 1, false);
+SELECT pg_catalog.setval('public.courses_id_seq', 14, true);
 
 
 --
--- TOC entry 2904 (class 0 OID 0)
+-- TOC entry 2916 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: id_increment; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.id_increment', 1, false);
+SELECT pg_catalog.setval('public.id_increment', 22, true);
 
 
 --
--- TOC entry 2905 (class 0 OID 0)
+-- TOC entry 2917 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: user_groups_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_groups_seq', 4, true);
+SELECT pg_catalog.setval('public.user_groups_seq', 5, true);
 
 
 --
--- TOC entry 2734 (class 2606 OID 41092)
+-- TOC entry 2740 (class 2606 OID 41092)
 -- Name: user_groups UG_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -426,7 +468,7 @@ ALTER TABLE ONLY public.user_groups
 
 
 --
--- TOC entry 2738 (class 2606 OID 49349)
+-- TOC entry 2744 (class 2606 OID 49349)
 -- Name: confirmation_token confirmation_token_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -435,7 +477,7 @@ ALTER TABLE ONLY public.confirmation_token
 
 
 --
--- TOC entry 2747 (class 2606 OID 57583)
+-- TOC entry 2753 (class 2606 OID 57583)
 -- Name: course_resources course_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -444,7 +486,7 @@ ALTER TABLE ONLY public.course_resources
 
 
 --
--- TOC entry 2743 (class 2606 OID 57554)
+-- TOC entry 2749 (class 2606 OID 57554)
 -- Name: course_type course_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -453,7 +495,7 @@ ALTER TABLE ONLY public.course_type
 
 
 --
--- TOC entry 2740 (class 2606 OID 57541)
+-- TOC entry 2746 (class 2606 OID 57541)
 -- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -462,7 +504,16 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- TOC entry 2736 (class 2606 OID 41157)
+-- TOC entry 2757 (class 2606 OID 57634)
+-- Name: user_info user_info_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_info
+    ADD CONSTRAINT user_info_pkey PRIMARY KEY (user_id);
+
+
+--
+-- TOC entry 2742 (class 2606 OID 41157)
 -- Name: user user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -471,7 +522,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 2745 (class 1259 OID 57584)
+-- TOC entry 2751 (class 1259 OID 57584)
 -- Name: course_resources_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -479,7 +530,7 @@ CREATE UNIQUE INDEX course_resources_id_uindex ON public.course_resources USING 
 
 
 --
--- TOC entry 2748 (class 1259 OID 57585)
+-- TOC entry 2754 (class 1259 OID 57585)
 -- Name: course_resources_url_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -487,7 +538,7 @@ CREATE UNIQUE INDEX course_resources_url_uindex ON public.course_resources USING
 
 
 --
--- TOC entry 2741 (class 1259 OID 57555)
+-- TOC entry 2747 (class 1259 OID 57555)
 -- Name: course_type_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -495,7 +546,7 @@ CREATE UNIQUE INDEX course_type_id_uindex ON public.course_type USING btree (id)
 
 
 --
--- TOC entry 2744 (class 1259 OID 57556)
+-- TOC entry 2750 (class 1259 OID 57556)
 -- Name: course_type_type_name_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -503,7 +554,23 @@ CREATE UNIQUE INDEX course_type_type_name_uindex ON public.course_type USING btr
 
 
 --
--- TOC entry 2750 (class 2606 OID 49350)
+-- TOC entry 2755 (class 1259 OID 57640)
+-- Name: user_info_avatar_url_uindex; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX user_info_avatar_url_uindex ON public.user_info USING btree (avatar_url);
+
+
+--
+-- TOC entry 2766 (class 2620 OID 65834)
+-- Name: user create_user_trigger; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER create_user_trigger AFTER INSERT ON public."user" FOR EACH ROW EXECUTE PROCEDURE public.create_user_function();
+
+
+--
+-- TOC entry 2759 (class 2606 OID 49350)
 -- Name: confirmation_token confirmation_token_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -512,7 +579,7 @@ ALTER TABLE ONLY public.confirmation_token
 
 
 --
--- TOC entry 2749 (class 2606 OID 41158)
+-- TOC entry 2758 (class 2606 OID 41158)
 -- Name: user fklthmvyi4mp8c4y133xlmvdfq0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -521,7 +588,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 2751 (class 2606 OID 57604)
+-- TOC entry 2760 (class 2606 OID 57604)
 -- Name: courses professor_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -530,7 +597,7 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- TOC entry 2755 (class 2606 OID 57599)
+-- TOC entry 2764 (class 2606 OID 57599)
 -- Name: resources_of_course resources_of_course_course_resources_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -539,7 +606,7 @@ ALTER TABLE ONLY public.resources_of_course
 
 
 --
--- TOC entry 2754 (class 2606 OID 57594)
+-- TOC entry 2763 (class 2606 OID 57594)
 -- Name: resources_of_course resources_of_course_courses_id_fk_2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -548,7 +615,7 @@ ALTER TABLE ONLY public.resources_of_course
 
 
 --
--- TOC entry 2752 (class 2606 OID 57560)
+-- TOC entry 2761 (class 2606 OID 57560)
 -- Name: type_of_courses type_of_courses_course_type_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -557,7 +624,7 @@ ALTER TABLE ONLY public.type_of_courses
 
 
 --
--- TOC entry 2753 (class 2606 OID 57565)
+-- TOC entry 2762 (class 2606 OID 57565)
 -- Name: type_of_courses type_of_courses_courses_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -565,7 +632,16 @@ ALTER TABLE ONLY public.type_of_courses
     ADD CONSTRAINT type_of_courses_courses_id_fk FOREIGN KEY (course_id) REFERENCES public.courses(id);
 
 
--- Completed on 2019-03-01 23:35:28
+--
+-- TOC entry 2765 (class 2606 OID 57641)
+-- Name: user_info user_info_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_info
+    ADD CONSTRAINT user_info_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id) ON DELETE CASCADE;
+
+
+-- Completed on 2019-03-19 01:10:21
 
 --
 -- PostgreSQL database dump complete

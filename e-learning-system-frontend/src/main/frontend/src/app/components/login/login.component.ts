@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn: boolean;
   isLoginFailed: boolean;
   errorMessage: '';
+  submitted = false;
   private loginInfo: AuthInfo;
 
 
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.loginForm.invalid) {
       return;
     }

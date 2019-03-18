@@ -15,10 +15,10 @@
           <div class="form-group input-group">
             <div class="courseTitle">
               <input type="text" formControlName="title"
-                     class="form-control" [ngClass]="{ 'is-invalid': f.title.errors }"
+                     class="form-control" [ngClass]="{ 'is-invalid': f.title.errors && (submitted ||f.title.touched) }"
                      placeholder="Title"
                      id="title"/>
-              <div *ngIf=" f.title.errors" class="invalid-feedback">
+              <div *ngIf=" f.title.errors && (submitted ||f.title.touched)" class="invalid-feedback">
                 <div *ngIf="f.title.errors.required">
                   Title is required
                 </div>

@@ -32,7 +32,7 @@ public class ConfirmationController {
         ConfirmationToken token = confirmationTokenService.getByConfirmationToken(confirmationToken);
         if (token != null) {
             User user = userService.getUserByEmailAuth(token.getUser().getEmail());
-            user.setReg_id(2L);
+            user.setReg_id( Long.valueOf(token.getConfirmationToken().substring(token.getConfirmationToken().length()-1)));
             userService.updateUser(user);
             confirmationTokenService.delete(token);
             return new ResponseEntity<>("well done", HttpStatus.OK);

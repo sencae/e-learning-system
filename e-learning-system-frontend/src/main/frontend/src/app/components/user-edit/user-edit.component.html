@@ -1,0 +1,38 @@
+<div class="wrapper">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="content">
+
+    <div *ngIf="userInfo">
+    <p>{{userInfo.lastName}}</p>
+    <p>{{userInfo.firstName}}</p>
+    <p>{{userInfo.username}}</p>
+    <p>{{userInfo.email}}</p>
+
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <img align="center" src="{{userInfo.url}}" class="img-circle">
+      <p>change photo:</p>
+      <div *ngIf="currentFileUpload" class="progress">
+        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+             aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+          {{progress.percentage}}%</div>
+      </div>
+
+      <label class="btn btn-default">
+        <input type="file" (change)="selectFile($event)">
+      </label>
+      <button class="btn btn-primary" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+      <div *ngIf="userInfo.url!==null">
+        <button type="button" class="btn btn-secondary" (click)="deleteFile()">Delete</button>
+      </div>
+    </div>
+    </div>
+
+
+  </div>
+
+  <div class="footer">
+    <app-footer></app-footer>
+  </div>
+</div>

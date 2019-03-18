@@ -18,6 +18,8 @@ import {httpInterceptorProviders} from "./services/auth/authInterceptor";
 import {AuthorityGuard} from "./guards/authority.guard";
 import { CourseInfoComponent } from './components/course-info/course-info.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { CourseEditComponent } from './components/course-edit/course-edit.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
     NotFoundComponent,
     CoursesComponent,
     CourseInfoComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    UserEditComponent,
+    CourseEditComponent
   ],
   imports: [
     BrowserModule,

@@ -35,12 +35,13 @@ public class CoursesController {
 
     @PreAuthorize("hasAuthority('professor')")
     @PostMapping("create")
-    public ResponseEntity<Void> createCourse(@RequestBody Courses course) {
+    public ResponseEntity<Long> createCourse(@RequestBody Courses course) {
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         course.setProfessorId(userPrinciple.getId());
         coursesService.createCourse(course);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(course.getId(),HttpStatus.OK);
     }
     @PostMapping("test")
     public void test(){

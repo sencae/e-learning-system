@@ -6,4 +6,5 @@ export class UserInfo {
   url: string;
   university: string;
   briefInformation:string;
+  password:string;
 }

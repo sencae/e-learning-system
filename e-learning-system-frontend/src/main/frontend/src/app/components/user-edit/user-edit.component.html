@@ -1,38 +1,80 @@
 <div class="wrapper">
-  <div class="header">
-    <app-header></app-header>
-  </div>
   <div class="content">
 
-    <div *ngIf="userInfo">
-    <p>{{userInfo.lastName}}</p>
-    <p>{{userInfo.firstName}}</p>
-    <p>{{userInfo.username}}</p>
-    <p>{{userInfo.email}}</p>
+      <form [formGroup]="userEditForm" (ngSubmit)="onSubmit()">
 
-    <div class="col-lg-4 col-md-4 col-sm-12">
-      <img align="center" src="{{userInfo.url}}" class="img-circle">
-      <p>change photo:</p>
-      <div *ngIf="currentFileUpload" class="progress">
-        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
-             aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-          {{progress.percentage}}%</div>
-      </div>
+        <div class="form-group input-group">
+          <input type="text" formControlName="username"
+                 class="form-control"
+                 placeholder="Username"
+                 id="username"
+          />
+        </div>
+        <div class="form-group input-group">
+          <input type="text" formControlName="firstName" class="form-control"
+                 id="firstName"
+                 placeholder="First name"/>
+        </div>
+        <div class="form-group input-group">
+          <input type="text" formControlName="lastName" class="form-control"
+                 id="lastName"
+                 placeholder="Last name"/>
+        </div>
+        <!-- form-group// -->
+        <div class="form-group input-group">
+          <input type="text" formControlName="email" class="form-control"
+                 id="email"
+                 placeholder="Email"
+                 [ngClass]="{ 'is-invalid': f.email.errors && (submitted ||f.email.touched)}"/>
+          <div *ngIf=" f.email.errors && (submitted ||f.email.touched)" class="invalid-feedback">
 
-      <label class="btn btn-default">
-        <input type="file" (change)="selectFile($event)">
-      </label>
-      <button class="btn btn-primary" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
-      <div *ngIf="userInfo.url!==null">
-        <button type="button" class="btn btn-secondary" (click)="deleteFile()">Delete</button>
-      </div>
-    </div>
-    </div>
+          </div>
+          <div *ngIf="f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.pattern">
+              The email is not valid
+            </div>
+          </div>
+        </div><!-- form-group// -->
+        <div class="form-group input-group">
+          <input type="password" formControlName="password" class="form-control"
+                 id="password"
+                 placeholder="Password"
+                 [ngClass]="{ 'is-invalid':  f.password.errors && (submitted ||f.password.touched)}"/>
+          <div *ngIf="f.password.errors && (submitted ||f.password.touched)" class="invalid-feedback">
+            <div *ngIf="f.password.errors.pattern">
+              Password must be at least 8 characters, one number and one uppercase letter
+            </div>
+          </div>
+        </div> <!-- form-group// -->
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <div *ngIf="f.url.value!=null; else standartImg">
+            <img align="center" src="{{f.url}}" class="img-circle">
+          </div>
+          <ng-template #standartImg>
+            <img align="center" src="../../../assets/img/noavatar.png" class="img-circle">
+          </ng-template>
+          <p>change photo:</p>
+          <div *ngIf="currentFileUpload" class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+                 aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+              {{progress.percentage}}%</div>
+          </div>
+
+          <label class="btn btn-default">
+            <input type="file" (change)="selectFile($event)">
+          </label>
+          <div *ngIf="f.url.value !== null">
+            <button type="button" class="btn btn-secondary" (click)="deleteFile()">Delete</button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px">
+          <button type="submit" class="btn btn-primary"> Update </button>
+          <button class="btn btn-secondary" routerLink="">Cancel</button>
+        </div> <!-- form-group// -->
+      </form>
+
 
 
   </div>
 
-  <div class="footer">
-    <app-footer></app-footer>
-  </div>
 </div>

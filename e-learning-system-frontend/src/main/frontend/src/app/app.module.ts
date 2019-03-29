@@ -20,6 +20,8 @@ import { CourseInfoComponent } from './components/course-info/course-info.compon
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { CourseEditComponent } from './components/course-edit/course-edit.component';
+import {AlertService} from "./services/alert.service";
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { CourseEditComponent } from './components/course-edit/course-edit.compon
     CourseInfoComponent,
     UserInfoComponent,
     UserEditComponent,
-    CourseEditComponent
+    CourseEditComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { CourseEditComponent } from './components/course-edit/course-edit.compon
     AngularFontAwesomeModule
   ],
   providers: [httpInterceptorProviders,
-  AuthorityGuard],
+  AuthorityGuard,
+  AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

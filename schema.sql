@@ -401,8 +401,6 @@ INSERT INTO public.user_groups VALUES (5, 'student', 'group of students');
 -- Data for Name: user_info; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.user_info VALUES (15, 'https://drive.google.com/uc?id=1Sp0yct_nZDFlwo-sXb-LDe5dLjqxVBui&export=download', 'vgtu', NULL);
-
 
 --
 -- TOC entry 2912 (class 0 OID 0)

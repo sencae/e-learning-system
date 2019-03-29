@@ -1,13 +1,13 @@
-package com.e_learning_system.registration.Controller;
+package com.e_learning_system.controllers.registrationController;
 
 import com.e_learning_system.dto.ModelMapperUtil;
 import com.e_learning_system.dto.SignUpDto;
 import com.e_learning_system.entities.ConfirmationToken;
 import com.e_learning_system.entities.User;
-import com.e_learning_system.registration.Service.ConfirmationTokenService;
-import com.e_learning_system.registration.Service.EmailSenderService;
-import com.e_learning_system.registration.Service.UserGroupsService;
-import com.e_learning_system.registration.Service.UserService;
+import com.e_learning_system.services.registrationService.ConfirmationTokenService;
+import com.e_learning_system.services.registrationService.EmailSenderService;
+import com.e_learning_system.services.registrationService.UserGroupsService;
+import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,9 +60,10 @@ public class UserController {
                             .getId()
             );
             if (!flag)
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             else {
                 ConfirmationToken confirmationToken = new ConfirmationToken(user);
+                user.setReg_id(3L);
                 confirmationTokenService.save(confirmationToken);
                 SimpleMailMessage mailMessage = new SimpleMailMessage();
                 mailMessage.setTo(user.getEmail());
@@ -75,7 +76,7 @@ public class UserController {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         } else
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

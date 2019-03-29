@@ -1,9 +1,12 @@
-<nav class="navbar navbar-expand-md fixed-top">
-<a class="navbar-brand" href="#">Logotip</a>
+<div class="header">
+<nav class="navbar navbar-expand-md navbar-fixed-top">
+<a class="navbar-brand"  href="#">
+ <img src="../../../assets/img/elearning.png"  height="35">
+</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
 </button>
-<div class="collapse navbar-collapse" id = "navbarNav" >
+<div class="collapse navbar-collapse justify-content-end" id = "navbarNav" >
   <ul class="navbar-nav mr-4">
     <li class="navbar-item">
       <a routerLink="/courses/all" class="nav-link">Courses</a>
@@ -16,8 +19,8 @@
     </li>
     <li class="navbar-item" >
     <div *ngIf="auth===false; else other">
-    <a class="btn btn-primary" routerLink="/login" role="button" aria-pressed="true">sign in</a>
-    <button type="button" routerLink="/signup" class="btn btn-outline-light">sign up</button>
+    <a class="btn btn-primary" routerLink="/login" role="button" aria-pressed="true">Sign in</a>
+    <button type="button" routerLink="/signup" class="btn btn-outline-light">Sign up</button>
     </div>
     <ng-template #other>
       <div>
@@ -31,3 +34,4 @@
   </ul>
 </div>
 </nav>
+</div>

@@ -1,4 +1,4 @@
-package com.e_learning_system.registration.Service;
+package com.e_learning_system.services.registrationService;
 
 import com.e_learning_system.dao.ConfirmationTokenRepository;
 import com.e_learning_system.entities.ConfirmationToken;

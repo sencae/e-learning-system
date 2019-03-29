@@ -26,4 +26,6 @@ public class UserInfoService {
     public boolean setPageImgUrl(String url, Long id){
         return userInfoRepository.setPageImgUrl(url,id)>0;
     }
+
+
 }

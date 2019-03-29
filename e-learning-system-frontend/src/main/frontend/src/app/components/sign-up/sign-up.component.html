@@ -90,128 +90,129 @@
 </form>
 -->
 <div class="wrapper">
-<div class="header">
-<app-header></app-header>
-</div>
-<div class="content">
-<div class="card bg-light">
-  <article class="card-body mx-auto" style="max-width: 400px;">
-    <h4 class="card-title mt-3 text-center">Create Account</h4>
-    <p class="text-center">Get started with your free account</p>
-    <p>
-      <a href="" class="btn btn-block btn-vk"> <i class="fab fa-vk"></i>   VK</a>
-      <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Twitter</a>
-      <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Facebook</a>
-      <a href="" class="btn btn-block btn-google"> <i class="fab fa-google-plus-g"></i>   Google</a>
-    </p>
-    <p class="divider-text">
-      <span class="bg-light"><b>OR</b></span>
-    </p>
-    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
 
-      <div class="form-group input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-        </div>
-        <input type="text" formControlName="username"
-               class="form-control" [ngClass]="{ 'is-invalid': f.username.errors && (submitted ||f.username.touched)  }"
-               placeholder="Username"
-               id="username"/>
-        <div *ngIf=" f.username.errors && (submitted ||f.username.touched)" class="invalid-feedback">
-          <div *ngIf="f.username.errors.required">
-            Username is required
+  <div class="content">
+    <app-alert></app-alert>
+    <div class="card bg-light">
+      <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center">Create Account</h4>
+        <p class="text-center">Get started with your free account</p>
+        <p>
+          <a href="" class="btn btn-block btn-vk"> <i class="fab fa-vk"></i> VK</a>
+          <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Twitter</a>
+          <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Facebook</a>
+          <a href="" class="btn btn-block btn-google"> <i class="fab fa-google-plus-g"></i>   Google</a>
+        </p>
+        <p class="divider-text">
+          <span class="bg-light"><b>OR</b></span>
+        </p>
+        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input type="text" formControlName="username"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': f.username.errors && (submitted ||f.username.touched)  }"
+                   placeholder="Username"
+                   id="username"/>
+            <div *ngIf=" f.username.errors && (submitted ||f.username.touched)" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">
+                Username is required
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-        </div>
-        <input type="text" formControlName="firstName" class="form-control"
-               id="firstName"
-               placeholder="First name"
-               [ngClass]="{ 'is-invalid':  f.firstName.errors && (submitted ||f.firstName.touched)}"/>
-        <div *ngIf="f.firstName.errors && (submitted ||f.firstName.touched)" class="invalid-feedback">
-          <div *ngIf="f.firstName.errors.required">
-            First Name is required
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input type="text" formControlName="firstName" class="form-control"
+                   id="firstName"
+                   placeholder="First name"
+                   [ngClass]="{ 'is-invalid':  f.firstName.errors && (submitted ||f.firstName.touched)}"/>
+            <div *ngIf="f.firstName.errors && (submitted ||f.firstName.touched)" class="invalid-feedback">
+              <div *ngIf="f.firstName.errors.required">
+                First Name is required
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-        </div>
-        <input type="text" formControlName="lastName" class="form-control"
-               id="lastName"
-               placeholder="Last name"
-               [ngClass]="{ 'is-invalid':  f.lastName.errors && (submitted ||f.lastName.touched)}"/>
-        <div *ngIf="f.lastName.errors && (submitted ||f.lastName.touched)" class="invalid-feedback">
-          <div *ngIf="f.lastName.errors.required">Last Name is required</div>
-        </div>
-      </div>
- <!-- form-group// -->
-      <div class="form-group input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-        </div>
-        <input type="text" formControlName="email" class="form-control"
-               id="email"
-               placeholder="Email"
-               [ngClass]="{ 'is-invalid': f.email.errors && (submitted ||f.email.touched)}"/>
-        <div *ngIf=" f.email.errors && (submitted ||f.email.touched)" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">
-            The email is required
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input type="text" formControlName="lastName" class="form-control"
+                   id="lastName"
+                   placeholder="Last name"
+                   [ngClass]="{ 'is-invalid':  f.lastName.errors && (submitted ||f.lastName.touched)}"/>
+            <div *ngIf="f.lastName.errors && (submitted ||f.lastName.touched)" class="invalid-feedback">
+              <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+            </div>
           </div>
-        </div>
-        <div *ngIf="f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.pattern">
-            The email is not valid
+          <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+            </div>
+            <input type="text" formControlName="email" class="form-control"
+                   id="email"
+                   placeholder="Email"
+                   [ngClass]="{ 'is-invalid': f.email.errors && (submitted ||f.email.touched)}"/>
+            <div *ngIf=" f.email.errors && (submitted ||f.email.touched)" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">
+                The email is required
+              </div>
+            </div>
+            <div *ngIf="f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.pattern">
+                The email is not valid
+              </div>
+            </div>
+          </div><!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input type="password" formControlName="password" class="form-control"
+                   id="password"
+                   placeholder="Password"
+                   [ngClass]="{ 'is-invalid':  f.password.errors && (submitted ||f.password.touched)}"/>
+            <div *ngIf="f.password.errors && (submitted ||f.password.touched)" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">
+                Password is required
+              </div>
+              <div *ngIf="f.password.errors.pattern">
+                Password must be at least 8 characters, one number and one uppercase letter
+              </div>
+            </div>
+          </div> <!-- form-group// -->
+          <div class="form-group">
+            <label style="margin-right: 20px">
+              <input type="radio" value="student" formControlName="profession"
+                     [ngClass]="{ 'is-invalid': f.profession.errors && submitted }">
+              <span>Student</span>
+            </label>
+            <label>
+              <input type="radio" value="professor" formControlName="profession"
+                     [ngClass]="{ 'is-invalid': f.profession.errors && submitted}">
+              <span>Professor</span>
+            </label>
+            <div *ngIf="f.profession.invalid && submitted" class="invalid">
+              Profession is required
+            </div>
           </div>
-        </div>
-      </div><!-- form-group// -->
-      <div class="form-group input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-        </div>
-        <input type="password" formControlName="password" class="form-control"
-               id="password"
-               placeholder="Password"
-               [ngClass]="{ 'is-invalid':  f.password.errors && (submitted ||f.password.touched)}"/>
-        <div *ngIf="f.password.errors && (submitted ||f.password.touched)" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">
-            Password is required
-          </div>
-          <div *ngIf="f.password.errors.pattern">
-            Password must be at least 8 characters, one number and one uppercase letter
-          </div>
-        </div>
-      </div> <!-- form-group// -->
-      <div class="form-group">
-        <label style="margin-right: 20px">
-          <input type="radio" value="student" formControlName="profession"
-                 [ngClass]="{ 'is-invalid': f.profession.errors }">
-          <span>student</span>
-        </label>
-        <label>
-          <input type="radio" value="professor" formControlName="profession"
-                 [ngClass]="{ 'is-invalid': f.profession.errors }">
-          <span>professor</span>
-        </label>
-        <div *ngIf="f.profession.invalid" class="invalid">
-          Profession is required
-        </div>
-      </div>
-      <div class="form-group" style="margin-top: 20px">
-        <button type="submit" class="btn btn-primary"> Sign up </button>
-        <button class="btn btn-secondary" routerLink="">Cancel</button>
-      </div> <!-- form-group// -->
-      <p class="text-center">Have an account? <a routerLink="/login">Log in</a> </p>
-    </form>
-  </article>
-</div> <!-- card.// -->
-</div>
-<div class="footer">
-  <app-footer></app-footer>
-</div>
+          <div class="form-group" style="margin-top: 20px">
+            <button [disabled]="loading"
+                    type="submit"
+                    class="btn btn-primary"> Sign up
+            </button>
+            <img *ngIf="loading" src="../../../assets/img/loading.gif">
+            <button class="btn btn-secondary" routerLink="">Cancel</button>
+          </div> <!-- form-group// -->
+          <p class="text-center">Have an account? <a routerLink="/login">Sign in</a></p>
+        </form>
+      </article>
+    </div><!-- card.// -->
+  </div>
 </div>
 <!--container end.//-->

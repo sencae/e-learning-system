@@ -31,6 +31,9 @@ export class UserInfoComponent implements OnInit {
     return this.tokenStorage.getToken() != null &&
       this.tokenStorage.getUsername() == this.user.email;
   }
+  isConfirmed():boolean{
+    return !this.userService.hasAuthority('unconfirmed user');
+  }
 
   getUser() {
     const id = +this.route.snapshot.paramMap.get('id');

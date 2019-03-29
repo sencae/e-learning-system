@@ -25,7 +25,7 @@ public class CoursesService {
         return this.courseResourcesRepository.deleteByUrl(url)>0;
     }
     public void createCourse(Courses course) {
-        coursesRep.save(course);
+        coursesRep.saveAndFlush(course);
     }
 
     public List<Courses> getAllCourses() {

@@ -1,11 +1,10 @@
-package com.e_learning_system.registration.Service;
+package com.e_learning_system.services.registrationService;
 
 import com.e_learning_system.dao.UserRepository;
 import com.e_learning_system.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

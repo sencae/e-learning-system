@@ -3,7 +3,7 @@
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-  height: 720px;
+  height: 1080px;
 }
 .overlay{
   min-height: 100%;
@@ -35,4 +35,15 @@
   border:1px  solid #696969;
   background:#696969;
   color:#fff;
+}
+.desc{
+  padding: 2em;
+  color:#FBFAFA;
+  font-size: 50px;
+  width: 80%;
+  line-height: 1.5;
+  text-align: center;
+}
+.wrapper{
+  height: unset ;
 }

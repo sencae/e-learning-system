@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from "../../services/auth/auth.service";
+import {AlertService} from "../../services/alert.service";
+import {Router} from "@angular/router";
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-sign-up',
@@ -10,8 +13,11 @@ import {AuthService} from "../../services/auth/auth.service";
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
   submitted = false;
+  loading = false;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private alertService:AlertService,
+              private router:Router) {
   }
 
   ngOnInit() {
@@ -36,13 +42,19 @@ export class SignUpComponent implements OnInit {
     if (this.signUpForm.invalid) {
       return;
     }
+
+    this.loading = true;
     this.authService.signUp(this.signUpForm.value)
+      .pipe(first())
       .subscribe(
         data => {
-          console.log("success");
+          this.alertService.success('Registration successful', true);
+          this.router.navigate(['/login']);
         },
         error => {
-          console.log("error");
+          let msg = "Email is already taken";
+          this.alertService.error(msg);
+          this.loading = false;
         });
   }
 }

@@ -1,8 +1,9 @@
 package com.e_learning_system.controllers;
 
 import com.e_learning_system.createCourse.service.CoursesService;
+import com.e_learning_system.dto.UserDto;
 import com.e_learning_system.googleApi.GoogleDriveService;
-import com.e_learning_system.registration.Service.UserService;
+import com.e_learning_system.services.registrationService.UserService;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,5 @@ public class FileExchangeController extends BaseGetController {
         else
             return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
-
 }
 

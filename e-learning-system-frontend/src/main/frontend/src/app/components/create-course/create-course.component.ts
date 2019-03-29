@@ -33,7 +33,7 @@ export class CreateCourseComponent implements OnInit {
       .subscribe(
         data => {
           console.log("success");
-          this.router.navigate(['/courses/all'])
+          this.router.navigate(['/course/'+data])
         },
         error => {
           console.log("error");

@@ -20,15 +20,14 @@ public class ConfirmationToken {
     @Column(name = "created_date")
     private Date createdDate;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+    @Column
+    private Long user_id;
 
 
     public ConfirmationToken(User user) {
-        this.user = user;
         createdDate = new Date();
         confirmationToken = UUID.randomUUID().toString() + user.getReg_id();
+        this.user_id = user.getId();
     }
 
     public ConfirmationToken() {
@@ -58,11 +57,12 @@ public class ConfirmationToken {
         this.createdDate = createdDate;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
+
 }

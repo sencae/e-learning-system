@@ -1,10 +1,10 @@
-package com.e_learning_system.registration.Controller;
+package com.e_learning_system.controllers.registrationController;
 
 
 import com.e_learning_system.entities.ConfirmationToken;
 import com.e_learning_system.entities.User;
-import com.e_learning_system.registration.Service.ConfirmationTokenService;
-import com.e_learning_system.registration.Service.UserService;
+import com.e_learning_system.services.registrationService.ConfirmationTokenService;
+import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +31,8 @@ public class ConfirmationController {
     public ResponseEntity<String> confirmUserAccount(@RequestParam("token") String confirmationToken) {
         ConfirmationToken token = confirmationTokenService.getByConfirmationToken(confirmationToken);
         if (token != null) {
-            User user = userService.getUserByEmailAuth(token.getUser().getEmail());
-            user.setReg_id( Long.valueOf(token.getConfirmationToken().substring(token.getConfirmationToken().length()-1)));
+            User user = userService.getUserById(token.getUser_id());
+            user.setReg_id(Long.valueOf(token.getConfirmationToken().substring(token.getConfirmationToken().length() - 1)));
             userService.updateUser(user);
             confirmationTokenService.delete(token);
             return new ResponseEntity<>("well done", HttpStatus.OK);

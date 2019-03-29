@@ -3,7 +3,7 @@ package com.e_learning_system.controllers;
 import com.e_learning_system.dto.ModelMapperUtil;
 import com.e_learning_system.dto.UserDto;
 import com.e_learning_system.entities.User;
-import com.e_learning_system.registration.Service.UserService;
+import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

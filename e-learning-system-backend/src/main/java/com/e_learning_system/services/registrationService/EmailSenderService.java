@@ -1,4 +1,4 @@
-package com.e_learning_system.registration.Service;
+package com.e_learning_system.services.registrationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

@@ -4,6 +4,8 @@ import {UserService} from "../../services/user/user.service";
 import {TokenStorageService} from "../../services/auth/token-storage.service";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {FileExchangeService} from "../../services/fileExchange.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {concat} from "rxjs";
 
 @Component({
   selector: 'app-user-edit',
@@ -15,18 +17,40 @@ export class UserEditComponent implements OnInit {
   progress: { percentage: number } = { percentage: 0 };
   currentFileUpload: File;
   selectedFiles: FileList;
+  userEditForm: FormGroup;
+  submitted = false;
 
-  constructor(private userService:UserService,
+  constructor(private formBuilder: FormBuilder,
+              private userService:UserService,
               private tokenStorage:TokenStorageService,
               private uploadService: FileExchangeService) { }
 
   ngOnInit() {
-    this.getUserInfo();
-  }
-  getUserInfo(){
+
+    this.userEditForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['',
+        [Validators.required, Validators.pattern('[a-zA-z0-9_\.]+@[a-zA-Z]+\.[a-zA-Z]+')]],
+      password: ['',
+        [ Validators.pattern('^(?=.*[0-9])(?=.*[a-zа-я])(?=.*[A-ZА-Я]).{8,}$')]],
+      url: [],
+      university:[],
+      briefInformation:[]
+
+    });
     this.userService.getUser(Number(this.tokenStorage.getId())).subscribe(
-      user=> this.userInfo=user
-    )
+      user=> {
+        let buf:any;
+        this.userInfo=user;
+        this.userInfo.password=null;
+        buf = this.userInfo;
+this.userEditForm.setValue(buf);})
+};
+
+  get f() {
+    return this.userEditForm.controls;
   }
   selectFile(event) {
     this.selectedFiles = event.target.files;
@@ -52,6 +76,17 @@ export class UserEditComponent implements OnInit {
     });
 
     this.selectedFiles = undefined;
+  }
+  onSubmit(){
+    this.submitted = true;
+    if (this.userEditForm.invalid) {
+      return;
+    }
+    if(this.selectedFiles){
+      this.upload();
+    }
+    this.userService.updateUser(this.userEditForm.value);
+    console.log("wow")
   }
 
 }

@@ -19,7 +19,7 @@ export class UserEditComponent implements OnInit {
   selectedFiles: FileList;
   userEditForm: FormGroup;
   submitted = false;
-
+  url='';
   constructor(private formBuilder: FormBuilder,
               private userService:UserService,
               private tokenStorage:TokenStorageService,
@@ -53,7 +53,13 @@ this.userEditForm.setValue(buf);})
     return this.userEditForm.controls;
   }
   selectFile(event) {
-    this.selectedFiles = event.target.files;
+    this.selectedFiles = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+    reader.onload = (event:any) => { // called once readAsDataURL is completed
+      this.url = event.target.result}
   }
   deleteFile(){
     this.uploadService.deleteProfileImage(this.userInfo.url).subscribe(
@@ -71,7 +77,7 @@ this.userEditForm.setValue(buf);})
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
       } else if (event instanceof HttpResponse) {
-        console.log('File is completely uploaded!');
+        console.log(event);
       }
     });
 
@@ -82,7 +88,7 @@ this.userEditForm.setValue(buf);})
     if (this.userEditForm.invalid) {
       return;
     }
-    if(this.selectedFiles){
+    if(this.selectedFiles&& this.selectedFiles.length>0){
       this.upload();
     }
     this.userService.updateUser(this.userEditForm.value);

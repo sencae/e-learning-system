@@ -1,16 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 * {
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box;
 }
 html, body {
   height: 100%;
 }
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  margin: 0 auto;
+  min-height: calc(100% - 50px);
 }
 .content {
   flex: 1 0 auto;
@@ -29,20 +25,14 @@ html, body {
   background:#696969;
   position: unset;
 }
-.nav-link , .navbar-brand{
-  color: #f4f4f4;
-  cursor: pointer;
-}
+
 .nav-link{
   margin-right: 1em !important;
 }
 .btn{
   margin-right: 1em !important;
 }
-.nav-link:hover{
-  background: #f4f4f4;
-  color: #696969;
-}
+
 .navbar-collapse{
   justify-content: flex-end;
 }

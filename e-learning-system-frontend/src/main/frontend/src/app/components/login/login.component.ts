@@ -4,6 +4,8 @@ import {AuthInfo} from "../../models/AuthInfo";
 import {AuthService} from "../../services/auth/auth.service";
 import {TokenStorageService} from "../../services/auth/token-storage.service";
 import {Router} from "@angular/router";
+import {AlertService} from "../../services/alert.service";
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-login',
@@ -13,8 +15,7 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoggedIn: boolean;
-  isLoginFailed: boolean;
-  errorMessage: '';
+  loading = false;
   submitted = false;
   private loginInfo: AuthInfo;
 
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tokenStorage:TokenStorageService,
-    private router:Router
+    private router:Router,
+    private alertService: AlertService
   ) {  }
 
   ngOnInit() {
@@ -47,20 +49,23 @@ export class LoginComponent implements OnInit {
       this.f.email.value,
       this.f.password.value
     );
-    this.authService.attemptAuth(this.loginInfo).subscribe(
+    this.loading = true;
+    this.authService.attemptAuth(this.loginInfo)
+      .pipe(first())
+      .subscribe(
       data=> {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUsername(data.email);
         this.tokenStorage.saveAuthorities(data.authorities);
         this.tokenStorage.saveId(data.id);
-        this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.router.navigate(['/user/'+data.id]);
+        this.alertService.success('Registration successful', true);
+        this.router.navigate(['/my']);
       },
       error => {
-        console.log(error);
-        this.errorMessage = error.error.message;
-        this.isLoginFailed = true;
+        let msg = "Wrong email or password";
+        this.alertService.error(msg);
+        this.loading = false;
       }
     );
 

@@ -12,6 +12,7 @@ import {CourseInfoComponent} from "./components/course-info/course-info.componen
 import {UserInfoComponent} from "./components/user-info/user-info.component";
 import {UserEditComponent} from "./components/user-edit/user-edit.component";
 import {CourseEditComponent} from "./components/course-edit/course-edit.component";
+import {ProfessorPageComponent} from "./components/professor-page/professor-page.component";
 
 const appRoutes: Routes = [
   {path: 'signup', component: SignUpComponent},
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
   {path:'course/:id/edit',component:CourseEditComponent},
   {path:'user/:id',component:UserInfoComponent, },
   {path:'user/:id/edit',component:UserEditComponent},
+  {path: 'my',component: ProfessorPageComponent},
   {path: '404', component:NotFoundComponent},
   {path: '**', redirectTo: '404'}
 ];

@@ -3,7 +3,7 @@
     <div *ngIf="course">
       <h2>{{course.title}}</h2>
       <p>{{course.description}}</p>
-      <p>{{course.professorId}}</p>
+      <a routerLink="/user/{{course.professorId}}">{{professor}}</a>
       <div class="resources">
         <button class="button btn-info" *ngIf='showFile' (click)='showFiles(false)'>Hide Resources</button>
         <button class="button btn-info" *ngIf='!showFile' (click)='showFiles(true)'>Show Resources</button>

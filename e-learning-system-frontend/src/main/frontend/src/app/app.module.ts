@@ -22,6 +22,7 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { CourseEditComponent } from './components/course-edit/course-edit.component';
 import {AlertService} from "./services/alert.service";
 import { AlertComponent } from './components/alert/alert.component';
+import { ProfessorPageComponent } from './components/professor-page/professor-page.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AlertComponent } from './components/alert/alert.component';
     UserInfoComponent,
     UserEditComponent,
     CourseEditComponent,
-    AlertComponent
+    AlertComponent,
+    ProfessorPageComponent
   ],
   imports: [
     BrowserModule,

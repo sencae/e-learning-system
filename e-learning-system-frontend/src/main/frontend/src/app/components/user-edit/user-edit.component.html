@@ -60,9 +60,12 @@
               {{progress.percentage}}%</div>
           </div>
 
-          <label class="btn btn-default">
-            <input type="file" (change)="selectFile($event)">
-          </label>
+            <input style="display: none"
+                   type="file"
+                   (change)="selectFile($event)"
+                    #fileInput>
+         <button type="button" (click)="fileInput.click()">Choose</button>
+          <img [src]="url" height="200"> <br/>
           <div *ngIf="f.url.value !== null">
             <button type="button" class="btn btn-secondary" (click)="deleteFile()">Delete</button>
           </div>

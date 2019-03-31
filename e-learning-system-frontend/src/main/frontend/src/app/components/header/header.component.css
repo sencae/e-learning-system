@@ -1,0 +1,8 @@
+.navbar-light .nav-link:hover{
+  background: #f4f4f4;
+  color: #696969;
+}
+.navbar-light .nav-link , .navbar-brand{
+  color: #f4f4f4;
+  cursor: pointer;
+}

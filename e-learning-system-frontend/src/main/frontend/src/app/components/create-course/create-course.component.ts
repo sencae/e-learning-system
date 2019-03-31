@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CourseService} from "../../services/course/course.service";
 import {Router} from "@angular/router";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-create-course',
@@ -13,7 +14,8 @@ export class CreateCourseComponent implements OnInit {
   courseCreateForm: FormGroup;
   submitted = false;
   constructor(private courseService: CourseService,
-              private router:Router) { }
+              private router:Router,
+              private alertService: AlertService) { }
 
   ngOnInit() {
     this.courseCreateForm = new FormGroup({
@@ -32,7 +34,7 @@ export class CreateCourseComponent implements OnInit {
     this.courseService.createCourse(this.courseCreateForm.value)
       .subscribe(
         data => {
-          console.log("success");
+          this.alertService.success('Course created', true);
           this.router.navigate(['/course/'+data])
         },
         error => {

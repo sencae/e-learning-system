@@ -1,7 +1,4 @@
 <div class="wrapper">
-  <div class="header">
-    <app-header></app-header>
-  </div>
   <div class="content">
     <div class="card bg-light">
       <article class="card-body mx-auto">
@@ -9,15 +6,18 @@
 
         <form [formGroup]="courseCreateForm" (ngSubmit)="onSubmit()">
 
-          <div class="label">
-            <label for="title">Title</label>
-          </div>
+
           <div class="form-group input-group">
             <div class="courseTitle">
-              <input type="text" formControlName="title"
-                     class="form-control" [ngClass]="{ 'is-invalid': f.title.errors && (submitted ||f.title.touched) }"
-                     placeholder="Title"
-                     id="title"/>
+              <label for="name_course"><h4>Course title:</h4></label>
+              <textarea
+                type="text"
+                formControlName="title"
+                class="form-control"
+                id="name_course"
+                rows="1"
+                [ngClass]="{ 'is-invalid': f.title.errors && (submitted ||f.title.touched) }">
+              </textarea>
               <div *ngIf=" f.title.errors && (submitted ||f.title.touched)" class="invalid-feedback">
                 <div *ngIf="f.title.errors.required">
                   Title is required
@@ -46,8 +46,5 @@
         </form>
       </article>
     </div> <!-- card.// -->
-  </div>
-  <div class="footer">
-    <app-footer></app-footer>
   </div>
 </div>

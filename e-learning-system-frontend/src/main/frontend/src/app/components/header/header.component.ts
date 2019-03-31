@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from "../../services/auth/token-storage.service";
+import {NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -7,14 +8,21 @@ import {TokenStorageService} from "../../services/auth/token-storage.service";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  id:number;
+  id: number;
   auth: boolean;
-  constructor(private tokenStorage:TokenStorageService) { }
+
+  constructor(private tokenStorage: TokenStorageService,
+              private router: Router) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart)
+        this.auth = !(this.tokenStorage.getToken() == 'AuthToken' || this.tokenStorage.getToken() == null);
+    })
+  }
 
   ngOnInit() {
-    this.auth = !(this.tokenStorage.getToken() == 'AuthToken' || this.tokenStorage.getToken() == null);
     this.id = Number(this.tokenStorage.getId());
   }
+
   logout() {
     this.tokenStorage.signOut();
     window.location.reload();

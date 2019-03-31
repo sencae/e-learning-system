@@ -4,6 +4,7 @@ import {CourseService} from "../../services/course/course.service";
 import {ActivatedRoute} from "@angular/router";
 import {Resource} from "../../models/Resource";
 import {FileExchangeService} from "../../services/fileExchange.service";
+import {HttpEventType, HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-course-edit',
@@ -13,6 +14,7 @@ import {FileExchangeService} from "../../services/fileExchange.service";
 export class CourseEditComponent implements OnInit {
 
   course: Course;
+  selectedFiles: FileList
   constructor(private courseService:CourseService,
               private route: ActivatedRoute,
               private fileEx:FileExchangeService) { }
@@ -26,8 +28,12 @@ export class CourseEditComponent implements OnInit {
       course=> this.course=course
     )
   }
+  upload() {
+  }
   deleteResource(resource:Resource){
     this.fileEx.deleteResource(resource.url);
   }
-
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
 }

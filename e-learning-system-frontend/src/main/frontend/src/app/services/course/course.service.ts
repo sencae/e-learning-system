@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Course} from "../../models/Course";
 import {CreateCourse} from "../../models/CreateCourse";
-import {TokenStorageService} from "../auth/token-storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +12,7 @@ private allCoursesUrl = 'api/courses/all';
 private createCourseUrl ='courses/create';
 private getCourseUrl='api/course/';
 private getMyCoursesUrl='api/my';
+private joinToCoursesUrl='';
   constructor(private http: HttpClient) { }
 
   getAllCourses(): Observable<Course[]>{
@@ -26,5 +26,8 @@ private getMyCoursesUrl='api/my';
   }
   getMyCourses():Observable<Course[]>{
     return this.http.get<Course[]>(this.getMyCoursesUrl)
+  }
+  join(id:number){
+    return this.http.post(this.joinToCoursesUrl,id);
   }
 }

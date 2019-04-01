@@ -16,10 +16,9 @@ public class Courses {
     private String title;
     private String description;
     private Long professorId;
-    private Set<CourseResources> resources = new HashSet<>();
-//
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    private Set<CourseType> types = new HashSet<>();
+    //    private Set<CourseResources> resources = new HashSet<>();
+    private Set<TopicsEntity> topicsEntities = new HashSet<>();
+
     public Courses() {
     }
 
@@ -43,30 +42,29 @@ public class Courses {
         this.userById = userById;
     }
 
-
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = CourseResources.class)
-    @JoinTable(name = "resources_of_course",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "resource_id"))
-    public Set<CourseResources> getResources() {
-        return resources;
+    @OneToMany
+    @JoinColumn(name = "course_id")
+    public Set<TopicsEntity> getTopicsEntities() {
+        return topicsEntities;
     }
 
-    public void setResources(Set<CourseResources> resources) {
-        this.resources = resources;
+    public void setTopicsEntities(Set<TopicsEntity> topicsEntities) {
+        this.topicsEntities = topicsEntities;
     }
-//
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "type_of_courses",
-//               joinColumns = @JoinColumn(name = "course_id"),
-//               inverseJoinColumns = @JoinColumn(name = "type_id"))
-//    public Set<CourseType> getTypes() {
-//        return types;
+
+//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = CourseResources.class)
+//    @JoinTable(name = "resources_of_course",
+//            joinColumns = @JoinColumn(name = "course_id"),
+//            inverseJoinColumns = @JoinColumn(name = "resource_id"))
+//    public Set<CourseResources> getResources() {
+//        return resources;
 //    }
 //
-//    public void setTypes(Set<CourseType> types) {
-//        this.types = types;
+//
+//    public void setResources(Set<CourseResources> resources) {
+//        this.resources = resources;
 //    }
+
 
 
     @Id
@@ -111,6 +109,7 @@ public class Courses {
     public void setProfessorId(Long professorId) {
         this.professorId = professorId;
     }
+
 
 
     @Override

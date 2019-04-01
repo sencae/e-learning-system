@@ -3,6 +3,8 @@ package com.e_learning_system.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "User", schema = "public")
@@ -15,7 +17,7 @@ public class User {
     private String lastName;
     private String email;
     private Long reg_id;
-
+    private Set<Courses> coursesSet = new HashSet<Courses>();
 
     private UserInfoEntity userInfo;
 
@@ -110,7 +112,7 @@ public class User {
     }
 
     @ManyToOne
-    @JoinColumn(name = "reg_id", referencedColumnName = "id", nullable = false,  insertable = false, updatable = false)
+    @JoinColumn(name = "reg_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public UserGroups getUserGroupsByRegId() {
         return userGroupsByRegId;
     }
@@ -118,7 +120,6 @@ public class User {
     public void setUserGroupsByRegId(UserGroups userGroupsByRegId) {
         this.userGroupsByRegId = userGroupsByRegId;
     }
-
 
 
     @Override
@@ -149,11 +150,25 @@ public class User {
     }
 
     @OneToOne
-    @JoinColumn(name = "id",referencedColumnName = "user_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "id", referencedColumnName = "user_id", nullable = false, insertable = false, updatable = false)
     public UserInfoEntity getUserInfo() {
         return userInfo;
     }
+
     public void setUserInfo(UserInfoEntity userInfo) {
         this.userInfo = userInfo;
     }
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Courses.class)
+    @JoinTable(name = "users_on_courses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    public Set<Courses> getCoursesSet() {
+        return coursesSet;
+    }
+
+    public void setCoursesSet(Set<Courses> coursesSet) {
+        this.coursesSet = coursesSet;
+    }
+
 }

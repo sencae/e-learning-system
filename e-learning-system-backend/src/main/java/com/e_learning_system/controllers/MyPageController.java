@@ -1,6 +1,6 @@
 package com.e_learning_system.controllers;
 
-import com.e_learning_system.createCourse.service.CoursesService;
+import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.dto.CoursesDto;
 import com.e_learning_system.dto.ModelMapperUtil;
 import com.e_learning_system.entities.Courses;

@@ -1,4 +1,4 @@
-package com.e_learning_system.createCourse.service;
+package com.e_learning_system.services;
 
 import com.e_learning_system.dao.CourseResourcesRepository;
 import com.e_learning_system.dao.CoursesRep;
@@ -35,4 +35,5 @@ public class CoursesService {
         return coursesRep.findAllByProfessorId(professorId);
     }
     public Courses getCourseById(Long id){ return coursesRep.getById(id);}
+
 }

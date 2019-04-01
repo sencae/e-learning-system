@@ -10,6 +10,7 @@ import {Observable} from "rxjs";
 export class UserService {
   private getUserUrl='api/user/';
   private updateUserUrl='/api/edit';
+  private isJoinUrl='/api/check';
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) {
   }
 
@@ -25,6 +26,9 @@ export class UserService {
   }
   updateUser(user:UserInfo){
     return this.http.post(this.updateUserUrl,user)
+  }
+  isJoin(courseId:number): Observable<boolean>{
+    return this.http.post<boolean>(this.isJoinUrl,courseId)
   }
 
 }

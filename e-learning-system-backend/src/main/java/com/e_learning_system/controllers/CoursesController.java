@@ -1,12 +1,13 @@
-package com.e_learning_system.createCourse.controller;
+package com.e_learning_system.controllers;
 
-import com.e_learning_system.createCourse.service.CoursesService;
+import com.e_learning_system.entities.UsersOnCoursesEntity;
+import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.entities.Courses;
 import com.e_learning_system.googleApi.GoogleDriveService;
 import com.e_learning_system.security.service.UserPrinciple;
-import com.e_learning_system.dto.CoursesDto;
-import com.e_learning_system.dto.ModelMapperUtil;
-import org.modelmapper.TypeToken;
+import com.e_learning_system.services.UserOnCoursesService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,22 +15,20 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
 
 @RestController
 @RequestMapping("courses")
 public class CoursesController {
+    private static final Logger logger = LoggerFactory.getLogger(CoursesController.class);
     private final CoursesService coursesService;
     private final GoogleDriveService googleDriveService;
+    private final UserOnCoursesService userOnCoursesService;
     @Autowired
-    public CoursesController(CoursesService coursesService, GoogleDriveService googleDriveService) {
+    public CoursesController(CoursesService coursesService, GoogleDriveService googleDriveService, UserOnCoursesService userOnCoursesService) {
         this.coursesService = coursesService;
         this.googleDriveService = googleDriveService;
+        this.userOnCoursesService = userOnCoursesService;
     }
 
 
@@ -43,6 +42,24 @@ public class CoursesController {
 
         return new ResponseEntity<>(course.getId(),HttpStatus.OK);
     }
+    @PreAuthorize("hasAuthority('student')")
+    @PostMapping("join")
+    public ResponseEntity<Void> joinToCourses(@RequestBody Long courseId){
+        try {
+            UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal();
+
+            UsersOnCoursesEntity usersOnCoursesEntity = new UsersOnCoursesEntity(userPrinciple.getId(),courseId);
+            userOnCoursesService.joinToCourse(usersOnCoursesEntity);        }
+        catch (Exception ex){
+            logger.error("Error. Message - {}",ex.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
     @PostMapping("test")
     public void test(){
 //        File file =new File("C:\\Users\\Admin\\Desktop\\0ZXvMlCy-LY.jpg");

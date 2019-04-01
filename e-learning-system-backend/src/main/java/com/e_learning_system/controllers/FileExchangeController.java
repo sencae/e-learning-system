@@ -1,20 +1,20 @@
 package com.e_learning_system.controllers;
 
-import com.e_learning_system.createCourse.service.CoursesService;
-import com.e_learning_system.dto.UserDto;
+import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.googleApi.GoogleDriveService;
+import com.e_learning_system.services.FileExchangeService;
 import com.e_learning_system.services.registrationService.UserService;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,29 +25,26 @@ public class FileExchangeController extends BaseGetController {
     private final UserInfoService userInfoService;
     private final CoursesService coursesService;
     private final UserService userService;
+    private final FileExchangeService fileExchangeService;
 
     @Autowired
     public FileExchangeController(GoogleDriveService googleDriveService,
                                   UserInfoService userInfoService,
                                   CoursesService coursesService,
-                                  UserService userService) {
+                                  UserService userService, FileExchangeService fileExchangeService) {
         this.googleDriveService = googleDriveService;
         this.userInfoService = userInfoService;
         this.coursesService = coursesService;
         this.userService = userService;
+        this.fileExchangeService = fileExchangeService;
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> singleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> UploadPageImg(@RequestParam("file") MultipartFile file) {
         String message = "";
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        File fileUpload = googleDriveService.multipartToFile(file);
-        com.google.api.services.drive.model.File result = googleDriveService.uploadFile(
-                file.getOriginalFilename(),
-                fileUpload, file.getContentType());
-        fileUpload.delete();
-
+        com.google.api.services.drive.model.File result = fileExchangeService.uploadPageImg(file);
         if (result != null) {
             googleDriveService.deleteFile(
                     googleDriveService.getDriveService(),
@@ -57,7 +54,7 @@ public class FileExchangeController extends BaseGetController {
                             ).getUserInfo().getAvatarUrl()
                     )
             );
-            if (userInfoService.setPageImgUrl(result.getWebContentLink(),userPrinciple.getId()))
+            if (userInfoService.setPageImgUrl(result.getWebContentLink(), userPrinciple.getId()))
                 message = "You successfully uploaded " + file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.OK).body(message);
         } else {
@@ -88,12 +85,21 @@ public class FileExchangeController extends BaseGetController {
 
     @PostMapping("/delete/courseres")
     public ResponseEntity<String> deleteCourseResource(@RequestBody String url) {
+
         if (
                 googleDriveService.deleteFile(googleDriveService.getDriveService(), userInfoService.getFileIdFromUrl(url)) &&
                         coursesService.deleteResource(url))
             return new ResponseEntity<>(HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+    @PreAuthorize("hasAuthority('professor')")
+    @PostMapping("/uploadres")
+    public ResponseEntity<String> uploadResource(@RequestParam("files") MultipartFile[] files,@RequestParam("course")Long id){
+        Integer numberOfFiles = fileExchangeService.uploadResources(files,id);
+        if(numberOfFiles==files.length-1)
+        return ResponseEntity.status(HttpStatus.OK).body("You successfully uploaded "+numberOfFiles+"files!");
+        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL to upload files!");
     }
 }
 

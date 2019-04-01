@@ -1,27 +1,35 @@
 <div class="wrapper">
-  <div class="content" >
+  <div class="content">
     <div *ngIf="course">
       <h2>{{course.title}}</h2>
       <p>{{course.description}}</p>
-      <a routerLink="/user/{{course.professorId}}">{{professor}}</a>
-      <div class="resources">
-        <button class="button btn-info" *ngIf='showFile' (click)='showFiles(false)'>Hide Resources</button>
-        <button class="button btn-info" *ngIf='!showFile' (click)='showFiles(true)'>Show Resources</button>
-        <div [hidden]="!showFile">
-          <div class="panel panel-primary">
-            <div class="panel-heading">List of Files</div>
-            <div *ngFor="let file of course.resources">
-              <div class="panel-body">
-                <a href="{{file.url}}"> {{file.title}}</a>
-              </div>
+      <label for="authorLink">Author</label>
+      <a id="authorLink" routerLink="/user/{{course.professorId}}">{{professor}}</a>
+      <div *ngIf="flag">
+        <div class="resources">
+          <button class="button btn-info" *ngIf='showFile' (click)='showFiles(false)'>Hide Resources</button>
+          <button class="button btn-info" *ngIf='!showFile' (click)='showFiles(true)'>Show Resources</button>
+          <div [hidden]="!showFile">
+            <div class="panel panel-primary">
+              <div class="panel-heading">List of Files</div>
+              <ul *ngFor="let file of course.topics">
+                <li>{{file.title}}</li>
+                <ul>
+                  <li *ngFor="let res of file.courseResources">
+                    <a href="{{res.url}}"> {{res.title}}</a>
+                  </li>
+                </ul>
+              </ul>
             </div>
           </div>
         </div>
       </div>
+      <div *ngIf="!flag">
+      <button class="btn-primary" (click)="joinTo()">Join</button>
+      </div>
     </div>
-    <div *ngIf="isAuthor()">
-      <a class="siteLink" routerLink="edit">Edit Course</a>
-    </div>
-
+  </div>
+  <div *ngIf="isAuthor()">
+    <a class="siteLink" routerLink="edit">Edit Course</a>
   </div>
 </div>

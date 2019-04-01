@@ -1,21 +1,42 @@
 <div class="wrapper">
   <div class="content">
 
-      <h2>{{course.title}}</h2>
-      <p>{{course.description}}</p>
-      <div class="resources">
-          <div class="panel panel-primary">
-            <div class="panel-heading">List of Files</div>
-            <div *ngFor="let file of course.resources">
-              <div class="panel-body">
-                <a href="{{file.url}}"> {{file.title}}</a>
-                <button class="delete" title="delete resource"
-                        (click)="deleteResource(file)">x</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-</div>
+    <h2>{{course.title}}</h2>
+    <p>{{course.description}}</p>
+    <input id="cin" name="cin"
+           type="file" (change)="fileChangeEvent($event)"
+           placeholder="Upload a file..." multiple
+           #attach
+           style="display:none;"
+    />
+    <button type="button" class="btn btn-success btn-s" (click)="upload()">
+      <i class="glyphicon glyphicon-open-file"></i>&nbsp;Upload
+    </button>
 
+    <div class="resources">
+        <ul *ngFor="let file of course.topics">
+          <li>{{file.title}}</li>
+          <ul >
+            <li *ngFor="let res of file.courseResources">
+                <a href="{{res.url}}"> {{res.title}}</a>
+                <button class="delete" title="delete resource"
+                        (click)="deleteResource(res)">x
+                </button>
+            </li>
+            <a (click)="attach.click()" class="btn-link" style="cursor: pointer"> attach files</a>
+          </ul>
+        </ul>
+      <a (click)="onClickOpenForm()" class="btn-link" style="cursor: pointer">Add topic</a>
+      <div [hidden]="!openForm" >
+        <input type="text"
+              placeholder="Topic title"
+               class="form-control"
+               [formControl]="topicTitle"
+              />
+        <button type="submit" class="btn-primary" (click)="saveTopic()">
+          Save
+        </button>
+      </div>
+      </div>
+    </div>
+  </div>

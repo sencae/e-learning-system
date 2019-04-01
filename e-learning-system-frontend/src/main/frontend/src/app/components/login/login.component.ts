@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
         this.tokenStorage.saveAuthorities(data.authorities);
         this.tokenStorage.saveId(data.id);
         this.isLoggedIn = true;
-        this.alertService.success('Registration successful', true);
         this.router.navigate(['/my']);
       },
       error => {

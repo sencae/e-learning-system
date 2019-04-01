@@ -1,8 +1,8 @@
-import {Resource} from './Resource'
+import {Topic} from "./Topic";
 export class Course {
   id: number;
   title: string;
   description: string;
   professorId: number;
-  resources: Resource[];
+  topics: Topic[];
 }

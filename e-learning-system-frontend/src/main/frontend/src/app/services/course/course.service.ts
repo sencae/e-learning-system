@@ -12,7 +12,7 @@ private allCoursesUrl = 'api/courses/all';
 private createCourseUrl ='courses/create';
 private getCourseUrl='api/course/';
 private getMyCoursesUrl='api/my';
-private joinToCoursesUrl='';
+private joinToCoursesUrl='courses/join';
   constructor(private http: HttpClient) { }
 
   getAllCourses(): Observable<Course[]>{

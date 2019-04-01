@@ -19,6 +19,6 @@ public class UserOnCoursesService {
     public boolean checkUser(UsersOnCoursesEntity usersOnCoursesEntity){
         return usersOnCoursesRepository.getByCourseIdAndUserId(
                 usersOnCoursesEntity.getCourseId(),
-                usersOnCoursesEntity.getUserId()) > 0;
+                usersOnCoursesEntity.getUserId()).size() > 0;
     }
 }

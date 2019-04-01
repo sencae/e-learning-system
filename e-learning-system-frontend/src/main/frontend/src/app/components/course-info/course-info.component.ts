@@ -16,6 +16,7 @@ export class CourseInfoComponent implements OnInit {
   professor: string;
   showFile = false;
   flag = false;
+  author = false;
   constructor(private courseService: CourseService,
               private route: ActivatedRoute,
               private tokenStorage: TokenStorageService,
@@ -35,7 +36,14 @@ export class CourseInfoComponent implements OnInit {
         this.userService.getUser(course.professorId)
           .subscribe(name => this.professor = name.lastName + ' ' + name.firstName);
         this.userService.isJoin(id).subscribe(
-          data=>this.flag=data,error1 => this.flag=false)
+          data=>{this.flag=data;
+          console.log(this.flag)}
+                ,error1 => {this.flag=false;
+                console.log(error1);
+          console.log(this.flag)});
+        this.userService.isAuthor(id).subscribe(
+          data=>{this.author=data},error1 => {this.author=false;}
+        )
       }
     );
   }
@@ -44,12 +52,6 @@ export class CourseInfoComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this.courseService.join(id).subscribe(success=>window.location.reload(),
         error=>this.alertService.error(error.value))
-  }
-  isAuthor(): boolean {
-    if(this.tokenStorage.getToken() != null &&
-      this.course.professorId == Number(this.tokenStorage.getId()))
-      this.flag = true;
-    return this.flag;
   }
 
   showFiles(enable: boolean) {

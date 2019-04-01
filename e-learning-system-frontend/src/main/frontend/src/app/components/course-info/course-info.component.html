@@ -3,9 +3,9 @@
     <div *ngIf="course">
       <h2>{{course.title}}</h2>
       <p>{{course.description}}</p>
-      <label for="authorLink">Author</label>
+      <label for="authorLink">Author: </label>
       <a id="authorLink" routerLink="/user/{{course.professorId}}">{{professor}}</a>
-      <div *ngIf="flag">
+      <div *ngIf="flag||author">
         <div class="resources">
           <button class="button btn-info" *ngIf='showFile' (click)='showFiles(false)'>Hide Resources</button>
           <button class="button btn-info" *ngIf='!showFile' (click)='showFiles(true)'>Show Resources</button>
@@ -24,12 +24,12 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!flag">
+      <div *ngIf="!flag && !author">
       <button class="btn-primary" (click)="joinTo()">Join</button>
       </div>
     </div>
   </div>
-  <div *ngIf="isAuthor()">
+  <div *ngIf="author">
     <a class="siteLink" routerLink="edit">Edit Course</a>
   </div>
 </div>

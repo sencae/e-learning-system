@@ -6,7 +6,7 @@ import com.e_learning_system.entities.ConfirmationToken;
 import com.e_learning_system.entities.User;
 import com.e_learning_system.services.registrationService.ConfirmationTokenService;
 import com.e_learning_system.services.registrationService.EmailSenderService;
-import com.e_learning_system.services.registrationService.UserGroupsService;
+import com.e_learning_system.services.UserGroupsService;
 import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

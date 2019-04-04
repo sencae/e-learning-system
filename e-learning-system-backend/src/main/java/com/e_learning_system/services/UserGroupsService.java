@@ -1,9 +1,11 @@
-package com.e_learning_system.services.registrationService;
+package com.e_learning_system.services;
 
 import com.e_learning_system.dao.UserGroupsRepository;
 import com.e_learning_system.entities.UserGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserGroupsService {
@@ -19,5 +21,8 @@ public class UserGroupsService {
     }
     public UserGroups getUserGroupsByGroupName(String name){
         return userGroupsRepository.getUserGroupsByGroupName(name);
+    }
+    public List<UserGroups> getAllCourses() {
+        return userGroupsRepository.findAll();
     }
 }

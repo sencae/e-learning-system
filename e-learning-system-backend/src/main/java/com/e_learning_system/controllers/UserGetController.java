@@ -23,6 +23,7 @@ public class UserGetController extends BaseGetController {
         this.modelMapperUtil = modelMapperUtil;
     }
 
+
     @GetMapping("user/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") long id) {
         User user = userService.getUserById(id);

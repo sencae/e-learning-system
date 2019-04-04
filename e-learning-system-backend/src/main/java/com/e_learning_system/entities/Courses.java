@@ -3,7 +3,9 @@ package com.e_learning_system.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,16 +18,12 @@ public class Courses {
     private String title;
     private String description;
     private Long professorId;
+    private Timestamp startDate;
+    private Timestamp endDate;
     //    private Set<CourseResources> resources = new HashSet<>();
-    private Set<TopicsEntity> topicsEntities = new HashSet<>();
+    private List<TopicsEntity> topicsEntities;
 
     public Courses() {
-    }
-
-    public Courses(String title, String description, Long professorId) {
-        this.title = title;
-        this.description = description;
-        this.professorId = professorId;
     }
 
     @JsonIgnore
@@ -44,11 +42,11 @@ public class Courses {
 
     @OneToMany
     @JoinColumn(name = "course_id")
-    public Set<TopicsEntity> getTopicsEntities() {
+    public List<TopicsEntity> getTopicsEntities() {
         return topicsEntities;
     }
 
-    public void setTopicsEntities(Set<TopicsEntity> topicsEntities) {
+    public void setTopicsEntities(List<TopicsEntity> topicsEntities) {
         this.topicsEntities = topicsEntities;
     }
 
@@ -64,7 +62,6 @@ public class Courses {
 //    public void setResources(Set<CourseResources> resources) {
 //        this.resources = resources;
 //    }
-
 
 
     @Id
@@ -110,6 +107,25 @@ public class Courses {
         this.professorId = professorId;
     }
 
+    @Basic
+    @Column(name = "start_date", nullable = false)
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    @Basic
+    @Column(name = "end_date", nullable = false)
+    public Timestamp getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
 
 
     @Override
@@ -120,11 +136,15 @@ public class Courses {
         return Objects.equals(id, courses.id) &&
                 Objects.equals(title, courses.title) &&
                 Objects.equals(description, courses.description) &&
-                Objects.equals(professorId, courses.professorId);
+                Objects.equals(professorId, courses.professorId) &&
+                Objects.equals(startDate, courses.startDate) &&
+                Objects.equals(endDate, courses.endDate) &&
+                Objects.equals(topicsEntities, courses.topicsEntities) &&
+                Objects.equals(userById, courses.userById);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, professorId);
+        return Objects.hash(id, title, description, professorId, startDate, endDate, topicsEntities, userById);
     }
 }

@@ -7,4 +7,5 @@ export class UserInfo {
   university: string;
   briefInformation:string;
   password:string;
+  file: File;
 }

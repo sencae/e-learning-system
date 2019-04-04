@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
 import {UserInfo} from "../../models/UserInfo";
 import {TokenStorageService} from "../auth/token-storage.service";
 import {Observable} from "rxjs";
@@ -9,9 +9,8 @@ import {Observable} from "rxjs";
 })
 export class UserService {
   private getUserUrl='api/user/';
-  private updateUserUrl='/api/edit';
-  private isJoinUrl='api/check';
-  private isAuthorUrl='api/isauthor';
+  private updateUserUrl='api/edit';
+  private uploadImg='api/img';
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) {
   }
 
@@ -25,13 +24,18 @@ export class UserService {
         return !(authority === auth);
       });
   }
+  upload(file:File):Observable<HttpEvent<{}>>{
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    const req = new HttpRequest('POST', this.uploadImg, formData, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+    return this.http.request(req);
+  }
   updateUser(user:UserInfo){
+    this.upload(user.file).subscribe(event=>console.log(event));
     return this.http.post(this.updateUserUrl,user)
   }
-  isJoin(courseId:number): Observable<boolean>{
-    return this.http.post<boolean>(this.isJoinUrl,courseId)
-  }
-  isAuthor(courseId:number): Observable<boolean>{
-    return this.http.post<boolean>(this.isAuthorUrl,courseId)
-  }
+
 }

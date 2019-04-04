@@ -1,6 +1,7 @@
 import {Resource} from "./Resource";
 
 export class Topic {
-  title:string;
+  id: number;
+  title: string;
   courseResources: Resource[];
 }

@@ -44,36 +44,29 @@ public class CoursesGetController extends BaseGetController {
     }
 
     @GetMapping("/course/{id}")
-    public ResponseEntity<CoursesDto> getCourseById(@PathVariable("id") long id) {
-        Courses course = coursesService.getCourseById(id);
-        CoursesDto coursesDto = modelMapperUtil.map(course, CoursesDto.class);
-        return new ResponseEntity<>(coursesDto, HttpStatus.OK);
-    }
-
-    @PostMapping("check")
-    public ResponseEntity<Boolean> checkUser(@RequestBody Long courseId) {
-        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        UsersOnCoursesEntity usersOnCoursesEntity = new UsersOnCoursesEntity(userPrinciple.getId(), courseId);
+    public ResponseEntity<CoursesDto> getCourseById(@PathVariable("id") long courseId) {
+        if (courseId < 0)
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         try {
-            boolean response = userOnCoursesService.checkUser(usersOnCoursesEntity);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            Courses course = coursesService.getCourseById(courseId);
+            CoursesDto coursesDto = modelMapperUtil.map(course, CoursesDto.class);
+            coursesDto.setStarted(coursesDto.getStartDate().getTime() < System.currentTimeMillis());
+            if (SecurityContextHolder.getContext()
+                    .getAuthentication()
+                    .getPrincipal() == "anonymousUser")
+                return new ResponseEntity<>(coursesDto, HttpStatus.OK);
+
+            UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal();
+            coursesDto.setJoin(userOnCoursesService.checkUser(userPrinciple.getId(), courseId));
+            coursesDto.setAuthor(userPrinciple.getId().equals(course.getProfessorId()));
+
+            return new ResponseEntity<>(coursesDto, HttpStatus.OK);
         } catch (Exception ex) {
             logger.error("Error. Message - {}", ex.getMessage());
-            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("isauthor")
-    public ResponseEntity<Boolean> isAuthor(@RequestBody Long courseId) {
-        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        try {
-            boolean response = userPrinciple.getId().equals(coursesService.getCourseById(courseId).getProfessorId());
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception ex) {
-            logger.error("Error. Message - {}", ex.getMessage());
-            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+
 }

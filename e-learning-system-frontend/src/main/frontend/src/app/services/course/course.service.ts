@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Course} from "../../models/Course";
+import {CourseInfo} from "../../models/CourseInfo";
 import {CreateCourse} from "../../models/CreateCourse";
+import {Course} from "../../models/Course";
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ private joinToCoursesUrl='courses/join';
   createCourse(course:CreateCourse):Observable<number>{
     return this.http.post<number>(this.createCourseUrl,course)
   }
-  getCourse(id:number): Observable<Course>{
-    return this.http.get<Course>(this.getCourseUrl+id)
+  getCourse(id:number): Observable<CourseInfo>{
+    return this.http.get<CourseInfo>(this.getCourseUrl+id)
   }
   getMyCourses():Observable<Course[]>{
     return this.http.get<Course[]>(this.getMyCoursesUrl)

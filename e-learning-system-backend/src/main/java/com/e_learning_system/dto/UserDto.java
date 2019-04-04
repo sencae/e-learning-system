@@ -1,5 +1,7 @@
 package com.e_learning_system.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class UserDto {
     private String username;
     private String firstName;
@@ -8,6 +10,16 @@ public class UserDto {
     private String university;
     private String url;
     private String briefInformation;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    private MultipartFile file;
 
     public String getUrl() {
         return url;

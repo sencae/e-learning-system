@@ -39,6 +39,31 @@
                         rows=5></textarea>
             </div>
           </div>
+          <div class="form-group input-group">
+            <p>Select course duration</p>
+            <label for="date">Select start date:</label>
+            <input type="datetime-local" formControlName="startDate"
+                   class="form-control"
+                   id="date"
+                   [ngClass]="{ 'is-invalid': f.startDate.errors && (submitted ||f.startDate.touched) }">
+            <div *ngIf=" f.title.errors && (submitted ||f.title.touched)" class="invalid-feedback">
+              <div *ngIf="f.title.errors.required">
+                Start date is required
+              </div>
+            </div>
+          </div>
+            <div class="form-group input-group">
+            <label for="endDate">Select end date:</label>
+            <input type="datetime-local" formControlName="endDate"
+                   class="form-control"
+                   id="endDate"
+                   [ngClass]="{ 'is-invalid': f.endDate.errors && (submitted ||f.endDate.touched) }">
+            <div *ngIf=" f.title.errors && (submitted ||f.title.touched)" class="invalid-feedback">
+              <div *ngIf="f.title.errors.required">
+                End date is required
+              </div>
+            </div>
+          </div>
           <div class="form-group" style="margin-top: 20px">
             <button type="submit" class="btn btn-primary"> Create</button>
             <button class="btn btn-secondary" routerLink="">Cancel</button>

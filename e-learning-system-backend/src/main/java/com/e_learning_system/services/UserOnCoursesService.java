@@ -13,12 +13,12 @@ public class UserOnCoursesService {
     public UserOnCoursesService(UsersOnCoursesRepository usersOnCoursesRepository) {
         this.usersOnCoursesRepository = usersOnCoursesRepository;
     }
-    public void joinToCourse(UsersOnCoursesEntity usersOnCoursesEntity){
-        usersOnCoursesRepository.save(usersOnCoursesEntity);
+    public void joinToCourse(Long userId, Long courseId){
+        usersOnCoursesRepository.save(new UsersOnCoursesEntity(userId,courseId));
     }
-    public boolean checkUser(UsersOnCoursesEntity usersOnCoursesEntity){
+    public boolean checkUser(Long userId, Long courseId){
         return usersOnCoursesRepository.getByCourseIdAndUserId(
-                usersOnCoursesEntity.getCourseId(),
-                usersOnCoursesEntity.getUserId()).size() > 0;
+                userId,
+                courseId).size() > 0;
     }
 }

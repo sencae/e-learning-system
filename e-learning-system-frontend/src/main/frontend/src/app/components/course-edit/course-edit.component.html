@@ -3,27 +3,21 @@
 
     <h2>{{course.title}}</h2>
     <p>{{course.description}}</p>
-    <input id="cin" name="cin"
-           type="file" (change)="fileChangeEvent($event)"
-           placeholder="Upload a file..." multiple
-           #attach
-           style="display:none;"
-    />
-    <button type="button" class="btn btn-success btn-s" (click)="upload()">
-      <i class="glyphicon glyphicon-open-file"></i>&nbsp;Upload
-    </button>
 
     <div class="resources">
         <ul *ngFor="let file of course.topics">
           <li>{{file.title}}</li>
-          <ul >
+          <ul>
             <li *ngFor="let res of file.courseResources">
                 <a href="{{res.url}}"> {{res.title}}</a>
-                <button class="delete" title="delete resource"
-                        (click)="deleteResource(res)">x
-                </button>
+              <button class="delete" title="delete resource"
+                      (click)="deleteResource(res)">x
+              </button>
             </li>
-            <a (click)="attach.click()" class="btn-link" style="cursor: pointer"> attach files</a>
+            <button type="button" (click)="info(file.id)"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              attach files
+            </button>
+
           </ul>
         </ul>
       <a (click)="onClickOpenForm()" class="btn-link" style="cursor: pointer">Add topic</a>
@@ -39,4 +33,5 @@
       </div>
       </div>
     </div>
+  <app-download-resource [topic]="topicTtl"></app-download-resource>
   </div>

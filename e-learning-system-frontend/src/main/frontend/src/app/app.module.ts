@@ -23,6 +23,9 @@ import { CourseEditComponent } from './components/course-edit/course-edit.compon
 import {AlertService} from "./services/alert.service";
 import { AlertComponent } from './components/alert/alert.component';
 import { ProfessorPageComponent } from './components/professor-page/professor-page.component';
+import { StudentPageComponent } from './components/student-page/student-page.component';
+import { TestComponent } from './test/test.component';
+import { DownloadResourceComponent } from './components/download-resource/download-resource.component';
 
 @NgModule({
   declarations: [
@@ -40,14 +43,17 @@ import { ProfessorPageComponent } from './components/professor-page/professor-pa
     UserEditComponent,
     CourseEditComponent,
     AlertComponent,
-    ProfessorPageComponent
+    ProfessorPageComponent,
+    StudentPageComponent,
+    TestComponent,
+    DownloadResourceComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    AppRoutingModule
   ],
   providers: [httpInterceptorProviders,
   AuthorityGuard,

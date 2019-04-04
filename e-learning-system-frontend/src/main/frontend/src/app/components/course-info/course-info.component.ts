@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Course} from "../../models/Course";
 import {CourseService} from "../../services/course/course.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {TokenStorageService} from "../../services/auth/token-storage.service";
 import {UserService} from "../../services/user/user.service";
 import {AlertService} from "../../services/alert.service";
+import {CourseInfo} from "../../models/CourseInfo";
 
 @Component({
   selector: 'app-course-info',
@@ -12,16 +13,16 @@ import {AlertService} from "../../services/alert.service";
   styleUrls: ['./course-info.component.css']
 })
 export class CourseInfoComponent implements OnInit {
-  course: Course;
+  course: CourseInfo;
   professor: string;
   showFile = false;
-  flag = false;
-  author = false;
+
   constructor(private courseService: CourseService,
               private route: ActivatedRoute,
               private tokenStorage: TokenStorageService,
               private userService: UserService,
-              private alertService:AlertService) {
+              private alertService: AlertService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -35,23 +36,16 @@ export class CourseInfoComponent implements OnInit {
         this.course = course;
         this.userService.getUser(course.professorId)
           .subscribe(name => this.professor = name.lastName + ' ' + name.firstName);
-        this.userService.isJoin(id).subscribe(
-          data=>{this.flag=data;
-          console.log(this.flag)}
-                ,error1 => {this.flag=false;
-                console.log(error1);
-          console.log(this.flag)});
-        this.userService.isAuthor(id).subscribe(
-          data=>{this.author=data},error1 => {this.author=false;}
-        )
-      }
+
+      },
+      error => this.router.navigate(['/404'])
     );
   }
-  joinTo()
-  {
+
+  joinTo() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.courseService.join(id).subscribe(success=>window.location.reload(),
-        error=>this.alertService.error(error.value))
+    this.courseService.join(id).subscribe(success => window.location.reload(),
+      error => this.alertService.error(error.value))
   }
 
   showFiles(enable: boolean) {

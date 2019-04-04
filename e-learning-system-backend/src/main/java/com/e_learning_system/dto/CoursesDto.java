@@ -1,9 +1,9 @@
 package com.e_learning_system.dto;
 
 
-import com.e_learning_system.entities.CourseResources;
 import com.e_learning_system.entities.TopicsEntity;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 public class CoursesDto {
@@ -13,6 +13,11 @@ public class CoursesDto {
     private String title;
     private String description;
     private Long professorId;
+    private boolean isJoin;
+    private boolean isAuthor;
+    private boolean isStarted;
+    private Timestamp startDate;
+    private Timestamp endDate;
     //private Set<CourseResources> resources;
     private Set<TopicsEntity> topics;
 
@@ -55,6 +60,47 @@ public class CoursesDto {
     public void setTopics(Set<TopicsEntity> topics) {
         this.topics = topics;
     }
+
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+    public boolean isJoin() {
+        return isJoin;
+    }
+
+    public void setJoin(boolean join) {
+        isJoin = join;
+    }
+
+    public boolean isAuthor() {
+        return isAuthor;
+    }
+
+    public void setAuthor(boolean author) {
+        isAuthor = author;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean started) {
+        isStarted = started;
+    }
+
+
 
 //    public Set<CourseResources> getResources() {
 //        return resources;

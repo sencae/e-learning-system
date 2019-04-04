@@ -1,12 +1,13 @@
 package com.e_learning_system.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class UpdateUserDto {
     private String username;
     private String firstName;
     private String lastName;
     private String email;
     private String university;
-    private String url;
     private String briefInformation;
     private String password;
 
@@ -17,14 +18,6 @@ public class UpdateUserDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getBriefInformation() {
@@ -74,4 +67,7 @@ public class UpdateUserDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+
 }

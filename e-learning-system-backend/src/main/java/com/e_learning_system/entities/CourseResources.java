@@ -14,6 +14,7 @@ public class CourseResources {
     private String url;
     private String title;
 
+    private Long topicId;
     @Id
     @SequenceGenerator(name = "seqRes", sequenceName = "course_resources_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqRes")
@@ -47,6 +48,16 @@ public class CourseResources {
         this.title = title;
     }
 
+
+    @Basic
+    @Column(name = "topic_id",nullable = false)
+    public Long getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(Long topicId) {
+        this.topicId = topicId;
+    }
 
     @Override
     public boolean equals(Object o) {

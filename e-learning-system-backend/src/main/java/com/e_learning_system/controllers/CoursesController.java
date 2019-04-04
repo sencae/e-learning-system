@@ -45,19 +45,18 @@ public class CoursesController {
     @PreAuthorize("hasAuthority('student')")
     @PostMapping("join")
     public ResponseEntity<Void> joinToCourses(@RequestBody Long courseId){
+        if(coursesService.getCourseById(courseId).getStartDate().getTime()>System.currentTimeMillis())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
             UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
                     .getAuthentication().getPrincipal();
-
-            UsersOnCoursesEntity usersOnCoursesEntity = new UsersOnCoursesEntity(userPrinciple.getId(),courseId);
-            userOnCoursesService.joinToCourse(usersOnCoursesEntity);        }
+            userOnCoursesService.joinToCourse(userPrinciple.getId(),courseId);        }
         catch (Exception ex){
             logger.error("Error. Message - {}",ex.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 
     @PostMapping("test")

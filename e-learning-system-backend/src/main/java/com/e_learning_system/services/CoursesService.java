@@ -34,6 +34,7 @@ public class CoursesService {
     public List<Courses>getCoursesByProfessorId(Long professorId){
         return coursesRep.findAllByProfessorId(professorId);
     }
-    public Courses getCourseById(Long id){ return coursesRep.getById(id);}
+    public Courses getCourseById(Long id){
+        return coursesRep.getById(id);}
 
 }

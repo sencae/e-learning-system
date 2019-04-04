@@ -1,5 +1,6 @@
 import {Topic} from "./Topic";
-export class Course {
+
+export class CourseInfo {
   id: number;
   title: string;
   description: string;
@@ -7,4 +8,7 @@ export class Course {
   startDate: Date;
   endDate: Date;
   topics: Topic[];
+  author: boolean;
+  started: boolean;
+  join: boolean;
 }

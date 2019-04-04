@@ -3,8 +3,7 @@ package com.e_learning_system.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "User", schema = "public")
@@ -17,7 +16,8 @@ public class User {
     private String lastName;
     private String email;
     private Long reg_id;
-    private Set<Courses> coursesSet = new HashSet<Courses>();
+
+    private List<Courses> coursesList;
 
     private UserInfoEntity userInfo;
 
@@ -163,12 +163,12 @@ public class User {
     @JoinTable(name = "users_on_courses",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    public Set<Courses> getCoursesSet() {
-        return coursesSet;
+    public List<Courses> getCoursesList() {
+        return coursesList;
     }
 
-    public void setCoursesSet(Set<Courses> coursesSet) {
-        this.coursesSet = coursesSet;
+    public void setCoursesList(List<Courses> coursesSet) {
+        this.coursesList = coursesSet;
     }
 
 }

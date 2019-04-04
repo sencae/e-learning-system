@@ -14,14 +14,12 @@ import java.io.File;
 public class FileExchangeService {
     private final GoogleDriveService googleDriveService;
     private final ResourcesService resourcesService;
-    private final ResourcesOfCourseService resourcesOfCourseService;
 
     private final DetachObject detachObject;
     @Autowired
-    public FileExchangeService(GoogleDriveService googleDriveService, ResourcesService resourcesService, ResourcesOfCourseService resourcesOfCourseService, DetachObject detachObject) {
+    public FileExchangeService(GoogleDriveService googleDriveService, ResourcesService resourcesService, DetachObject detachObject) {
         this.googleDriveService = googleDriveService;
         this.resourcesService = resourcesService;
-        this.resourcesOfCourseService = resourcesOfCourseService;
         this.detachObject = detachObject;
     }
 
@@ -32,26 +30,20 @@ public class FileExchangeService {
                 fileUpload, file.getContentType());
     }
 
-    public Integer uploadResources(MultipartFile[] files, Long courseId) {
+    public Integer uploadResources(MultipartFile[] files, Long topicId) {
         Integer fileUploadCounter = 0;
         CourseResources courseResources = new CourseResources();
-        ResourcesOfCourseEntity resourcesOfCourseEntity = new ResourcesOfCourseEntity();
         for (MultipartFile file : files) {
             detachObject.DetachCourseResources(courseResources);
-            detachObject.DetachResourcesOfCourse(resourcesOfCourseEntity);
             courseResources.setId(null);
-            resourcesOfCourseEntity.setId(null);
             File fileUpload = googleDriveService.multipartToFile(file);
             com.google.api.services.drive.model.File res = googleDriveService.uploadFile(
                     file.getOriginalFilename(),
                     fileUpload, file.getContentType());
             courseResources.setTitle(file.getOriginalFilename());
             courseResources.setUrl(res.getWebContentLink());
+            courseResources.setTopicId(topicId);
             courseResources = resourcesService.saveResource(courseResources);
-            resourcesOfCourseEntity.setCourseId(courseId);
-            resourcesOfCourseEntity.setResourceId(courseResources.getId());
-
-            resourcesOfCourseService.save(resourcesOfCourseEntity);
             fileUploadCounter++;
             if(!fileUpload.delete()) {
                 break;

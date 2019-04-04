@@ -3,6 +3,26 @@
 
       <form [formGroup]="userEditForm" (ngSubmit)="onSubmit()">
 
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <div *ngIf="f.url.value!=null; else standartImg">
+            <img align="center" src="{{f.url}}" class="img-circle">
+          </div>
+          <ng-template #standartImg>
+            <img align="center" src="../../../assets/img/noavatar.png" class="img-circle">
+          </ng-template>
+          <p>change photo:</p>
+
+          <input style="display: none"
+                 type="file"
+                 (change)="selectFile($event)"
+                 #fileInput>
+          <button type="button" (click)="fileInput.click()">Choose</button>
+          <div *ngIf="f.url.value !== null">
+            <button type="button" class="btn btn-secondary" (click)="deleteFile()">Delete</button>
+          </div>
+          <img [src]="url" height="200" *ngIf="show"> <br/>
+        </div>
+
         <div class="form-group input-group">
           <input type="text" formControlName="username"
                  class="form-control"
@@ -20,7 +40,6 @@
                  id="lastName"
                  placeholder="Last name"/>
         </div>
-        <!-- form-group// -->
         <div class="form-group input-group">
           <input type="text" formControlName="email" class="form-control"
                  id="email"
@@ -34,7 +53,7 @@
               The email is not valid
             </div>
           </div>
-        </div><!-- form-group// -->
+        </div>
         <div class="form-group input-group">
           <input type="password" formControlName="password" class="form-control"
                  id="password"
@@ -45,39 +64,23 @@
               Password must be at least 8 characters, one number and one uppercase letter
             </div>
           </div>
-        </div> <!-- form-group// -->
-        <div class="col-lg-4 col-md-4 col-sm-12">
-          <div *ngIf="f.url.value!=null; else standartImg">
-            <img align="center" src="{{f.url}}" class="img-circle">
-          </div>
-          <ng-template #standartImg>
-            <img align="center" src="../../../assets/img/noavatar.png" class="img-circle">
-          </ng-template>
-          <p>change photo:</p>
-          <div *ngIf="currentFileUpload" class="progress">
-            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
-                 aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-              {{progress.percentage}}%</div>
-          </div>
-
-            <input style="display: none"
-                   type="file"
-                   (change)="selectFile($event)"
-                    #fileInput>
-         <button type="button" (click)="fileInput.click()">Choose</button>
-          <img [src]="url" height="200"> <br/>
-          <div *ngIf="f.url.value !== null">
-            <button type="button" class="btn btn-secondary" (click)="deleteFile()">Delete</button>
-          </div>
         </div>
+        <div class="form-group input-group">
+          <input type="text" formControlName="university" class="form-control"
+                 id="university"
+                 placeholder="University"/>
+        </div>
+        <div class="form-group input-group">
+          <input type="text" formControlName="briefInformation" class="form-control"
+                 id="briefInformation"
+                 placeholder="Brief information"/>
+        </div>
+
+
         <div class="form-group" style="margin-top: 20px">
           <button type="submit" class="btn btn-primary"> Update </button>
           <button class="btn btn-secondary" routerLink="">Cancel</button>
-        </div> <!-- form-group// -->
+        </div>
       </form>
-
-
-
   </div>
-
 </div>

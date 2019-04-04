@@ -1,7 +1,7 @@
-import {Component,  OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Course} from "../../models/Course";
 import {CourseService} from "../../services/course/course.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Resource} from "../../models/Resource";
 import {FileExchangeService} from "../../services/fileExchange.service";
 import {TopicService} from "../../services/course/topic.service";
@@ -14,17 +14,18 @@ import {FormControl} from "@angular/forms";
   styleUrls: ['./course-edit.component.css']
 })
 export class CourseEditComponent implements OnInit {
-  filesToUpload: Array<File> = [];
   course: Course;
   selectedFiles: FileList;
   openForm = false;
+  topicTtl: number;
   private createTopic: CreateTopic;
   topicTitle = new FormControl('');
 
   constructor(private courseService: CourseService,
               private route: ActivatedRoute,
               private fileEx: FileExchangeService,
-              private topicService: TopicService) {
+              private topicService: TopicService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -36,13 +37,14 @@ export class CourseEditComponent implements OnInit {
     this.courseService.getCourse(id).subscribe(
       course => {
         this.course = course;
-        console.log(this.course);
+        if(course.author == false)
+          this.router.navigate(['404']);
       }
     )
   }
 
-  fileChangeEvent(fileInput: any) {
-    this.filesToUpload = <Array<File>>fileInput.target.files;
+  info(title:number) {
+    this.topicTtl = title;
   }
 
   onClickOpenForm() {
@@ -54,22 +56,12 @@ export class CourseEditComponent implements OnInit {
     this.createTopic = new CreateTopic(
       this.topicTitle.value,
       +this.route.snapshot.paramMap.get('id'));
-    this.topicService.saveTopic(this.createTopic).subscribe(data =>{
-    this.course.topics.push(data);
-    },error =>console.log(error)
+    this.topicService.saveTopic(this.createTopic).subscribe(data => {
+        this.course.topics.push(data);
+      }, error => console.log(error)
     )
   }
 
-  upload() {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.fileEx.uploadResourceFiles(this.filesToUpload, id).subscribe(
-      data => {
-        console.log(data);
-        window.location.reload();
-      },
-      error => console.log(error)
-    );
-  }
 
   deleteResource(resource: Resource) {
     this.fileEx.deleteResource(resource.url).subscribe(data => {

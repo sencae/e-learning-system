@@ -50,8 +50,8 @@ public class GoogleDriveService {
     public Drive getDriveService(){
         Drive service = null;
         try{
-            URL resourse = GoogleDriveService.class.getResource("/"+this.serviceAccountKey);
-            java.io.File key = Paths.get(resourse.toURI()).toFile();
+            URL resource = GoogleDriveService.class.getResource("/"+this.serviceAccountKey);
+            java.io.File key = Paths.get(resource.toURI()).toFile();
             HttpTransport httpTransport = new NetHttpTransport();
             JacksonFactory jsonFactory = new JacksonFactory();
 

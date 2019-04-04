@@ -2,6 +2,7 @@ package com.e_learning_system.entities;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -10,16 +11,15 @@ public class TopicsEntity {
     private Long id;
     private String title;
     private Long courseId;
-
-    private Set<CourseResources> courseResources = new HashSet<>();
+    private List<CourseResources> courseResources;
 
     @OneToMany
     @JoinColumn(name = "topic_id")
-    public Set<CourseResources> getCourseResources() {
+    public List<CourseResources> getCourseResources() {
         return courseResources;
     }
 
-    public void setCourseResources(Set<CourseResources> courseResources) {
+    public void setCourseResources(List<CourseResources> courseResources) {
         this.courseResources = courseResources;
     }
 

@@ -95,11 +95,15 @@ public class FileExchangeController extends BaseGetController {
     }
     @PreAuthorize("hasAuthority('professor')")
     @PostMapping("/uploadres")
-    public ResponseEntity<String> uploadResource(@RequestParam("files") MultipartFile[] files,@RequestParam("course")Long id){
+    public ResponseEntity<Void> uploadResource(@RequestParam("files") MultipartFile[] files,@RequestParam("topic")Long id){
         Integer numberOfFiles = fileExchangeService.uploadResources(files,id);
-        if(numberOfFiles==files.length-1)
-        return ResponseEntity.status(HttpStatus.OK).body("You successfully uploaded "+numberOfFiles+"files!");
-        else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAIL to upload files!");
+        if(numberOfFiles==files.length) {
+            return new ResponseEntity<>( HttpStatus.OK);
+        }
+        else {
+
+            return new  ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
 

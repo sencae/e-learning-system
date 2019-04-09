@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "User", schema = "public")
@@ -16,11 +17,20 @@ public class User {
     private String lastName;
     private String email;
     private Long reg_id;
-
     private List<Courses> coursesList;
-
     private UserInfoEntity userInfo;
 
+    private Set<TestResultsEntity> testResults;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    public Set<TestResultsEntity> getTestResults() {
+        return testResults;
+    }
+
+    public void setTestResults(Set<TestResultsEntity> testResults) {
+        this.testResults = testResults;
+    }
 
     @JsonIgnore
     private UserGroups userGroupsByRegId;

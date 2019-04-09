@@ -10,38 +10,37 @@
       </div>
       <div class="row">
 
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="col-md-12">
           <div *ngIf="user.url; else standartImg">
             <img align="center" src="{{user.url}}" class="img-circle">
           </div>
-          <span class="text-justify">
-            Username: {{user.username}}<br>
-        		Full name: {{user.lastName}} {{user.firstName}} <br>
-        		Status <br>
-        		Contact details {{user.email}}
-        	</span>
-          <div *ngIf="authorized()">
-            <a class="siteLink" routerLink="edit">Edit profile</a>
-          </div>
-          <div *ngIf="professor===true">
-            <a class="siteLink" routerLink="/courses/create">Create course</a>
-          </div>
-
           <ng-template #standartImg>
             <img align="center" src="../../../assets/img/noavatar.png" class="img-circle">
           </ng-template>
-        </div>
-        <div class="col-lg-8 col-md-8 col-sm-12 desc">
-
-
+          <h1>
+            {{user.lastName}} {{user.firstName}}
+          </h1>
+          <br>
           <p>
-            <br>
-
-            University: {{user.university}}<br><br>
-
-
-            Brief information: {{user.briefInformation}}<br><br>
+            <span class="comment">University: </span>
+            {{user.university}}<br>
+            <span class="comment">Contact details: </span>
+            {{user.email}}
           </p>
+
+        </div>
+        <div class="col-md-8">
+          {{user.briefInformation}}
+        </div>
+        <div class="col-md-4">
+          <div class="card card-links">
+            <div *ngIf="authorized()">
+              <a class="siteLink" routerLink="edit">Edit profile</a>
+            </div>
+            <div *ngIf="professor===true">
+              <a class="siteLink" routerLink="/courses/create">Create course</a>
+            </div>
+          </div>
         </div>
 
       </div>

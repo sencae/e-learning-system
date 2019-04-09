@@ -12,8 +12,9 @@ import {CourseInfoComponent} from "./components/course-info/course-info.componen
 import {UserInfoComponent} from "./components/user-info/user-info.component";
 import {UserEditComponent} from "./components/user-edit/user-edit.component";
 import {CourseEditComponent} from "./components/course-edit/course-edit.component";
-import {ProfessorPageComponent} from "./components/professor-page/professor-page.component";
 import {TestComponent} from "./test/test.component";
+import {MyPageComponent} from "./components/my-page/my-page.component";
+import {CourseManagementComponent} from "./components/course-management/course-management.component";
 
 const appRoutes: Routes = [
   {path: 'signup', component: SignUpComponent},
@@ -23,9 +24,10 @@ const appRoutes: Routes = [
   {path:'courses/all', component:CoursesComponent},
   {path:'course/:id',component:CourseInfoComponent},
   {path:'course/:id/edit',component:CourseEditComponent},
+  {path: 'course/:id/manage', component: CourseManagementComponent},
   {path:'user/:id',component:UserInfoComponent, },
   {path:'user/:id/edit',component:UserEditComponent},
-  {path: 'my',component: ProfessorPageComponent},
+  {path: 'my', component: MyPageComponent},
   {path: 'test', component:TestComponent},
   {path: '404', component:NotFoundComponent},
   {path: '**', redirectTo: '404'}

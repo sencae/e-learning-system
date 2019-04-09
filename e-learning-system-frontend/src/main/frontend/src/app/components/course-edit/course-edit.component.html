@@ -1,12 +1,15 @@
 <div class="wrapper">
   <div class="content">
 
-    <h2>{{course.title}}</h2>
+    <h1>{{course.title}}</h1>
     <p>{{course.description}}</p>
 
     <div class="resources">
         <ul *ngFor="let file of course.topics">
           <li>{{file.title}}</li>
+          <button class="delete" title="delete resource"
+                  (click)="deleteTopic(file)">x
+          </button>
           <ul>
             <li *ngFor="let res of file.courseResources">
                 <a href="{{res.url}}"> {{res.title}}</a>
@@ -20,6 +23,11 @@
 
           </ul>
         </ul>
+      <br>
+      <div *ngIf="course.test!=null">
+        <p>{{course.test.testName}}</p>
+        <button type="button" class="btn btn-primary">Edit test</button>
+      </div>
       <a (click)="onClickOpenForm()" class="btn-link" style="cursor: pointer">Add topic</a>
       <div [hidden]="!openForm" >
         <input type="text"
@@ -30,8 +38,24 @@
         <button type="submit" class="btn-primary" (click)="saveTopic()">
           Save
         </button>
+        <button class="btn-secondary" (click)="openForm=false">Cancel</button>
       </div>
+      <div *ngIf="!course.test">
+        <a (click)="onClickOpenFormQuiz()" class="btn-link" style="cursor: pointer">Add final test</a>
+      </div>
+      <div [hidden]="!openFormTest">
+        <input type="text"
+               placeholder="Test title"
+               class="form-control"
+               [formControl]="testTitle"
+        />
+        <button type="submit" class="btn-primary" (click)="saveTest()">
+          Save
+        </button>
+        <button class="btn-secondary" (click)="openFormTest=false">Cancel</button>
       </div>
     </div>
+  </div>
+
   <app-download-resource [topic]="topicTtl"></app-download-resource>
   </div>

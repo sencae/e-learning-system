@@ -1,11 +1,11 @@
 package com.e_learning_system.controllers;
 
-import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.googleApi.GoogleDriveService;
-import com.e_learning_system.services.FileExchangeService;
-import com.e_learning_system.services.registrationService.UserService;
 import com.e_learning_system.security.service.UserPrinciple;
+import com.e_learning_system.services.CoursesService;
+import com.e_learning_system.services.FileExchangeService;
 import com.e_learning_system.services.UserInfoService;
+import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 public class FileExchangeController extends BaseGetController {
     private final GoogleDriveService googleDriveService;
-    List<String> files = new ArrayList<String>();
     private final UserInfoService userInfoService;
     private final CoursesService coursesService;
     private final UserService userService;
@@ -66,11 +65,12 @@ public class FileExchangeController extends BaseGetController {
 
     @GetMapping("/getallfiles")
     public ResponseEntity<List<String>> getListFiles(Model model) {
-        List<com.google.api.services.drive.model.File> files = googleDriveService.getFilesList();
-        for (com.google.api.services.drive.model.File file : files) {
-            this.files.add(file.getName());
+        List<String> files = new ArrayList<String>();
+        List<com.google.api.services.drive.model.File> Gfiles = googleDriveService.getFilesList();
+        for (com.google.api.services.drive.model.File file : Gfiles) {
+            files.add(file.getName());
         }
-        return ResponseEntity.ok().body(this.files);
+        return ResponseEntity.ok().body(files);
     }
 
     @PostMapping("/delete/profimg")

@@ -1,5 +1,6 @@
 package com.e_learning_system.dto;
 
+import com.e_learning_system.entities.Courses;
 import com.e_learning_system.entities.TopicsEntity;
 import com.e_learning_system.entities.User;
 import org.modelmapper.ModelMapper;
@@ -29,10 +30,13 @@ public class ModelMapperUtil extends ModelMapper {
             @Override
             protected void configure() {
                 map().setId(null);
-                map().setCourseId(source.getCourseId());
-                map().setTitle(source.getTitle());
             }
         });
-
+        this.addMappings(new PropertyMap<Courses, CoursesDto>() {
+            @Override
+            protected void configure() {
+                map().setTest(source.getTestsEntity());
+            }
+        });
     }
 }

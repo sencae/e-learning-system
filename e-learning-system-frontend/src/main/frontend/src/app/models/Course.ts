@@ -1,4 +1,6 @@
 import {Topic} from "./Topic";
+import {Test} from "./Test";
+
 export class Course {
   id: number;
   title: string;
@@ -7,4 +9,5 @@ export class Course {
   startDate: Date;
   endDate: Date;
   topics: Topic[];
+  test: Test;
 }

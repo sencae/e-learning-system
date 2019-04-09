@@ -4,6 +4,7 @@ import com.e_learning_system.dao.TopicsRepository;
 import com.e_learning_system.entities.TopicsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TopicsService {
@@ -16,5 +17,10 @@ public class TopicsService {
     }
     public TopicsEntity createTopic(TopicsEntity topicsEntity){
         return topicsRepository.saveAndFlush(topicsEntity);
+    }
+
+    @Transactional
+    public void deleteTopic(TopicsEntity topicsEntity) {
+        topicsRepository.delete(topicsEntity);
     }
 }

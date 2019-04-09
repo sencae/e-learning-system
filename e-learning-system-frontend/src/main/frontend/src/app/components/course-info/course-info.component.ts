@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Course} from "../../models/Course";
 import {CourseService} from "../../services/course/course.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TokenStorageService} from "../../services/auth/token-storage.service";
 import {UserService} from "../../services/user/user.service";
 import {AlertService} from "../../services/alert.service";
 import {CourseInfo} from "../../models/CourseInfo";
+import {UserInfo} from "../../models/UserInfo";
 
 @Component({
   selector: 'app-course-info',
@@ -16,6 +16,7 @@ export class CourseInfoComponent implements OnInit {
   course: CourseInfo;
   professor: string;
   showFile = false;
+  user: UserInfo;
 
   constructor(private courseService: CourseService,
               private route: ActivatedRoute,
@@ -35,7 +36,10 @@ export class CourseInfoComponent implements OnInit {
       course => {
         this.course = course;
         this.userService.getUser(course.professorId)
-          .subscribe(name => this.professor = name.lastName + ' ' + name.firstName);
+          .subscribe(name => {
+            this.professor = name.lastName + ' ' + name.firstName;
+            this.user = name;
+          });
 
       },
       error => this.router.navigate(['/404'])

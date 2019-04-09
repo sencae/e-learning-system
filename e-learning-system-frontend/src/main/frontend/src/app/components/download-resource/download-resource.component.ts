@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {FileExchangeService} from "../../services/fileExchange.service";
 import {AlertService} from "../../services/alert.service";
 
@@ -21,7 +21,6 @@ export class DownloadResourceComponent implements OnInit {
     this.filesToUpload = <Array<File>>fileInput.target.files;
   }
   upload() {
-    const id = +this.route.snapshot.paramMap.get('id');
     this.fileEx.uploadResourceFiles(this.filesToUpload,this.topic).subscribe(
       data => {
         this.alertService.success('You successfully uploaded '+ this.filesToUpload.length+  ' files!',true);

@@ -1,10 +1,9 @@
 package com.e_learning_system.controllers;
 
-import com.e_learning_system.entities.UsersOnCoursesEntity;
-import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.entities.Courses;
 import com.e_learning_system.googleApi.GoogleDriveService;
 import com.e_learning_system.security.service.UserPrinciple;
+import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.services.UserOnCoursesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +44,7 @@ public class CoursesController {
     @PreAuthorize("hasAuthority('student')")
     @PostMapping("join")
     public ResponseEntity<Void> joinToCourses(@RequestBody Long courseId){
-        if(coursesService.getCourseById(courseId).getStartDate().getTime()>System.currentTimeMillis())
+        if (coursesService.getCourseById(courseId).getStartDate().getTime() < System.currentTimeMillis())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
             UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
@@ -59,19 +58,6 @@ public class CoursesController {
     }
 
 
-    @PostMapping("test")
-    public void test(){
-//        File file =new File("C:\\Users\\Admin\\Desktop\\0ZXvMlCy-LY.jpg");
-//        com.google.api.services.drive.model.File file2 = googleDriveService.uploadFile(file.getName(),
-//                file.getAbsolutePath(),
-//                "image/jpg");
-//
-//        try{
-//            System.err.println(file2.toPrettyString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
     @GetMapping("get")
     public void get(){
         googleDriveService.getFilesList();

@@ -1,8 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-* {
-  box-sizing: border-box;
-}
 html, body {
   height: 100%;
 }
@@ -11,6 +8,8 @@ html, body {
 }
 .content {
   flex: 1 0 auto;
+  margin-right: 5em;
+  margin-left: 5em;
 }
 .fa{
   height: 16px;
@@ -27,6 +26,13 @@ html, body {
   position: unset;
 }
 
+a {
+  color: #333;
+}
+
+a:hover {
+  color: #428aac;
+}
 .nav-link{
   margin-right: 1em !important;
 }
@@ -34,6 +40,11 @@ html, body {
   margin-right: 1em !important;
 }
 
+.img-circle {
+  width: 133px;
+  height: 133px;
+  border-radius: 50%;
+}
 .navbar-collapse{
   justify-content: flex-end;
 }
@@ -73,6 +84,7 @@ html, body {
 }
 .card{
   position: center;
+  border: none;
 }
 .divider-text {
   position: relative;

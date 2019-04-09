@@ -9,11 +9,15 @@ import {Topic} from "../../models/Topic";
 })
 export class TopicService {
   private createTopicUrl = '/api/createTopic';
-
+  private deleteTopicUrl = '/api/deleteTopic';
   constructor(private http: HttpClient) {
   }
 
   saveTopic(createTopic: CreateTopic):Observable<Topic> {
     return this.http.post<Topic>(this.createTopicUrl, createTopic)
+  }
+
+  deleteTopic(topic: Topic) {
+    return this.http.post(this.deleteTopicUrl, topic);
   }
 }

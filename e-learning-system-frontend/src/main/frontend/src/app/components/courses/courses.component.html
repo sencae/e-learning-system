@@ -1,12 +1,26 @@
 <div class="wrapper">
   <div class="content">
-    <ul>
-      <li *ngFor="let course of courses">
-        <a routerLink="/course/{{course.id}}">
-          {{course.title}}
-        </a>
-      </li>
-    </ul>
-  </div>
 
+    <div class="row courses-list">
+      <div class="col-md-4 col-sm-6 col-xs-12 col" *ngFor="let course of courses">
+        <div class="course">
+          <div class="course-content">
+            <div class="course-title">
+              <a routerLink="/course/{{course.id}}">
+                {{course.title}}
+              </a>
+            </div>
+            <div class="course-date">
+              <span class="fa fa-calendar"></span>
+              <a routerLink="/course/{{course.id}}">
+                {{course.startDate|date:'mediumDate'}} - {{course.endDate|date:'mediumDate'}}
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>

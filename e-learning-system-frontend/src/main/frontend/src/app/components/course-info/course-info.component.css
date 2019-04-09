@@ -1,0 +1,42 @@
+.card p {
+  font-size: 15px;
+  line-height: 20px;
+  margin: 0 13px 30px 13px;
+  color: #999;
+}
+
+.card .comment {
+  color: #333;
+  font-size: 13px;
+}
+
+.card h3 a {
+  color: #333;
+}
+
+.card {
+  text-align: center;
+}
+
+a, a:focus {
+  outline: none;
+}
+
+.card h3 {
+  font-size: 20px;
+  line-height: 26px;
+  margin: 0 13px 10px 13px;
+}
+
+.issue {
+  margin-bottom: 40px;
+  font-size: 15px;
+  line-height: 26px;
+  word-wrap: break-word;
+}
+
+.row {
+  margin-left: -20px;
+  margin-right: -20px;
+}
+

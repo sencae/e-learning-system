@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -20,7 +19,31 @@ public class Courses {
     private Long professorId;
     private Timestamp startDate;
     private Timestamp endDate;
-    //    private Set<CourseResources> resources = new HashSet<>();
+    @OneToOne
+    private TestsEntity testsEntity;
+    private Set<User> usersOnCourse;
+
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    public TestsEntity getTestsEntity() {
+        return testsEntity;
+    }
+
+    public void setTestsEntity(TestsEntity testsEntity) {
+        this.testsEntity = testsEntity;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinTable(name = "users_on_courses",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    public Set<User> getUsersOnCourse() {
+        return usersOnCourse;
+    }
+
+    public void setUsersOnCourse(Set<User> usersOnCourse) {
+        this.usersOnCourse = usersOnCourse;
+    }
     private List<TopicsEntity> topicsEntities;
 
     public Courses() {

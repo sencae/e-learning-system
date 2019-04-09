@@ -1,9 +1,7 @@
 package com.e_learning_system.entities;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "topics", schema = "public")
@@ -14,7 +12,7 @@ public class TopicsEntity {
     private List<CourseResources> courseResources;
 
     @OneToMany
-    @JoinColumn(name = "topic_id")
+    @JoinColumn(name = "topic_id", updatable = false)
     public List<CourseResources> getCourseResources() {
         return courseResources;
     }

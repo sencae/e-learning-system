@@ -1,6 +1,7 @@
 package com.e_learning_system.dto;
 
 
+import com.e_learning_system.entities.TestsEntity;
 import com.e_learning_system.entities.TopicsEntity;
 
 import java.sql.Timestamp;
@@ -18,6 +19,7 @@ public class CoursesDto {
     private boolean isStarted;
     private Timestamp startDate;
     private Timestamp endDate;
+    private TestsEntity test;
     //private Set<CourseResources> resources;
     private Set<TopicsEntity> topics;
 
@@ -100,6 +102,13 @@ public class CoursesDto {
         isStarted = started;
     }
 
+    public TestsEntity getTest() {
+        return test;
+    }
+
+    public void setTest(TestsEntity testsEntity) {
+        this.test = testsEntity;
+    }
 
 
 //    public Set<CourseResources> getResources() {

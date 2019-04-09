@@ -1,0 +1,10 @@
+<div class="wrapper">
+  <div class="content">
+    <div *ngIf="isProfessor; else student">
+      <app-professor-page></app-professor-page>
+    </div>
+    <ng-template #student>
+      <app-student-page></app-student-page>
+    </ng-template>
+  </div>
+</div>

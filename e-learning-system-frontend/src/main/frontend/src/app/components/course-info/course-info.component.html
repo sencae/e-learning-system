@@ -1,38 +1,67 @@
 <div class="wrapper">
   <div class="content">
     <div *ngIf="course">
-      <h2>{{course.title}}</h2>
-      <p>{{course.description}}</p>
-      <label for="authorLink">Author: </label>
-      <a id="authorLink" routerLink="/user/{{course.professorId}}">{{professor}}</a>
-      <p></p>
-      <p>Start date: {{course.startDate|date:'long'}}</p>
-      <p>End date: {{course.endDate|date:'long'}}</p>
-      <div *ngIf="course.join||course.author">
-        <div class="resources">
-          <button class="button btn-info" *ngIf='showFile' (click)='showFiles(false)'>Hide Resources</button>
-          <button class="button btn-info" *ngIf='!showFile' (click)='showFiles(true)'>Show Resources</button>
-          <div [hidden]="!showFile">
-            <div class="panel panel-primary">
-              <div class="panel-heading">List of Files</div>
-              <ul *ngFor="let file of course.topics">
-                <li>{{file.title}}</li>
-                <ul>
-                  <li *ngFor="let res of file.courseResources">
-                    <a href="{{res.url}}"> {{res.title}}</a>
-                  </li>
-                </ul>
-              </ul>
+
+      <h1>{{course.title}}</h1>
+      <div class="row course-descr">
+        <div class="col-sm-8 issue">
+          <h2>About</h2>
+          <p>{{course.description}}</p>
+          <p>Start date: {{course.startDate|date:'long'}}</p>
+          <p>End date: {{course.endDate|date:'long'}}</p>
+          <div *ngIf="course.join||course.author">
+            <div class="resources">
+              <button class="button btn-info" *ngIf='showFile' (click)='showFiles(false)'>Hide Resources</button>
+              <button class="button btn-info" *ngIf='!showFile' (click)='showFiles(true)'>Show Resources</button>
+              <div [hidden]="!showFile">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">List of Files</div>
+                  <ul *ngFor="let file of course.topics">
+                    <li>{{file.title}}</li>
+                    <ul>
+                      <li *ngFor="let res of file.courseResources">
+                        <a href="{{res.url}}"> {{res.title}}</a>
+                      </li>
+                    </ul>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!course.join && !course.author&& !course.started">
+            <button class="btn-primary" (click)="joinTo()">Join</button>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card card-professor">
+            <div *ngIf="user.url; else standartImg">
+              <a routerLink="/user/{{course.professorId}}">
+                <img src="{{user.url}}" class="img-circle">
+              </a>
+            </div>
+            <ng-template #standartImg>
+              <a routerLink="/user/{{course.professorId}}">
+                <img src="../../../assets/img/noavatar.png" class="img-circle">
+              </a>
+            </ng-template>
+            <h3><a id="authorLink" routerLink="/user/{{course.professorId}}">{{professor}}</a>
+            </h3>
+            <p>
+              <br>
+              <span class="comment"></span>
+              {{user.briefInformation}}
+            </p>
+            <div *ngIf="course.author">
+              <div class="course-edit">
+                <a class="siteLink" routerLink="edit">Edit Course</a>
+              </div>
+              <a class="siteLink" routerLink="manage">Manage</a>
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="!course.join && !course.author&& !course.started">
-      <button class="btn-primary" (click)="joinTo()">Join</button>
-      </div>
     </div>
   </div>
-  <div *ngIf="course.author">
-    <a class="siteLink" routerLink="edit">Edit Course</a>
-  </div>
+
+
 </div>

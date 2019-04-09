@@ -1,7 +1,6 @@
 package com.e_learning_system.dto;
 
 public class TopicDto {
-    private String id;
     private String title;
     private Long courseId;
 

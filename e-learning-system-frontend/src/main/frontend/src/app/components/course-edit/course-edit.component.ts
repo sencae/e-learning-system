@@ -7,6 +7,9 @@ import {FileExchangeService} from "../../services/fileExchange.service";
 import {TopicService} from "../../services/course/topic.service";
 import {CreateTopic} from "../../models/CreateTopic";
 import {FormControl} from "@angular/forms";
+import {CreateTest} from "../../models/CreateTest";
+import {TestService} from "../../services/course/test.service";
+import {Topic} from "../../models/Topic";
 
 @Component({
   selector: 'app-course-edit',
@@ -15,17 +18,20 @@ import {FormControl} from "@angular/forms";
 })
 export class CourseEditComponent implements OnInit {
   course: Course;
-  selectedFiles: FileList;
   openForm = false;
+  openFormTest = false;
   topicTtl: number;
+  testTitle = new FormControl('');
   private createTopic: CreateTopic;
   topicTitle = new FormControl('');
+  private createTest: CreateTest;
 
   constructor(private courseService: CourseService,
               private route: ActivatedRoute,
               private fileEx: FileExchangeService,
               private topicService: TopicService,
-              private router: Router) {
+              private router: Router,
+              private testService: TestService) {
   }
 
   ngOnInit() {
@@ -52,16 +58,38 @@ export class CourseEditComponent implements OnInit {
     return this.openForm;
   }
 
+  onClickOpenFormQuiz() {
+    this.openFormTest = true;
+    return this.openFormTest;
+  }
+
+  saveTest() {
+    this.createTest = new CreateTest(
+      this.testTitle.value,
+      +this.route.snapshot.paramMap.get('id'));
+    this.testService.saveTest(this.createTest).subscribe(data => {
+        this.course.test = data;
+        this.openFormTest = false;
+      }, error => console.log(error)
+    )
+  }
   saveTopic() {
     this.createTopic = new CreateTopic(
       this.topicTitle.value,
       +this.route.snapshot.paramMap.get('id'));
     this.topicService.saveTopic(this.createTopic).subscribe(data => {
         this.course.topics.push(data);
+      this.openForm = false;
       }, error => console.log(error)
     )
   }
 
+  deleteTopic(topic: Topic) {
+    this.topicService.deleteTopic(topic).subscribe(data => {
+      console.log(data);
+      this.course.topics = this.course.topics.filter(h => h !== topic);
+    });
+  }
 
   deleteResource(resource: Resource) {
     this.fileEx.deleteResource(resource.url).subscribe(data => {
@@ -71,7 +99,4 @@ export class CourseEditComponent implements OnInit {
       error => console.log(error));
   }
 
-  selectFile(event) {
-    this.selectedFiles = event.target.files;
-  }
 }

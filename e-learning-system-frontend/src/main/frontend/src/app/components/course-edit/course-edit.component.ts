@@ -45,6 +45,9 @@ export class CourseEditComponent implements OnInit {
         this.course = course;
         if(course.author == false)
           this.router.navigate(['404']);
+      },
+      error1 => {
+        this.router.navigate(['404']);
       }
     )
   }
@@ -58,7 +61,7 @@ export class CourseEditComponent implements OnInit {
     return this.openForm;
   }
 
-  onClickOpenFormQuiz() {
+  onClickOpenFormTest() {
     this.openFormTest = true;
     return this.openFormTest;
   }

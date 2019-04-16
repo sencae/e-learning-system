@@ -1,22 +1,27 @@
 package com.e_learning_system.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "questions", schema = "public")
 public class QuestionsEntity {
-    private long id;
+    private Long id;
     private String question;
     private Long parentTest;
     private Boolean checkboxType;
+    private Set<AnswersEntity> answers;
 
     @Id
     @Column(name = "id", nullable = false)
-    public long getId() {
+    @SequenceGenerator(name = "seqQue", sequenceName = "questions_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqQue")
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,27 +55,30 @@ public class QuestionsEntity {
         this.checkboxType = checkboxType;
     }
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_question")
+    public Set<AnswersEntity> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<AnswersEntity> answersEntities) {
+        this.answers = answersEntities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         QuestionsEntity that = (QuestionsEntity) o;
-
-        if (id != that.id) return false;
-        if (question != null ? !question.equals(that.question) : that.question != null) return false;
-        if (parentTest != null ? !parentTest.equals(that.parentTest) : that.parentTest != null) return false;
-        if (checkboxType != null ? !checkboxType.equals(that.checkboxType) : that.checkboxType != null) return false;
-
-        return true;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(question, that.question) &&
+                Objects.equals(parentTest, that.parentTest) &&
+                Objects.equals(checkboxType, that.checkboxType) &&
+                Objects.equals(answers, that.answers);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (question != null ? question.hashCode() : 0);
-        result = 31 * result + (parentTest != null ? parentTest.hashCode() : 0);
-        result = 31 * result + (checkboxType != null ? checkboxType.hashCode() : 0);
-        return result;
+        return Objects.hash(id, question, parentTest, checkboxType, answers);
     }
 }

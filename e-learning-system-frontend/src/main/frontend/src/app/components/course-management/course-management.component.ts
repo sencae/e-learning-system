@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CourseManagementService} from "../../services/course/course-management.service";
 import {ActivatedRoute} from "@angular/router";
 import {StudentManage} from "../../models/StudentManage";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-course-management',
@@ -13,7 +14,8 @@ export class CourseManagementComponent implements OnInit {
   private students: StudentManage[];
 
   constructor(private route: ActivatedRoute,
-              private courseManagementService: CourseManagementService) {
+              private courseManagementService: CourseManagementService,
+              private alertService: AlertService) {
   }
 
   ngOnInit() {
@@ -21,7 +23,13 @@ export class CourseManagementComponent implements OnInit {
   }
 
   getUsersOnCourse() {
+
     const id = +this.route.snapshot.paramMap.get('id');
-    this.courseManagementService.getUsersOnCourse(id).subscribe(data => this.students = data);
+    this.courseManagementService.getUsersOnCourse(id).subscribe(data => this.students = data,
+      error1 => {
+        if (error1.status === 403) {
+          this.alertService.error('Access denied')
+        }
+      });
   }
 }

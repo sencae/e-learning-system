@@ -9,11 +9,32 @@ import {Test} from "../../models/Test";
 })
 export class TestService {
   private createTestUrl = '/api/createTest';
-
+  private getTestUrl = '/api/getTest';
+  private getTestEditUrl = '/api/getTestEdit';
+  private saveUrl = '/api/saveTest';
+  private completeTestUrl = '/api/completeTest';
   constructor(private http: HttpClient) {
   }
 
-  saveTest(createTest: CreateTest): Observable<Test> {
-    return this.http.post<Test>(this.createTestUrl, createTest)
+  saveTest(createTest: CreateTest): Observable<string> {
+    return this.http.post<string>(this.createTestUrl, createTest)
+  }
+
+  getTest(id: number): Observable<Test> {
+    return this.http.post<Test>(this.getTestUrl, id)
+  }
+
+  getTestEdit(id: number): Observable<Test> {
+    return this.http.post<Test>(this.getTestEditUrl, id)
+  }
+
+  completeTest(test: Test, id: number): Observable<number> {
+    test.id = id;
+    return this.http.post<number>(this.completeTestUrl, test)
+  }
+
+  save(test: Test, id: number) {
+    test.id = id;
+    return this.http.post(this.saveUrl, test)
   }
 }

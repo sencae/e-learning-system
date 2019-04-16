@@ -17,4 +17,8 @@ public class TestService {
     public TestsEntity createTest(TestsEntity testsEntity) {
         return testsRepository.saveAndFlush(testsEntity);
     }
+
+    public TestsEntity getTest(Long id) {
+        return testsRepository.getOne(id);
+    }
 }

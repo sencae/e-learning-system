@@ -52,7 +52,13 @@ export class SignUpComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error => {
-          let msg = "Email is already taken";
+          let msg = "";
+          if (error.status === 409) {
+            msg = "Email is already taken";
+          }
+          else {
+            msg = "Failed to sign up";
+          }
           this.alertService.error(msg);
           this.loading = false;
         });

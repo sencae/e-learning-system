@@ -15,6 +15,8 @@ import {CourseEditComponent} from "./components/course-edit/course-edit.componen
 import {TestComponent} from "./test/test.component";
 import {MyPageComponent} from "./components/my-page/my-page.component";
 import {CourseManagementComponent} from "./components/course-management/course-management.component";
+import {CourseTestComponent} from "./components/course-test/course-test.component";
+import {EditTestComponent} from "./components/edit-test/edit-test.component";
 
 const appRoutes: Routes = [
   {path: 'signup', component: SignUpComponent},
@@ -25,10 +27,12 @@ const appRoutes: Routes = [
   {path:'course/:id',component:CourseInfoComponent},
   {path:'course/:id/edit',component:CourseEditComponent},
   {path: 'course/:id/manage', component: CourseManagementComponent},
-  {path:'user/:id',component:UserInfoComponent, },
+  {path: 'course/:id/test', component: CourseTestComponent},
+  {path: 'course/:id/test/edit', component: EditTestComponent},
+  {path: 'user/:id', component: UserInfoComponent},
   {path:'user/:id/edit',component:UserEditComponent},
   {path: 'my', component: MyPageComponent},
-  {path: 'test', component:TestComponent},
+  {path: 'testing', component: TestComponent},
   {path: '404', component:NotFoundComponent},
   {path: '**', redirectTo: '404'}
 ];

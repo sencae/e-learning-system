@@ -2,12 +2,12 @@ package com.e_learning_system.controllers;
 
 import com.e_learning_system.dto.UpdateUserDto;
 import com.e_learning_system.dto.UserDto;
+import com.e_learning_system.entities.User;
 import com.e_learning_system.googleApi.GoogleDriveService;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.FileExchangeService;
 import com.e_learning_system.services.UserInfoService;
 import com.e_learning_system.services.registrationService.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,24 +38,22 @@ public class UserEditController extends BaseGetController {
     public ResponseEntity<String> uploadImg(@RequestParam("file") MultipartFile file) {
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
+        User user = userService.getUserById(userPrinciple.getId());
         com.google.api.services.drive.model.File result = fileExchangeService.uploadPageImg(file);
         if (result != null) {
-            googleDriveService.deleteFile(
-                    googleDriveService.getDriveService(),
-                    userInfoService.getFileIdFromUrl(
-                            userService.getUserById(
-                                    userPrinciple.getId()
-                            ).getUserInfo().getAvatarUrl()
-                    )
-            );
-            if (userInfoService.setPageImgUrl(result.getWebContentLink(), userPrinciple.getId()))
-                return new ResponseEntity<>(HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            if (user.getUserInfo().getAvatarUrl() != null
+            ) {
+                googleDriveService.deleteFile(
+                        googleDriveService.getDriveService(),
+                        userInfoService.getFileIdFromUrl(
+                                user.getUserInfo().getAvatarUrl()
+                        )
+                );
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(result.getWebContentLink());
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @PostMapping("/edit")

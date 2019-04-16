@@ -2,6 +2,7 @@ package com.e_learning_system.services;
 
 import com.e_learning_system.dao.CoursesRep;
 import com.e_learning_system.dao.UsersOnCoursesRepository;
+import com.e_learning_system.entities.Courses;
 import com.e_learning_system.entities.User;
 import com.e_learning_system.entities.UsersOnCoursesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,22 @@ public class UserOnCoursesService {
         this.usersOnCoursesRepository = usersOnCoursesRepository;
         this.coursesRep = coursesRep;
     }
-    public void joinToCourse(Long userId, Long courseId){
-        usersOnCoursesRepository.save(new UsersOnCoursesEntity(userId,courseId));
+
+    public void joinToCourse(Long userId, Long courseId) {
+        usersOnCoursesRepository.save(new UsersOnCoursesEntity(userId, courseId));
     }
-    public boolean checkUser(Long userId, Long courseId){
+
+    public boolean checkUser(Long userId, Long courseId) {
         return usersOnCoursesRepository.getByCourseIdAndUserId(
                 courseId,
                 userId).size() > 0;
     }
 
-    public Set<User> getUsersByCourseId(Long id) {
-        return coursesRep.getById(id).getUsersOnCourse();
+    public Set<User> getUsersByCourseId(Long id, Long userId) {
+        Courses courses = coursesRep.getById(id);
+        if (courses.getProfessorId().equals(userId))
+            return courses.getUsersOnCourse();
+        else
+            return null;
     }
 }

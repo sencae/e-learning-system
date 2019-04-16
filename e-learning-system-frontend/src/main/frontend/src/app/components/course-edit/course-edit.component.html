@@ -17,7 +17,8 @@
                       (click)="deleteResource(res)">x
               </button>
             </li>
-            <button type="button" (click)="info(file.id)"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <button type="button" (click)="info(file.id)" class="btn btn-primary" data-toggle="modal"
+                    data-target="#downloadModal">
               attach files
             </button>
 
@@ -25,7 +26,7 @@
         </ul>
       <br>
       <div *ngIf="course.test!=null">
-        <p>{{course.test.testName}}</p>
+        <p>{{course.test}}</p>
         <button type="button" class="btn btn-primary">Edit test</button>
       </div>
       <a (click)="onClickOpenForm()" class="btn-link" style="cursor: pointer">Add topic</a>
@@ -41,7 +42,7 @@
         <button class="btn-secondary" (click)="openForm=false">Cancel</button>
       </div>
       <div *ngIf="!course.test">
-        <a (click)="onClickOpenFormQuiz()" class="btn-link" style="cursor: pointer">Add final test</a>
+        <a (click)="onClickOpenFormTest()" class="btn-link" style="cursor: pointer">Add final test</a>
       </div>
       <div [hidden]="!openFormTest">
         <input type="text"

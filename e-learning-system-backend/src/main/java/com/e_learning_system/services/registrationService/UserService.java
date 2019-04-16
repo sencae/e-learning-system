@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private String reg = "\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])\\S{8,}\\z";
+    private String reg = "\\A(?=\\S*?[0-9])(?=\\S*?[a-zа-я])(?=\\S*?[A-ZА-Я])\\S{8,}\\z";
     private final UserRepository userRepository;
 
     @Autowired

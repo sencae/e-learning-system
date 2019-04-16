@@ -1,9 +1,12 @@
 package com.e_learning_system.dto;
 
+import com.e_learning_system.entities.TestResultsEntity;
+
 public class StudentManageDto {
     private Long userId;
     private String firstName;
     private String lastName;
+    private TestResultsEntity testResults;
 
     public Long getUserId() {
         return userId;
@@ -27,5 +30,13 @@ public class StudentManageDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public TestResultsEntity getTestResults() {
+        return testResults;
+    }
+
+    public void setTestResults(TestResultsEntity testResults) {
+        this.testResults = testResults;
     }
 }

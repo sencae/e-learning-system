@@ -5,7 +5,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12">
           <div *ngIf="f.url.value!=null; else standartImg">
-            <img align="center" src="{{f.url}}" class="img-circle">
+            <img align="center" src="{{f.url.value}}" class="img-circle">
           </div>
           <ng-template #standartImg>
             <img align="center" src="../../../assets/img/noavatar.png" class="img-circle">
@@ -18,9 +18,12 @@
                  #fileInput>
           <button type="button" (click)="fileInput.click()">Choose</button>
           <div *ngIf="f.url.value !== null">
-            <button type="button" class="btn btn-secondary" (click)="deleteFile()">Delete</button>
+            <label>
+              <input type="checkbox" value="checkbox" (change)="deleteCheck($event)">
+              <span>Delete</span>
+            </label>
           </div>
-          <img [src]="url" height="200" *ngIf="show"> <br/>
+          <img [src]="url" height="200" *ngIf="show" class="img-circle"> <br/>
         </div>
 
         <div class="form-group input-group">

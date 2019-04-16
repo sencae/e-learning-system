@@ -1,8 +1,16 @@
 <div class="wrapper">
   <div class="content">
     <ul *ngFor="let student of students">
-      {{student.userId}}
-      {{student.firstName}} {{student.lastName}}
+      <li>
+        <div class="student-info">
+          <span>
+          <a routerLink="/user/{{student.userId}}">{{student.userId}}
+            {{student.firstName}} {{student.lastName}}</a>
+            {{student.testResults.date|date:'long'}}
+            {{student.testResults.result}}%
+          </span>
+        </div>
+      </li>
     </ul>
   </div>
 </div>

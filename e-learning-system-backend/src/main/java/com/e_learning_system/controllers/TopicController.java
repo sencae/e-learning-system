@@ -39,6 +39,8 @@ public class TopicController extends BaseGetController {
     @PreAuthorize("hasAuthority('professor')")
     @PostMapping("/createTopic")
     public ResponseEntity<TopicsEntity> createTopic(@RequestBody TopicDto topicDto) {
+        if (topicDto.getCourseId() < 0)
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         TopicsEntity topicsEntity = modelMapperUtil.map(topicDto, TopicsEntity.class);
         topicsEntity = topicsService.createTopic(topicsEntity);
         return new ResponseEntity<>(topicsEntity, HttpStatus.OK);

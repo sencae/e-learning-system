@@ -1,5 +1,6 @@
 package com.e_learning_system.dto;
 
+import com.e_learning_system.entities.AnswersEntity;
 import com.e_learning_system.entities.Courses;
 import com.e_learning_system.entities.TopicsEntity;
 import com.e_learning_system.entities.User;
@@ -24,6 +25,7 @@ public class ModelMapperUtil extends ModelMapper {
             protected void configure() {
                 map().getUserInfo().setUniversity(source.getUniversity());
                 map().getUserInfo().setBriefInformation(source.getBriefInformation());
+                map().getUserInfo().setAvatarUrl(source.getUrl());
             }
         });
         this.addMappings(new PropertyMap<TopicDto, TopicsEntity>() {
@@ -35,7 +37,15 @@ public class ModelMapperUtil extends ModelMapper {
         this.addMappings(new PropertyMap<Courses, CoursesDto>() {
             @Override
             protected void configure() {
-                map().setTest(source.getTestsEntity());
+                map().setTest(source.getTestsEntity().getTestName());
+            }
+        });
+        this.addMappings(new PropertyMap<AnswerDto, AnswersEntity>() {
+            @Override
+            protected void configure() {
+                map().setCorrectAnswer(source.getCorrectAnswer());
+                map().setAnswer(source.getAnswer());
+                map().setParentQuestion(source.getParentQuestion());
             }
         });
     }

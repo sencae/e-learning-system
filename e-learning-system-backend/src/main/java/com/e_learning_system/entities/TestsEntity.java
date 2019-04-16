@@ -1,12 +1,15 @@
 package com.e_learning_system.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tests", schema = "public")
 public class TestsEntity {
     private Long id;
     private String testName;
+    private Set<QuestionsEntity> questions;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -28,24 +31,30 @@ public class TestsEntity {
         this.testName = testName;
     }
 
+    @OneToMany(cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JoinColumn(name = "parent_test")
+    public Set<QuestionsEntity> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<QuestionsEntity> questionsEntities) {
+        this.questions = questionsEntities;
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         TestsEntity that = (TestsEntity) o;
-
-        if (id != that.id) return false;
-        if (testName != null ? !testName.equals(that.testName) : that.testName != null) return false;
-
-        return true;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(testName, that.testName) &&
+                Objects.equals(questions, that.questions);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (testName != null ? testName.hashCode() : 0);
-        return result;
+        return Objects.hash(id, testName, questions);
     }
 }

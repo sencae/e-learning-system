@@ -16,7 +16,12 @@
                 {{course.startDate|date:'mediumDate'}} - {{course.endDate|date:'mediumDate'}}
               </a>
             </div>
-
+            <div class="join-to-course" *ngIf="course.join">
+              <label>Joined</label>
+            </div>
+            <div class="author" *ngIf="course.author">
+              <label>My course</label>
+            </div>
           </div>
         </div>
       </div>

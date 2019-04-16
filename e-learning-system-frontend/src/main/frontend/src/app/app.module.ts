@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from '@angular/forms';
+import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
 
 import {AppComponent} from './app.component';
 import {SignUpComponent} from './components/sign-up/sign-up.component';
@@ -28,6 +29,8 @@ import {TestComponent} from './test/test.component';
 import {DownloadResourceComponent} from './components/download-resource/download-resource.component';
 import {MyPageComponent} from './components/my-page/my-page.component';
 import {CourseManagementComponent} from './components/course-management/course-management.component';
+import {CourseTestComponent} from './components/course-test/course-test.component';
+import {EditTestComponent} from './components/edit-test/edit-test.component';
 
 @NgModule({
   declarations: [
@@ -50,14 +53,17 @@ import {CourseManagementComponent} from './components/course-management/course-m
     TestComponent,
     DownloadResourceComponent,
     MyPageComponent,
-    CourseManagementComponent
+    CourseManagementComponent,
+    CourseTestComponent,
+    EditTestComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     AngularFontAwesomeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RxReactiveFormsModule
   ],
   providers: [httpInterceptorProviders,
   AuthorityGuard,

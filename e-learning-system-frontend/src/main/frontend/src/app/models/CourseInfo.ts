@@ -1,5 +1,4 @@
 import {Topic} from "./Topic";
-import {Test} from "./Test";
 
 export class CourseInfo {
   id: number;
@@ -12,5 +11,5 @@ export class CourseInfo {
   author: boolean;
   started: boolean;
   join: boolean;
-  test: Test;
+  test: string;
 }

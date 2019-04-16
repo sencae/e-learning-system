@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {UserInfo} from "../../models/UserInfo";
 import {TokenStorageService} from "../auth/token-storage.service";
 import {Observable} from "rxjs";
@@ -24,18 +24,18 @@ export class UserService {
         return !(authority === auth);
       });
   }
-  upload(file:File):Observable<HttpEvent<{}>>{
+
+  upload(file: File): Observable<string> {
     const formData: FormData = new FormData();
     formData.append('file', file);
-    const req = new HttpRequest('POST', this.uploadImg, formData, {
-      reportProgress: true,
+
+    return this.http.post(this.uploadImg, formData, {
+      reportProgress: false,
       responseType: 'text'
     });
-    return this.http.request(req);
   }
   updateUser(user:UserInfo){
-    this.upload(user.file).subscribe(event=>console.log(event));
-    return this.http.post(this.updateUserUrl,user)
+    return this.http.post(this.updateUserUrl, user);
   }
 
 }

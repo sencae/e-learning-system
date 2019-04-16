@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {UserInfo} from "../../models/UserInfo";
 import {UserService} from "../../services/user/user.service";
 import {TokenStorageService} from "../../services/auth/token-storage.service";
-import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {FileExchangeService} from "../../services/fileExchange.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AlertService} from "../../services/alert.service";
@@ -15,11 +14,11 @@ import {Router} from "@angular/router";
 })
 export class UserEditComponent implements OnInit {
   userInfo: UserInfo;
-  selectedFiles: FileList;
   userEditForm: FormGroup;
   submitted = false;
   show = false;
   url = '';
+  checkbox = false;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -39,7 +38,7 @@ export class UserEditComponent implements OnInit {
         [Validators.required, Validators.pattern('[a-zA-z0-9_\.]+@[a-zA-Z]+\.[a-zA-Z]+')]],
       password: ['',
         [Validators.pattern('^(?=.*[0-9])(?=.*[a-zа-я])(?=.*[A-ZА-Я]).{8,}$')]],
-      url:[],
+      url: [],
       university: [],
       briefInformation: [],
       file: [null]
@@ -59,20 +58,21 @@ export class UserEditComponent implements OnInit {
   }
 
   selectFile(event) {
-    this.selectedFiles = event.target.files[0];
     const reader = new FileReader();
+    this.userEditForm.patchValue({file: event.target.files[0]});
 
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
-
       reader.readAsDataURL(file);
-
       reader.onload = (event: any) => {
-        this.userEditForm.patchValue({file: reader.result});
         this.url = event.target.result;
         this.show = true;
       }
     }
+  }
+
+  deleteCheck(values: any) {
+    this.checkbox = values.currentTarget.checked;
   }
   deleteFile() {
     this.uploadService.deleteProfileImage(this.userInfo.url).subscribe(
@@ -88,15 +88,32 @@ export class UserEditComponent implements OnInit {
     if (this.userEditForm.invalid) {
       return;
     }
-    this.userService.updateUser(this.userEditForm.value).subscribe(data => {
-        this.alertService.success('You successfully update profile', true);
-        this.router.navigate(['/user/', this.tokenStorage.getId()])
-      },
-      error => {
-        this.alertService.error('error', false);
-      }
-    );
-    console.log("wow")
+    if (this.checkbox) {
+      this.deleteFile();
+    }
+    if (this.userEditForm.value.file !== null) {
+      this.userService.upload(this.userEditForm.value.file).subscribe(data => {
+        this.userEditForm.value.url = data;
+        this.userService.updateUser(this.userEditForm.value).subscribe(data => {
+            this.alertService.success('You successfully update profile', true);
+            this.router.navigate(['/user/', this.tokenStorage.getId()]);
+          },
+          error => {
+            this.alertService.error('error', false);
+          }
+        );
+      })
+    }
+    else {
+      this.userService.updateUser(this.userEditForm.value).subscribe(data => {
+          this.alertService.success('You successfully update profile', true);
+          this.router.navigate(['/user/', this.tokenStorage.getId()])
+        },
+        error => {
+          this.alertService.error('error', false);
+        }
+      );
+      console.log("wow")
+    }
   }
-
 }

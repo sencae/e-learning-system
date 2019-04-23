@@ -4,6 +4,12 @@
     <div class="row courses-list">
       <div class="col-md-4 col-sm-6 col-xs-12 col" *ngFor="let course of courses">
         <div class="course">
+          <a routerLink="/course/{{course.id}}">
+            <img *ngIf="course && course.url!=null; else standartImg" src="{{course.url}}" class="img-course">
+            <ng-template #standartImg>
+              <img #standartImg src="../../../assets/img/notebook-1587525_960_720.jpg" class="img-course">
+            </ng-template>
+          </a>
           <div class="course-content">
             <div class="course-title">
               <a routerLink="/course/{{course.id}}">

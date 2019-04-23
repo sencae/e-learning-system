@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 })
 export class FileExchangeService {
   private uploadResUrl='/api/uploadres';
+  private uploadCourseImgUrl = '/api/uploadCourseImg';
   constructor(private http:HttpClient) { }
 
   uploadResourceFiles(files:File[],topic:number):Observable<string>{
@@ -18,6 +19,15 @@ export class FileExchangeService {
     return this.http.post<string>(this.uploadResUrl,formData);
   }
 
+  uploadCourseImg(file: File, courseId: number): Observable<string> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('id', courseId.toString());
+    return this.http.post(this.uploadCourseImgUrl, formData, {
+      reportProgress: false,
+      responseType: 'text'
+    });
+  }
   getFiles(): Observable<any> {
     return this.http.get('/getallfiles');
   }
@@ -26,5 +36,9 @@ export class FileExchangeService {
   }
   deleteResource(url:string){
     return this.http.post('/api/delete/courseres',url)
+  }
+
+  deleteCourseImage(url: string) {
+    return this.http.post('/api/delete/courseimg', url)
   }
 }

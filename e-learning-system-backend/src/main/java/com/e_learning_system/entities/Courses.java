@@ -19,6 +19,12 @@ public class Courses {
     private Long professorId;
     private Timestamp startDate;
     private Timestamp endDate;
+    private String url;
+    private List<TopicsEntity> topicsEntities;
+
+    @JsonIgnore
+    @OneToOne
+    private User userById;
     @OneToOne
     private TestsEntity testsEntity;
     private Set<User> usersOnCourse;
@@ -44,14 +50,7 @@ public class Courses {
     public void setUsersOnCourse(Set<User> usersOnCourse) {
         this.usersOnCourse = usersOnCourse;
     }
-    private List<TopicsEntity> topicsEntities;
 
-    public Courses() {
-    }
-
-    @JsonIgnore
-    @OneToOne
-    private User userById;
 
     @OneToOne
     @JoinColumn(name = "professor_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
@@ -150,6 +149,15 @@ public class Courses {
         this.endDate = endDate;
     }
 
+    @Basic
+    @Column(name = "img_url")
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     @Override
     public boolean equals(Object o) {

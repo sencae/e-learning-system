@@ -3,8 +3,6 @@ import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../services/user/user.service";
 import {UserInfo} from "../../models/UserInfo";
 import {TokenStorageService} from "../../services/auth/token-storage.service";
-import {Observable} from "rxjs";
-import {FileExchangeService} from "../../services/fileExchange.service";
 
 @Component({
   selector: 'app-user-info',

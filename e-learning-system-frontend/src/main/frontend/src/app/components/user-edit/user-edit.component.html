@@ -1,32 +1,39 @@
 <div class="wrapper">
   <div class="content">
-
+    <div class="user-edit">
+      <div class="row">
+        <div class="col-xs-12">
       <form [formGroup]="userEditForm" (ngSubmit)="onSubmit()">
 
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="form-group input-group">
+          <div class="photo">
+            <label>Photo</label>
           <div *ngIf="f.url.value!=null; else standartImg">
             <img align="center" src="{{f.url.value}}" class="img-circle">
           </div>
           <ng-template #standartImg>
             <img align="center" src="../../../assets/img/noavatar.png" class="img-circle">
           </ng-template>
-          <p>change photo:</p>
-
-          <input style="display: none"
-                 type="file"
-                 (change)="selectFile($event)"
-                 #fileInput>
-          <button type="button" (click)="fileInput.click()">Choose</button>
-          <div *ngIf="f.url.value !== null">
-            <label>
-              <input type="checkbox" value="checkbox" (change)="deleteCheck($event)">
-              <span>Delete</span>
-            </label>
           </div>
-          <img [src]="url" height="200" *ngIf="show" class="img-circle"> <br/>
-        </div>
+          <div class="photo-text">
+            <p>change photo:</p>
 
+            <input style="display: none"
+                   type="file"
+                   (change)="selectFile($event)"
+                   #fileInput>
+            <button type="button" (click)="fileInput.click()">Choose</button>
+            <div *ngIf="f.url.value !== null">
+              <label>
+                <input type="checkbox" value="checkbox" (change)="deleteCheck($event)">
+                <span>Delete</span>
+              </label>
+            </div>
+            <img [src]="url" height="200" *ngIf="show" class="img-circle"> <br/>
+          </div>
+        </div>
         <div class="form-group input-group">
+          <label for="username"> Username</label>
           <input type="text" formControlName="username"
                  class="form-control"
                  placeholder="Username"
@@ -34,16 +41,19 @@
           />
         </div>
         <div class="form-group input-group">
+          <label for="firstName">First name</label>
           <input type="text" formControlName="firstName" class="form-control"
                  id="firstName"
                  placeholder="First name"/>
         </div>
         <div class="form-group input-group">
+          <label for="lastName">Last name</label>
           <input type="text" formControlName="lastName" class="form-control"
                  id="lastName"
                  placeholder="Last name"/>
         </div>
         <div class="form-group input-group">
+          <label for="email">E-mail</label>
           <input type="text" formControlName="email" class="form-control"
                  id="email"
                  placeholder="Email"
@@ -58,6 +68,7 @@
           </div>
         </div>
         <div class="form-group input-group">
+          <label for="password">Password</label>
           <input type="password" formControlName="password" class="form-control"
                  id="password"
                  placeholder="Password"
@@ -69,11 +80,13 @@
           </div>
         </div>
         <div class="form-group input-group">
+          <label for="university"> University</label>
           <input type="text" formControlName="university" class="form-control"
                  id="university"
                  placeholder="University"/>
         </div>
         <div class="form-group input-group">
+          <label for="briefInformation">Brief information</label>
           <input type="text" formControlName="briefInformation" class="form-control"
                  id="briefInformation"
                  placeholder="Brief information"/>
@@ -81,9 +94,12 @@
 
 
         <div class="form-group" style="margin-top: 20px">
-          <button type="submit" class="btn btn-primary"> Update </button>
-          <button class="btn btn-secondary" routerLink="">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" routerLink="../">Cancel</button>
         </div>
       </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

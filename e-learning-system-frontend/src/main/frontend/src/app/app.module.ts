@@ -31,6 +31,7 @@ import {MyPageComponent} from './components/my-page/my-page.component';
 import {CourseManagementComponent} from './components/course-management/course-management.component';
 import {CourseTestComponent} from './components/course-test/course-test.component';
 import {EditTestComponent} from './components/edit-test/edit-test.component';
+import {CourseResourcesComponent} from './components/course-resources/course-resources.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {EditTestComponent} from './components/edit-test/edit-test.component';
     MyPageComponent,
     CourseManagementComponent,
     CourseTestComponent,
-    EditTestComponent
+    EditTestComponent,
+    CourseResourcesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,9 @@
-.row{
-  margin-top: 100px;
-  margin-right: 1px;
-  margin-left: 1px;
+
+.course {
+  border: 1px solid #e1e1e1;
+  padding-bottom: 50px;
+}
+
+.course-title {
+  font-size: 20px;
 }

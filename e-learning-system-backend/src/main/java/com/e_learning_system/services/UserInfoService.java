@@ -6,13 +6,10 @@ import com.e_learning_system.dto.ModelMapperUtil;
 import com.e_learning_system.dto.UpdateUserDto;
 import com.e_learning_system.dto.UserDto;
 import com.e_learning_system.entities.User;
-import com.e_learning_system.googleApi.GoogleDriveService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserInfoService {
@@ -29,14 +26,11 @@ public class UserInfoService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public String getFileIdFromUrl(String url) {
-        return url.substring(url.indexOf('=') + 1, url.indexOf('&'));
-    }
-
     @Transactional
     public boolean deletePageImgUrl(String url) {
         return userInfoRepository.clearPageImgUrl(url) > 0;
     }
+
     @Transactional
     public boolean setPageImgUrl(String url, Long id) {
         return userInfoRepository.setPageImgUrl(url, id) > 0;

@@ -13,8 +13,10 @@ public class CourseResources {
 
     private String url;
     private String title;
-
     private Long topicId;
+    @JsonIgnore
+    private TopicsEntity topic;
+
     @Id
     @SequenceGenerator(name = "seqRes", sequenceName = "course_resources_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqRes")
@@ -72,5 +74,15 @@ public class CourseResources {
     @Override
     public int hashCode() {
         return Objects.hash(id, url, title);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "topic_id", insertable = false, updatable = false)
+    public TopicsEntity getTopic() {
+        return topic;
+    }
+
+    public void setTopic(TopicsEntity topic) {
+        this.topic = topic;
     }
 }

@@ -34,11 +34,11 @@
         </div>
         <div class="col-md-4">
           <div class="card card-links">
-            <div *ngIf="authorized()">
-              <a class="siteLink" routerLink="edit">Edit profile</a>
+            <div class="change-buttons" *ngIf="authorized()">
+              <button type="button" class="btn btn-primary" routerLink="edit">Edit profile</button>
             </div>
-            <div *ngIf="professor===true">
-              <a class="siteLink" routerLink="/courses/create">Create course</a>
+            <div class="change-buttons" *ngIf="professor===true">
+              <button type="button" class="btn btn-primary" routerLink="/courses/create">Create course</button>
             </div>
           </div>
         </div>

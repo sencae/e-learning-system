@@ -23,4 +23,8 @@ public class TopicsService {
     public void deleteTopic(TopicsEntity topicsEntity) {
         topicsRepository.delete(topicsEntity);
     }
+
+    public TopicsEntity getById(Long id) {
+        return topicsRepository.getById(id);
+    }
 }

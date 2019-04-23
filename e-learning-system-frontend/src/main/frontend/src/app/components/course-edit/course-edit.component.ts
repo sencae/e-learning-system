@@ -1,15 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {Course} from "../../models/Course";
 import {CourseService} from "../../services/course/course.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Resource} from "../../models/Resource";
 import {FileExchangeService} from "../../services/fileExchange.service";
 import {TopicService} from "../../services/course/topic.service";
 import {CreateTopic} from "../../models/CreateTopic";
-import {FormControl} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CreateTest} from "../../models/CreateTest";
 import {TestService} from "../../services/course/test.service";
 import {Topic} from "../../models/Topic";
+import {AlertService} from "../../services/alert.service";
+import {CourseInfo} from "../../models/CourseInfo";
 
 @Component({
   selector: 'app-course-edit',
@@ -17,34 +18,55 @@ import {Topic} from "../../models/Topic";
   styleUrls: ['./course-edit.component.css']
 })
 export class CourseEditComponent implements OnInit {
-  course: Course;
-  openForm = false;
+
+  courseEditForm: FormGroup;
   openFormTest = false;
-  topicTtl: number;
-  testTitle = new FormControl('');
-  private createTopic: CreateTopic;
+  createTopic: CreateTopic;
   topicTitle = new FormControl('');
-  private createTest: CreateTest;
+  createTest: CreateTest;
+  testTitle = new FormControl('');
+  submitted = false;
+  openForm = false;
+  topicTtl: number;
+  checkbox = false;
+  course: CourseInfo;
+  show = false;
+  url = '';
+  readonly id = +this.route.snapshot.paramMap.get('id');
 
   constructor(private courseService: CourseService,
-              private route: ActivatedRoute,
-              private fileEx: FileExchangeService,
               private topicService: TopicService,
+              private alertService: AlertService,
+              private testService: TestService,
+              private formBuilder: FormBuilder,
+              private fileEx: FileExchangeService,
               private router: Router,
-              private testService: TestService) {
+              private route: ActivatedRoute) {
+  }
+
+  get f() {
+    return this.courseEditForm.controls;
   }
 
   ngOnInit() {
-    this.getCourseInfo()
+    this.getCourseInfo();
   }
 
   getCourseInfo() {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.courseService.getCourse(id).subscribe(
+    this.courseService.getCourse(this.id).subscribe(
       course => {
         this.course = course;
-        if(course.author == false)
+        if (course.author == false)
           this.router.navigate(['404']);
+        this.courseEditForm = this.formBuilder.group({
+          id: [''],
+          title: [course.title, Validators.required],
+          description: [course.description],
+          startDate: [course.startDate.toString().substring(0, 16), Validators.required],
+          endDate: [this.course.endDate.toString().substring(0, 16), Validators.required],
+          file: [null],
+          url: [null]
+        })
       },
       error1 => {
         this.router.navigate(['404']);
@@ -52,7 +74,7 @@ export class CourseEditComponent implements OnInit {
     )
   }
 
-  info(title:number) {
+  info(title: number) {
     this.topicTtl = title;
   }
 
@@ -69,17 +91,18 @@ export class CourseEditComponent implements OnInit {
   saveTest() {
     this.createTest = new CreateTest(
       this.testTitle.value,
-      +this.route.snapshot.paramMap.get('id'));
+      this.id);
     this.testService.saveTest(this.createTest).subscribe(data => {
         this.course.test = data;
         this.openFormTest = false;
       }, error => console.log(error)
     )
   }
+
   saveTopic() {
     this.createTopic = new CreateTopic(
       this.topicTitle.value,
-      +this.route.snapshot.paramMap.get('id'));
+      this.id);
     this.topicService.saveTopic(this.createTopic).subscribe(data => {
         this.course.topics.push(data);
       this.openForm = false;
@@ -102,4 +125,68 @@ export class CourseEditComponent implements OnInit {
       error => console.log(error));
   }
 
+  deleteCheck(values: any) {
+    this.checkbox = values.currentTarget.checked;
+  }
+
+  deleteFile() {
+    this.fileEx.deleteCourseImage(this.course.url).subscribe(data => {
+        this.course.url = null;
+        this.courseEditForm.value.url = null;
+      },
+      error => {
+        console.log("Failed to delete profile image")
+      }
+    )
+  }
+
+  selectFile(event) {
+    const reader = new FileReader();
+    this.courseEditForm.patchValue({file: event.target.files[0]});
+
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = (event: any) => {
+        this.url = event.target.result;
+        this.show = true;
+      }
+    }
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.courseEditForm.invalid) {
+      return;
+    }
+    if (this.checkbox) {
+      this.deleteFile();
+    }
+    this.courseEditForm.patchValue({id: this.id});
+    if (this.courseEditForm.value.file !== null) {
+      this.fileEx.uploadCourseImg(this.courseEditForm.value.file, this.id)
+        .subscribe(data => {
+            this.courseEditForm.value.url = data;
+            this.courseService.updateCourse(this.courseEditForm.value).subscribe(data => {
+                this.alertService.success('You successfully update course', true);
+                this.router.navigate(['course/', this.id]);
+              },
+              error => {
+                this.alertService.error('error', false);
+              }
+            );
+          }
+        )
+    }
+    else {
+      this.courseService.updateCourse(this.courseEditForm.value).subscribe(data => {
+          this.alertService.success('You successfully update course', true);
+          this.router.navigate(['course/', this.id])
+        },
+        error => {
+          this.alertService.error('error', false);
+        }
+      );
+    }
+  }
 }

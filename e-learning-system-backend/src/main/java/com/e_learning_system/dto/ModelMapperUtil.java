@@ -48,5 +48,11 @@ public class ModelMapperUtil extends ModelMapper {
                 map().setParentQuestion(source.getParentQuestion());
             }
         });
+        this.addMappings(new PropertyMap<User, StudentManageDto>() {
+            @Override
+            protected void configure() {
+                map().setUserId(source.getId());
+            }
+        });
     }
 }

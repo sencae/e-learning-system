@@ -5,9 +5,8 @@ import com.e_learning_system.dto.TopicDto;
 import com.e_learning_system.entities.CourseResources;
 import com.e_learning_system.entities.TopicsEntity;
 import com.e_learning_system.googleApi.GoogleDriveService;
-import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.services.TopicsService;
-import com.e_learning_system.services.UserInfoService;
+import com.e_learning_system.services.UtilService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +23,14 @@ public class TopicController extends BaseGetController {
     private final ModelMapperUtil modelMapperUtil;
     private final TopicsService topicsService;
     private final GoogleDriveService googleDriveService;
-    private final UserInfoService userInfoService;
-    private final CoursesService coursesService;
+    private final UtilService utilService;
 
     @Autowired
-    public TopicController(ModelMapperUtil modelMapperUtil, TopicsService topicsService, GoogleDriveService googleDriveService, UserInfoService userInfoService, CoursesService coursesService) {
+    public TopicController(ModelMapperUtil modelMapperUtil, TopicsService topicsService, GoogleDriveService googleDriveService, UtilService utilService) {
         this.modelMapperUtil = modelMapperUtil;
         this.topicsService = topicsService;
         this.googleDriveService = googleDriveService;
-        this.userInfoService = userInfoService;
-        this.coursesService = coursesService;
+        this.utilService = utilService;
     }
 
     @PreAuthorize("hasAuthority('professor')")
@@ -54,7 +51,7 @@ public class TopicController extends BaseGetController {
             if (
                     googleDriveService.deleteFile(
                             googleDriveService.getDriveService(),
-                            userInfoService.getFileIdFromUrl(
+                            utilService.getFileIdFromUrl(
                                     courseResources.getUrl()
                             )
                     )

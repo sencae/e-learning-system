@@ -1,43 +1,90 @@
 <div class="wrapper">
   <div class="content">
 
-    <form class="container pt-2" [formGroup]="testForm" (ngSubmit)="onSubmit()">
-      <h1>{{testForm.value.testName}}</h1>
-      <div formArrayName="questions">
-        <div [formGroupName]="i" *ngFor="let question of testForm.get('questions').controls; index as i">
-          <div class="form-group">
-            <input class="form-control" formControlName="question" placeholder="Enter question"
-                   [class.is-invalid]="question.invalid">
-            <small class="text-danger" *ngIf="question.invalid">Required</small>
-            <div formArrayName="answers">
-              <div [formGroupName]="a" *ngFor="let answer of question.get('answers').controls; index as a">
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    formControlName="answer"
-                    placeholder="Enter answer"
-                    [class.is-invalid]="answer.invalid">
-                  <div *ngIf="answer.invalid" class="invalid-feedback">
-                    <div *ngIf="answer.controls.answer.errors.unique">
-                      not unique
+    <form class="test-edit" [formGroup]="testForm" (ngSubmit)="onSubmit()">
+      <div class="form-group input-group">
+        <label for="testName">Test name</label>
+        <input type="text" formControlName="testName" placeholder="Test name" id="testName"
+               class="form-control">
+      </div>
+      <div id="accordionEdit">
+        <div class="card">
+          <div class="card-header" [attr.id]="'headEdit'">
+            <h5 class="mb-0">
+              <button type="button" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#edit'"
+                      aria-expanded="true" [attr.aria-controls]="'edit'">
+                Questions
+              </button>
+            </h5>
+          </div>
+
+          <div [attr.id]="'edit'" class="collapse" [attr.aria-labelledby]="'headEdit'"
+               data-parent="#accordionEdit">
+            <div class="card-body" formArrayName="questions">
+              <div [formGroupName]="i" *ngFor="let question of testForm.get('questions').controls; index as i">
+
+                <div class="form-group input-group">
+                  <label for="question">Question</label>
+                  <input class="form-control" formControlName="question" id="question" placeholder="Enter question"
+                         [class.is-invalid]="question.invalid">
+                  <small class="text-danger" *ngIf="question.invalid">Required</small>
+                </div>
+
+                <div id="accordionAnswer">
+                  <div class="card">
+                    <div class="card-header" [attr.id]="'headAnswer'">
+                      <h5 class="mb-0">
+                        <button type="button" class="btn btn-link" data-toggle="collapse"
+                                [attr.data-target]="'#answer'+ i"
+                                aria-expanded="true" [attr.aria-controls]="'answer' + i">
+                          Answers
+                        </button>
+                      </h5>
                     </div>
-                  </div>
-                  <div *ngIf="!question.invalid">
-                    <label>
-                      <input type="radio" formControlName="correctAnswer" [value]="true"
-                             (change)="onSelect(question,answer)"
-                             title="correctAnswer">
-                      <span>right</span>
-                    </label>
+
+                    <div [attr.id]="'answer' + i" class="collapse" [attr.aria-labelledby]="'headAnswer'"
+                         data-parent="#accordionAnswer">
+                      <div class="card-body" formArrayName="answers">
+                        <div [formGroupName]="a" *ngFor="let answer of question.get('answers').controls; index as a">
+                          <div class="form-group input-group">
+                            <label for="answer"> Answer</label>
+                            <input
+                              class="form-control"
+                              id="answer"
+                              formControlName="answer"
+                              placeholder="Enter answer"
+                              [class.is-invalid]="answer.invalid">
+                            <div *ngIf="answer.invalid" class="invalid-feedback">
+                              <div *ngIf="answer.controls.answer.errors.unique">
+                                not unique
+                              </div>
+                            </div>
+                            <div *ngIf="!question.invalid">
+                              <label style="padding-left: 10px;">
+                                <input type="radio" formControlName="correctAnswer" [value]="true"
+                                       (change)="onSelect(question,answer)"
+                                       title="correctAnswer">
+                                <span>Right answer</span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" style="margin: 10px" (click)="addAnswer(i)">Add
+                          answer
+                        </button>
+                      </div>
+
+
+                    </div>
                   </div>
                 </div>
               </div>
-              <div></div>
-              <button type="button" class="btn btn-primary" (click)="addAnswer(i)">Add answer</button>
+              <button type="button" class="btn btn-primary" (click)="addQuestion()" style="margin: 10px">Add
+                question
+              </button>
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-primary" (click)="addQuestion()">Add question</button>
       </div>
       <div class="submit-form">
         <button [disabled]="loading"
@@ -49,10 +96,6 @@
         <button class="btn btn-secondary" routerLink="../">Cancel</button>
       </div>
     </form>
-
-    <pre>
-  {{ testForm.value | json }}
-</pre>
 
   </div>
 </div>

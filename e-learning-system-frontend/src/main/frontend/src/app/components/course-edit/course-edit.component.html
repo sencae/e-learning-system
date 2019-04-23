@@ -1,62 +1,135 @@
 <div class="wrapper">
   <div class="content">
+    <div class="course-edit">
+      <form [formGroup]="courseEditForm" (ngSubmit)="onSubmit()">
+        <div class="form-group input-group">
+          <label for="title">Title</label>
+          <input type="text" formControlName="title" placeholder="Title" id="title"
+                 class="form-control">
+        </div>
+        <div class="form-group input-group">
+          <label for="Description">Description</label>
+          <input type="text" formControlName="description" placeholder="Description"
+                 id="Description" class="form-control">
+        </div>
+        <div class="form-group input-group">
+          <div style="margin-top: 5px">
+            <div *ngIf="course && course.url!=null; else standartImg">
+              <img align="center" src="{{course.url}}" class="img-course">
+            </div>
+            <ng-template #standartImg>
+              <img align="center" src="../../../assets/img/notebook-1587525_960_720.jpg" class="img-course">
+            </ng-template>
+            <p>change photo:</p>
 
-    <h1>{{course.title}}</h1>
-    <p>{{course.description}}</p>
+            <input style="display: none"
+                   type="file"
+                   (change)="selectFile($event)"
+                   #fileInput>
+            <button type="button" (click)="fileInput.click()">Choose</button>
+            <div *ngIf="course && course.url !== null">
+              <label>
+                <input type="checkbox" value="checkbox" (change)="deleteCheck($event)">
+                <span>Delete</span>
+              </label>
+            </div>
+            <img [src]="url" height="200" *ngIf="show" class="img-course"> <br/>
+          </div>
+        </div>
+        <div class="form-group input-group">
+          <label for="date">Select start date:</label>
+          <input type="datetime-local" formControlName="startDate"
+                 class="form-control"
+                 id="date"
+                 [ngClass]="{ 'is-invalid': f.startDate.errors && (submitted ||f.startDate.touched) }">
+          <div *ngIf=" f.title.errors && (submitted ||f.title.touched)" class="invalid-feedback">
+            <div *ngIf="f.title.errors.required">
+              Start date is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group input-group">
+          <label for="endDate">Select end date:</label>
+          <input type="datetime-local" formControlName="endDate"
+                 class="form-control"
+                 id="endDate"
+                 [ngClass]="{ 'is-invalid': f.endDate.errors && (submitted ||f.endDate.touched) }">
+          <div *ngIf=" f.title.errors && (submitted ||f.title.touched)" class="invalid-feedback">
+            <div *ngIf="f.title.errors.required">
+              End date is required
+            </div>
+          </div>
+        </div>
+        <div *ngIf="course">
+          <div id="accordionEdit">
+            <div class="card" *ngFor="let file of course.topics; let i = index">
+              <div class="card-header" [attr.id]="'headEdit-'+file.title">
+                <h5 class="mb-0">
+                  <button type="button" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#edit-'+i"
+                          aria-expanded="true" [attr.aria-controls]="'edit-'+i">
+                    {{file.title}}
+                  </button>
+                  <button class="btn btn-danger" type="button" title="delete topic"
+                          (click)="deleteTopic(file)">x
+                  </button>
+                </h5>
+              </div>
 
-    <div class="resources">
-        <ul *ngFor="let file of course.topics">
-          <li>{{file.title}}</li>
-          <button class="delete" title="delete resource"
-                  (click)="deleteTopic(file)">x
-          </button>
-          <ul>
-            <li *ngFor="let res of file.courseResources">
-                <a href="{{res.url}}"> {{res.title}}</a>
-              <button class="delete" title="delete resource"
-                      (click)="deleteResource(res)">x
-              </button>
-            </li>
-            <button type="button" (click)="info(file.id)" class="btn btn-primary" data-toggle="modal"
-                    data-target="#downloadModal">
-              attach files
+              <div [attr.id]="'edit-'+i" class="collapse" [attr.aria-labelledby]="'headEdit-'+file.title"
+                   data-parent="#accordionEdit">
+                <div class="card-body" *ngFor="let res of file.courseResources">
+                  <a href="{{res.url}}"> {{res.title}}</a>
+                  <button class="btn btn-danger" type="button" title="delete resource"
+                          (click)="deleteResource(res)">x
+                  </button>
+                </div>
+                <button type="button" (click)="info(file.id)" class="btn btn-primary" data-toggle="modal"
+                        data-target="#downloadModal">
+                  attach files
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <br>
+          <button type="button" class="btn btn-link" (click)="onClickOpenForm()">Add topic</button>
+          <div [hidden]="!openForm">
+            <input type="text"
+                   placeholder="Topic title"
+                   class="form-control"
+                   [formControl]="topicTitle"
+            />
+            <button type="button" class="btn btn-primary" (click)="saveTopic()">
+              Save
             </button>
-
-          </ul>
-        </ul>
-      <br>
-      <div *ngIf="course.test!=null">
-        <p>{{course.test}}</p>
-        <button type="button" class="btn btn-primary">Edit test</button>
-      </div>
-      <a (click)="onClickOpenForm()" class="btn-link" style="cursor: pointer">Add topic</a>
-      <div [hidden]="!openForm" >
-        <input type="text"
-              placeholder="Topic title"
-               class="form-control"
-               [formControl]="topicTitle"
-              />
-        <button type="submit" class="btn-primary" (click)="saveTopic()">
-          Save
-        </button>
-        <button class="btn-secondary" (click)="openForm=false">Cancel</button>
-      </div>
-      <div *ngIf="!course.test">
-        <a (click)="onClickOpenFormTest()" class="btn-link" style="cursor: pointer">Add final test</a>
-      </div>
-      <div [hidden]="!openFormTest">
-        <input type="text"
-               placeholder="Test title"
-               class="form-control"
-               [formControl]="testTitle"
-        />
-        <button type="submit" class="btn-primary" (click)="saveTest()">
-          Save
-        </button>
-        <button class="btn-secondary" (click)="openFormTest=false">Cancel</button>
-      </div>
+            <button type="button" class="btn btn-secondary" (click)="openForm=false">
+              Cancel
+            </button>
+          </div>
+          <div *ngIf="course.test!=null">
+            <button type="button" class="btn btn-primary" routerLink="../test/edit">Edit test</button>
+          </div>
+          <div *ngIf="!course.test">
+            <button type="button" (click)="onClickOpenFormTest()" class="btn btn-link">Add final test</button>
+          </div>
+          <div [hidden]="!openFormTest">
+            <input type="text"
+                   placeholder="Test title"
+                   class="form-control"
+                   [formControl]="testTitle"
+            />
+            <button type="button" class="btn btn-primary" (click)="saveTest()">
+              Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="openFormTest=false">Cancel</button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" routerLink="../">Cancel</button>
+        </div>
+      </form>
     </div>
   </div>
-
   <app-download-resource [topic]="topicTtl"></app-download-resource>
-  </div>
+</div>

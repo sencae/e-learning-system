@@ -9,6 +9,7 @@ import com.e_learning_system.services.registrationService.ConfirmationTokenServi
 import com.e_learning_system.services.registrationService.EmailSenderService;
 import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -27,6 +28,9 @@ public class UserController {
     private final EmailSenderService emailSenderService;
     private final ModelMapperUtil modelMapperUtil;
     private final UserGroupsService userGroupsService;
+    @Value("${spring.mail.username}")
+    private String accountEmail;
+
     @Autowired
     public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService, ModelMapperUtil modelMapperUtil, UserGroupsService userGroupsService) {
         this.userService = userService;
@@ -66,6 +70,7 @@ public class UserController {
                 user.setReg_id(3L);
                 confirmationTokenService.save(confirmationToken);
                 SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setFrom(accountEmail);
                 mailMessage.setTo(user.getEmail());
                 mailMessage.setSubject("Complete Registration!");
                 mailMessage.setText("To confirm your account, please click here : "

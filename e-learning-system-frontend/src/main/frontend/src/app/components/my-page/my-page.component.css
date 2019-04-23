@@ -1,0 +1,15 @@
+.background-poster {
+  height: 420px;
+  min-height: 400px;
+  background-image: url('../../../assets/img/typewriter-801921_960_720.jpg');
+  width: 100%;
+  position: absolute;
+}
+
+.overlay {
+  min-height: 100%;
+  min-width: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(70, 70, 70, 0.79);
+}

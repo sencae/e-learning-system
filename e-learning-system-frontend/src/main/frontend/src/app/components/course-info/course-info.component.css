@@ -28,6 +28,18 @@ a, a:focus {
   margin: 0 13px 10px 13px;
 }
 
+.course-title {
+  font-size: 45px;
+  color: white;
+}
+
+.course-status {
+  color: #afafaf;
+}
+
+.advansed-info {
+  margin-top: 45px;
+}
 .issue {
   margin-bottom: 40px;
   font-size: 15px;
@@ -35,8 +47,37 @@ a, a:focus {
   word-wrap: break-word;
 }
 
+.course-date {
+  color: white;
+}
+
+.head {
+  padding-top: 40px;
+  margin-bottom: 130px;
+}
 .row {
   margin-left: -20px;
   margin-right: -20px;
+}
+
+.img-course {
+  width: 297px;
+  height: 200px;
+}
+
+.background-poster {
+  height: 420px;
+  min-height: 400px;
+  background-image: url('../../../assets/img/notebook-1587525_960_720.jpg');
+  width: 100%;
+  position: absolute;
+}
+
+.overlay {
+  min-height: 100%;
+  min-width: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(70, 70, 70, 0.79);
 }
 

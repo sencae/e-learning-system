@@ -83,15 +83,16 @@ public class CoursesGetController extends BaseGetController {
             if (SecurityContextHolder.getContext()
                     .getAuthentication()
                     .getPrincipal() == "anonymousUser") {
-                coursesDto.setStarted(true);
+                coursesDto.setJoin(false);
                 coursesDto.setTopics(null);
+                coursesDto.setTest(null);
                 return new ResponseEntity<>(coursesDto, HttpStatus.OK);
             }
             UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
                     .getAuthentication().getPrincipal();
             coursesDto.setJoin(userOnCoursesService.checkUser(userPrinciple.getId(), courseId));
             coursesDto.setAuthor(userPrinciple.getId().equals(course.getProfessorId()));
-            if (coursesDto.isJoin() || coursesDto.isAuthor())
+            if (coursesDto.isAuthor() || (coursesDto.isJoin() && coursesDto.isStarted()))
                 return new ResponseEntity<>(coursesDto, HttpStatus.OK);
             else {
                 coursesDto.setTopics(null);

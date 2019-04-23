@@ -1,11 +1,10 @@
 package com.e_learning_system.controllers;
 
-import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.dto.CoursesDto;
 import com.e_learning_system.dto.ModelMapperUtil;
 import com.e_learning_system.entities.Courses;
 import com.e_learning_system.security.service.UserPrinciple;
-import com.e_learning_system.services.UserGroupsService;
+import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.services.registrationService.UserService;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class MyPageController extends BaseGetController {
     private final CoursesService coursesService;
     private final ModelMapperUtil modelMapperUtil;
-    private final UserGroupsService userGroupsService;
     private final UserService userService;
     @Autowired
-    public MyPageController(CoursesService coursesService, ModelMapperUtil modelMapperUtil, UserGroupsService userGroupsService, UserService userService) {
+    public MyPageController(CoursesService coursesService, ModelMapperUtil modelMapperUtil, UserService userService) {
         this.coursesService = coursesService;
         this.modelMapperUtil = modelMapperUtil;
-        this.userGroupsService = userGroupsService;
         this.userService = userService;
     }
     @PreAuthorize("hasAnyAuthority('professor','student')")

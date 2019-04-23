@@ -1,5 +1,7 @@
 package com.e_learning_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +12,8 @@ public class TopicsEntity {
     private String title;
     private Long courseId;
     private List<CourseResources> courseResources;
+    @JsonIgnore
+    private Courses course;
 
     @OneToMany
     @JoinColumn(name = "topic_id", updatable = false)
@@ -73,5 +77,15 @@ public class TopicsEntity {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (courseId != null ? courseId.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    public Courses getCourse() {
+        return course;
+    }
+
+    public void setCourse(Courses course) {
+        this.course = course;
     }
 }

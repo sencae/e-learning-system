@@ -7,6 +7,7 @@ import com.e_learning_system.googleApi.GoogleDriveService;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.FileExchangeService;
 import com.e_learning_system.services.UserInfoService;
+import com.e_learning_system.services.UtilService;
 import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,13 +26,15 @@ public class UserEditController extends BaseGetController {
     private final FileExchangeService fileExchangeService;
     private final GoogleDriveService googleDriveService;
     private final UserService userService;
+    private final UtilService utilService;
 
     @Autowired
-    public UserEditController(UserInfoService userInfoService, FileExchangeService fileExchangeService, GoogleDriveService googleDriveService, UserService userService) {
+    public UserEditController(UserInfoService userInfoService, FileExchangeService fileExchangeService, GoogleDriveService googleDriveService, UserService userService, UtilService utilService) {
         this.userInfoService = userInfoService;
         this.fileExchangeService = fileExchangeService;
         this.googleDriveService = googleDriveService;
         this.userService = userService;
+        this.utilService = utilService;
     }
 
     @PostMapping("/img")
@@ -45,7 +48,7 @@ public class UserEditController extends BaseGetController {
             ) {
                 googleDriveService.deleteFile(
                         googleDriveService.getDriveService(),
-                        userInfoService.getFileIdFromUrl(
+                        utilService.getFileIdFromUrl(
                                 user.getUserInfo().getAvatarUrl()
                         )
                 );

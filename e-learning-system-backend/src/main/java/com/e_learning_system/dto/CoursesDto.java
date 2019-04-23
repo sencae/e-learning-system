@@ -18,6 +18,7 @@ public class CoursesDto {
     private boolean isStarted;
     private Timestamp startDate;
     private Timestamp endDate;
+    private String url;
 
     private String test;
 
@@ -110,6 +111,13 @@ public class CoursesDto {
         isStarted = started;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
 
 //    public Set<CourseResources> getResources() {

@@ -4,4 +4,6 @@
   position: relative;
 }
 
-
+.change-buttons {
+  margin: 5px;
+}

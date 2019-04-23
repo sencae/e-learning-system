@@ -1,39 +1,57 @@
 <div class="wrapper">
+  <div class="background-poster">
+    <div class="overlay"></div>
+  </div>
   <div class="content">
-    <div *ngIf="course">
+    <div *ngIf="course && user">
+      <div class="row head">
+        <div class="col-md-8 col-sm-12">
+          <h1 class="course-title">{{course.title}}
+          </h1>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <img *ngIf="course.url!=null; else standartCourseImg" src="{{course.url}}" class="img-course">
+          <ng-template #standartCourseImg>
+            <img src="../../../assets/img/notebook-1587525_960_720.jpg" class="img-course">
+          </ng-template>
+        </div>
+        <div class="col-md-4 col-sm-6 advansed-info course-date">
+          <span class="fa fa-calendar"></span>
+          {{course.startDate|date:'mediumDate'}} - {{course.endDate|date:'mediumDate'}}
 
-      <h1>{{course.title}}</h1>
+          <div class="course-status" *ngIf="course.started; else notStarted">
+            Course already started
+          </div>
+          <ng-template #notStarted>
+            <div class="course-status">
+              Course is not started
+            </div>
+          </ng-template>
+        </div>
+        <div class="col-md-4 col-sm-6 advansed-info course-date">
+          <div class="course-date" *ngIf="!course.started; else alreadyStarted"><span>{{dateDif()}} days</span>
+            <div class="course-status">Time to join</div>
+          </div>
+          <ng-template #alreadyStarted>
+            <span class="course-status">Course started</span>
+          </ng-template>
+        </div>
+        <div class="col-md-4 col-sm-6 advansed-info">
+          <div *ngIf="!course.join && !course.author&& !course.started">
+            <button class="btn btn-primary" (click)="joinTo()">Join</button>
+          </div>
+          <div *ngIf="course.author || (course.join && course.started)">
+            <button class="btn btn-primary" data-toggle="modal"
+                    data-target="#course-resources-modal">Show resources
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="row course-descr">
         <div class="col-sm-8 issue">
           <h2>About</h2>
           <p>{{course.description}}</p>
-          <p>Start date: {{course.startDate|date:'long'}}</p>
-          <p>End date: {{course.endDate|date:'long'}}</p>
-          <div *ngIf="course.join||course.author">
-            <div class="resources">
-              <button class="button btn-info" *ngIf='showFile' (click)='showFiles(false)'>Hide Resources</button>
-              <button class="button btn-info" *ngIf='!showFile' (click)='showFiles(true)'>Show Resources</button>
-              <div [hidden]="!showFile">
-                <div class="panel panel-primary">
-                  <div class="panel-heading">List of Files</div>
-                  <ul *ngFor="let file of course.topics">
-                    <li>{{file.title}}</li>
-                    <ul>
-                      <li *ngFor="let res of file.courseResources">
-                        <a href="{{res.url}}"> {{res.title}}</a>
-                      </li>
-                    </ul>
-                  </ul>
-                  <div class="test">
-                    <a routerLink="test">{{course.test}}</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="!course.join && !course.author&& !course.started">
-            <button class="btn-primary" (click)="joinTo()">Join</button>
-          </div>
         </div>
         <div class="col-sm-4">
           <div class="card card-professor">
@@ -65,6 +83,7 @@
       </div>
     </div>
   </div>
-
-
+  <app-course-resources [topics]="course.topics" [test]="course.test"></app-course-resources>
 </div>
+
+

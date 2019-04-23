@@ -17,7 +17,6 @@ export class CourseInfoComponent implements OnInit {
   professor: string;
   showFile = false;
   user: UserInfo;
-
   constructor(private courseService: CourseService,
               private route: ActivatedRoute,
               private tokenStorage: TokenStorageService,
@@ -29,7 +28,6 @@ export class CourseInfoComponent implements OnInit {
   ngOnInit() {
     this.getCourse();
   }
-
   private getCourse() {
     const id = +this.route.snapshot.paramMap.get('id');
     this.courseService.getCourse(id).subscribe(
@@ -46,6 +44,9 @@ export class CourseInfoComponent implements OnInit {
     );
   }
 
+  dateDif() {
+    return Math.round((Date.parse(this.course.startDate.toString()) - Date.parse(new Date().toString())) / 86400000);
+  }
   joinTo() {
     const id = +this.route.snapshot.paramMap.get('id');
     this.courseService.join(id).subscribe(success => window.location.reload(),

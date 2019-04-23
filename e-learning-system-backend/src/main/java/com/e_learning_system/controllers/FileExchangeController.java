@@ -1,10 +1,12 @@
 package com.e_learning_system.controllers;
 
+import com.e_learning_system.entities.CourseResources;
+import com.e_learning_system.entities.Courses;
+import com.e_learning_system.entities.TopicsEntity;
+import com.e_learning_system.entities.User;
 import com.e_learning_system.googleApi.GoogleDriveService;
 import com.e_learning_system.security.service.UserPrinciple;
-import com.e_learning_system.services.CoursesService;
-import com.e_learning_system.services.FileExchangeService;
-import com.e_learning_system.services.UserInfoService;
+import com.e_learning_system.services.*;
 import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,43 +27,54 @@ public class FileExchangeController extends BaseGetController {
     private final CoursesService coursesService;
     private final UserService userService;
     private final FileExchangeService fileExchangeService;
+    private final ResourcesService resourcesService;
+    private final TopicsService topicsService;
+    private final UtilService utilService;
 
     @Autowired
     public FileExchangeController(GoogleDriveService googleDriveService,
                                   UserInfoService userInfoService,
                                   CoursesService coursesService,
-                                  UserService userService, FileExchangeService fileExchangeService) {
+                                  UserService userService, FileExchangeService fileExchangeService, ResourcesService resourcesService, TopicsService topicsService, UtilService utilService) {
         this.googleDriveService = googleDriveService;
         this.userInfoService = userInfoService;
         this.coursesService = coursesService;
         this.userService = userService;
         this.fileExchangeService = fileExchangeService;
+        this.resourcesService = resourcesService;
+        this.topicsService = topicsService;
+        this.utilService = utilService;
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> UploadPageImg(@RequestParam("file") MultipartFile file) {
-        String message = "";
+
+    @PreAuthorize("hasAuthority('professor')")
+    @PostMapping("/uploadCourseImg")
+    public ResponseEntity<String> uploadCourseImg(@RequestParam("file") MultipartFile file, @RequestParam("id") Long id) {
+        String message;
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        com.google.api.services.drive.model.File result = fileExchangeService.uploadPageImg(file);
-        if (result != null) {
-            googleDriveService.deleteFile(
-                    googleDriveService.getDriveService(),
-                    userInfoService.getFileIdFromUrl(
-                            userService.getUserById(
-                                    userPrinciple.getId()
-                            ).getUserInfo().getAvatarUrl()
-                    )
-            );
-            if (userInfoService.setPageImgUrl(result.getWebContentLink(), userPrinciple.getId()))
-                message = "You successfully uploaded " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.OK).body(message);
+        Courses course = coursesService.getCourseById(id);
+        if (course.getProfessorId().equals(userPrinciple.getId())) {
+            com.google.api.services.drive.model.File result = fileExchangeService.uploadPageImg(file);
+            if (result != null) {
+                if (course.getUrl() != null)
+                    googleDriveService.deleteFile(
+                            googleDriveService.getDriveService(),
+                            utilService.getFileIdFromUrl(
+                                    course.getUrl()
+                            )
+                    );
+                course.setUrl(result.getWebContentLink());
+                coursesService.saveCourse(course);
+                return new ResponseEntity<>(result.getWebContentLink(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } else {
-            message = "FAIL to upload " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+            message = "Restricted";
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
         }
     }
-
 
     @GetMapping("/getallfiles")
     public ResponseEntity<List<String>> getListFiles(Model model) {
@@ -74,35 +87,72 @@ public class FileExchangeController extends BaseGetController {
     }
 
     @PostMapping("/delete/profimg")
-    public ResponseEntity<String> deleteProfileImage(@RequestBody String url) {
+    public ResponseEntity<Void> deleteProfileImage(@RequestBody String url) {
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        User user = userService.getUserById(userPrinciple.getId());
         if (
-                googleDriveService.deleteFile(googleDriveService.getDriveService(), userInfoService.getFileIdFromUrl(url)) &&
-                        userInfoService.deletePageImgUrl(url))
+                user.getUserInfo().getAvatarUrl().equals(url) &&
+                        googleDriveService.deleteFile(googleDriveService.getDriveService(),
+                                utilService.getFileIdFromUrl(user.getUserInfo().getAvatarUrl())
+                        )
+        ) {
+            user.getUserInfo().setAvatarUrl(null);
+            userService.updateUser(user);
             return new ResponseEntity<>(HttpStatus.OK);
-        else
+        } else
             return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
+    @PreAuthorize("hasAuthority('professor')")
+    @PostMapping("/delete/courseimg")
+    public ResponseEntity<Void> deleteCourseImage(@RequestBody String url) {
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        Courses course = coursesService.getCourseByUrl(url);
+        if (
+                course.getProfessorId().equals(userPrinciple.getId()) &&
+                        googleDriveService.deleteFile(googleDriveService.getDriveService(),
+                                utilService.getFileIdFromUrl(course.getUrl())
+                        )
+        ) {
+            course.setUrl(null);
+            coursesService.saveCourse(course);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @PreAuthorize("hasAuthority('professor')")
     @PostMapping("/delete/courseres")
     public ResponseEntity<String> deleteCourseResource(@RequestBody String url) {
-
-        if (
-                googleDriveService.deleteFile(googleDriveService.getDriveService(), userInfoService.getFileIdFromUrl(url)) &&
-                        coursesService.deleteResource(url))
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        CourseResources courseResource = resourcesService.getResourceByUrl(url);
+        if (courseResource.getTopic().getCourse().getProfessorId().equals(userPrinciple.getId()) &&
+                googleDriveService.deleteFile(googleDriveService.getDriveService(), utilService.getFileIdFromUrl(url)) &&
+                coursesService.deleteResource(url))
             return new ResponseEntity<>(HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
+
     @PreAuthorize("hasAuthority('professor')")
     @PostMapping("/uploadres")
-    public ResponseEntity<Void> uploadResource(@RequestParam("files") MultipartFile[] files,@RequestParam("topic")Long id){
-        Integer numberOfFiles = fileExchangeService.uploadResources(files,id);
-        if(numberOfFiles==files.length) {
-            return new ResponseEntity<>( HttpStatus.OK);
-        }
-        else {
+    public ResponseEntity<Void> uploadResource(@RequestParam("files") MultipartFile[] files, @RequestParam("topic") Long id) {
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        TopicsEntity topic = topicsService.getById(id);
+        if (topic.getCourse().getProfessorId().equals(userPrinciple.getId())) {
+            Integer numberOfFiles = fileExchangeService.uploadResources(files, id);
+            if (numberOfFiles == files.length) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
 
-            return new  ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 }

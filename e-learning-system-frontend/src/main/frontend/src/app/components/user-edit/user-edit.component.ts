@@ -5,7 +5,7 @@ import {TokenStorageService} from "../../services/auth/token-storage.service";
 import {FileExchangeService} from "../../services/fileExchange.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AlertService} from "../../services/alert.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-edit',
@@ -25,7 +25,8 @@ export class UserEditComponent implements OnInit {
               private tokenStorage: TokenStorageService,
               private uploadService: FileExchangeService,
               private alertService: AlertService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -78,7 +79,7 @@ export class UserEditComponent implements OnInit {
     this.uploadService.deleteProfileImage(this.userInfo.url).subscribe(
       this.userInfo.url = null,
       error => {
-        console.log("error")
+        console.log("Failed to delete profile image")
       }
     )
   }
@@ -99,10 +100,11 @@ export class UserEditComponent implements OnInit {
             this.router.navigate(['/user/', this.tokenStorage.getId()]);
           },
           error => {
-            this.alertService.error('error', false);
+            this.alertService.error('Failed to update profile', false);
           }
         );
-      })
+        },
+        error1 => this.alertService.error('Failed to upload image', false))
     }
     else {
       this.userService.updateUser(this.userEditForm.value).subscribe(data => {

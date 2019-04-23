@@ -45,6 +45,11 @@ a:hover {
   height: 133px;
   border-radius: 50%;
 }
+
+.img-course {
+  width: 275px;
+  height: 155px;
+}
 .navbar-collapse{
   justify-content: flex-end;
 }
@@ -57,7 +62,6 @@ a:hover {
 .bg-primary{
   background-color:#343a40!important
 }
-
 
 .modules{
   margin: 3em;
@@ -117,5 +121,27 @@ a:hover {
   width: 100%;
 }
 
+.input-group label {
+  color: #777;
+  font-weight: normal;
+  width: 100%;
+  margin-bottom: 5px;
+}
 
+.personal-info h1 {
+  margin: 65px 0 45px 0;
+  font-size: 46px;
+}
 
+.picture {
+  margin-top: 84px;
+}
+
+.my-page-head {
+  color: white;
+  margin-bottom: 130px;
+}
+
+.my-courses-list {
+  width: 100%;
+}

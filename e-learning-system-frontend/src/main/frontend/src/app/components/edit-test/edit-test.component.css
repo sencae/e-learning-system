@@ -1,0 +1,14 @@
+.test-edit {
+  margin: 20px auto;
+  max-width: 500px;
+  width: 100%;
+}
+
+.submit-form {
+  margin: inherit;
+  width: 50%;
+}
+
+.card-body {
+  width: unset;
+}

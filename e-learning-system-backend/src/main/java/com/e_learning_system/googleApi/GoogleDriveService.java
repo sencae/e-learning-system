@@ -9,15 +9,20 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,8 +55,12 @@ public class GoogleDriveService {
     public Drive getDriveService(){
         Drive service = null;
         try{
+            java.io.File key = new java.io.File("targetFile.tmp");
             URL resource = GoogleDriveService.class.getResource("/"+this.serviceAccountKey);
-            java.io.File key = Paths.get(resource.toURI()).toFile();
+            if (resource.toURI().toString().equals("jar:file:/e-learning-system.jar!/BOOT-INF/classes!/e-learning-system-234321-560d76c46817.p12")) {
+                FileUtils.copyInputStreamToFile(new ClassPathResource("e-learning-system-234321-560d76c46817.p12").getInputStream(), key);
+            } else
+                key = Paths.get(resource.toURI()).toFile();
             HttpTransport httpTransport = new NetHttpTransport();
             JacksonFactory jsonFactory = new JacksonFactory();
 
@@ -65,6 +74,7 @@ public class GoogleDriveService {
         catch (Exception e)
         {
             LOGGER.error(e.getMessage());
+            LOGGER.error("Error in service: " + Arrays.toString(e.getStackTrace()));
         }
         return service;
     }
@@ -82,7 +92,7 @@ public class GoogleDriveService {
         }
         catch (Exception e)
         {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("Error when upload: " + e.getMessage());
         }
         return file;
     }

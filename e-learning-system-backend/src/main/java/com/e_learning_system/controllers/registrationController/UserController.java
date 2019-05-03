@@ -30,6 +30,8 @@ public class UserController {
     private final UserGroupsService userGroupsService;
     @Value("${spring.mail.username}")
     private String accountEmail;
+    @Value("${mail.confirm}")
+    private String confirm;
 
     @Autowired
     public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService, EmailSenderService emailSenderService, ModelMapperUtil modelMapperUtil, UserGroupsService userGroupsService) {
@@ -74,7 +76,7 @@ public class UserController {
                 mailMessage.setTo(user.getEmail());
                 mailMessage.setSubject("Complete Registration!");
                 mailMessage.setText("To confirm your account, please click here : "
-                        + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
+                        + confirm + "confirm-account/" + confirmationToken.getConfirmationToken());
 
                 emailSenderService.sendEmail(mailMessage);
 

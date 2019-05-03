@@ -6,7 +6,7 @@
 }
 
 .card .comment {
-  color: #333;
+  color: gray;
   font-size: 13px;
 }
 
@@ -16,6 +16,7 @@
 
 .card {
   text-align: center;
+  border: unset;
 }
 
 a, a:focus {

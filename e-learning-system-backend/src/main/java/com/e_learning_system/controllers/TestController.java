@@ -1,16 +1,12 @@
 package com.e_learning_system.controllers;
 
 import com.e_learning_system.dto.*;
-import com.e_learning_system.entities.AnswersEntity;
-import com.e_learning_system.entities.QuestionsEntity;
-import com.e_learning_system.entities.TestResultsEntity;
-import com.e_learning_system.entities.TestsEntity;
+import com.e_learning_system.entities.*;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.services.QuestionService;
 import com.e_learning_system.services.TestResultsService;
 import com.e_learning_system.services.TestService;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Type;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 public class TestController extends BaseGetController {
@@ -55,11 +48,10 @@ public class TestController extends BaseGetController {
 
     @PreAuthorize("hasAuthority('professor')")
     @PostMapping("/getTestEdit")
-    public ResponseEntity<TestDto> getTestEdit(@RequestBody Long courseId) {
+    public ResponseEntity<TestsEntity> getTestEdit(@RequestBody Long courseId) {
         if (courseId < 0)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        TestDto testDto = modelMapperUtil.map(coursesService.getCourseById(courseId).getTestsEntity(), TestDto.class);
-        return new ResponseEntity<>(testDto, HttpStatus.OK);
+        return new ResponseEntity<>(coursesService.getCourseById(courseId).getTestsEntity(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyAuthority('student','professor')")
@@ -74,25 +66,13 @@ public class TestController extends BaseGetController {
 
     @PreAuthorize("hasAuthority('professor')")
     @PostMapping("/saveTest")
-    public ResponseEntity<Void> saveTest(@RequestBody TestDto testDto) {
-        Type listType = new TypeToken<List<QuestionsEntity>>() {
-        }.getType();
-        List<QuestionsEntity> questionsEntity = modelMapperUtil.map(testDto.getQuestions(), listType);
-        for (QuestionsEntity qe : questionsEntity)
-            qe.setParentTest(testDto.getId());
-        questionsEntity = questionService.saveQuestions(questionsEntity);
-        for (QuestionsEntity qe : questionsEntity)
-            for (QuestionDto qd : testDto.getQuestions()) {
-                if (qe.getQuestion().equals(qd.getQuestion())) {
-                    qd.getAnswers().forEach(answerDto -> answerDto.setParentQuestion(qe.getId()));
-                    Type setType = new TypeToken<Set<AnswersEntity>>() {
-                    }.getType();
-                    qe.setAnswers(modelMapperUtil.map(qd.getAnswers(), setType));
-                }
-
-            }
-        questionService.saveQuestions(questionsEntity);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> saveTest(@RequestBody TestsEntity test) {
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        if (coursesService.getCourseById(test.getId()).getProfessorId().equals(userPrinciple.getId())) {
+            testService.save(test);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @PreAuthorize("hasAuthority('student')")
@@ -121,4 +101,19 @@ public class TestController extends BaseGetController {
                 new Timestamp(System.currentTimeMillis()), percentage, testDto.getId());
         return new ResponseEntity<>(testResultsEntity.getResult(), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAuthority('professor')")
+    @PostMapping("/deleteTest")
+    public ResponseEntity<Void> deleteTopic(@RequestBody Long courseId) {
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        Courses course = coursesService.getCourseById(courseId);
+        if (course.getProfessorId().equals(userPrinciple.getId())) {
+            testService.deleteTestById(courseId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
+
 }

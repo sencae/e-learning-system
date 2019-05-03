@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,17 +26,17 @@ public class ConfirmationController {
     }
 
     @PreAuthorize("permitAll()")
-    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<String> confirmUserAccount(@RequestParam("token") String confirmationToken) {
+    @PostMapping("/confirm-account")
+    public ResponseEntity<Void> confirmUserAccount(@RequestBody String confirmationToken) {
         ConfirmationToken token = confirmationTokenService.getByConfirmationToken(confirmationToken);
         if (token != null) {
             User user = userService.getUserById(token.getUser_id());
             user.setReg_id(Long.valueOf(token.getConfirmationToken().substring(token.getConfirmationToken().length() - 1)));
             userService.updateUser(user);
             confirmationTokenService.delete(token);
-            return new ResponseEntity<>("well done", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("oh no", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 

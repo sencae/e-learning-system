@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {CourseService} from "../services/course/course.service";
+import {CourseService} from "../../../services/course/course.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {CourseInfo} from "../models/CourseInfo";
-import {UserService} from "../services/user/user.service";
-import {UserInfo} from "../models/UserInfo";
+import {CourseInfo} from "../../../models/CourseInfo";
+import {UserService} from "../../../services/user/user.service";
+import {UserInfo} from "../../../models/UserInfo";
 
 @Component({
   selector: 'app-test',

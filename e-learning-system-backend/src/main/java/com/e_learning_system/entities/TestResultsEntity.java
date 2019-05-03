@@ -17,6 +17,8 @@ public class TestResultsEntity {
     private Short result;
     @JsonIgnore
     private Long testId;
+    @JsonIgnore
+    private TestsEntity testsEntity;
 
 
     @Id
@@ -87,5 +89,15 @@ public class TestResultsEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, userId, date, result, testId);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "test_id", insertable = false, updatable = false)
+    public TestsEntity getTestsEntity() {
+        return testsEntity;
+    }
+
+    public void setTestsEntity(TestsEntity testsEntity) {
+        this.testsEntity = testsEntity;
     }
 }

@@ -10,7 +10,7 @@
       </div>
       <div class="row">
 
-        <div class="col-md-12">
+        <div class="col-md-12 ">
           <div *ngIf="user.url; else standartImg">
             <img align="center" src="{{user.url}}" class="img-circle">
           </div>
@@ -29,18 +29,17 @@
           </p>
 
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 ">
           {{user.briefInformation}}
         </div>
         <div class="col-md-4">
-          <div class="card card-links">
             <div class="change-buttons" *ngIf="authorized()">
-              <button type="button" class="btn btn-primary" routerLink="edit">Edit profile</button>
+              <button type="button" class="btn btn-primary" routerLink="edit" style="width: 123px;">Edit profile
+              </button>
             </div>
             <div class="change-buttons" *ngIf="professor===true">
               <button type="button" class="btn btn-primary" routerLink="/courses/create">Create course</button>
             </div>
-          </div>
         </div>
 
       </div>

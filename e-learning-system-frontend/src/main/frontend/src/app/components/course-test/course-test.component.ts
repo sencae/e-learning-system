@@ -15,7 +15,7 @@ import {Answer} from "../../models/Answer";
 export class CourseTestComponent implements OnInit {
   private test: Test;
   private testForm: FormGroup;
-
+  loading = false;
   constructor(private route: ActivatedRoute,
               private testService: TestService,
               private router: Router,
@@ -29,10 +29,17 @@ export class CourseTestComponent implements OnInit {
   }
 
   completeTest() {
-
+    this.loading = true;
     const id = +this.route.snapshot.paramMap.get('id');
     this.testService.completeTest(this.testForm.value, id).subscribe(
-      data => this.alertService.success(data.toString()));
+      data => {
+        this.alertService.success("Test passed. You get: " + data.toString() + "%", true);
+        this.router.navigate(['course/', id]);
+      },
+      error1 => {
+        this.alertService.error("Failed");
+        this.loading = false;
+      });
   }
 
   getTest() {

@@ -3,9 +3,9 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TestService} from "../../services/course/test.service";
 import {AlertService} from "../../services/alert.service";
-import {Question} from "../../models/Question";
-import {Answer} from "../../models/Answer";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
+import {QuestionEdit} from "../../models/QuestionEdit";
+import {AnswerEdit} from "../../models/AnswerEdit";
 
 @Component({
   selector: 'app-edit-test',
@@ -14,7 +14,7 @@ import {RxwebValidators} from "@rxweb/reactive-form-validators";
 })
 export class EditTestComponent implements OnInit {
   testForm: FormGroup;
-
+  loading = false;
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private testService: TestService,
@@ -23,16 +23,14 @@ export class EditTestComponent implements OnInit {
   ) {
   }
 
-  get questions() {
-    return this.testForm.get('questions') as FormArray;
-  }
+
 
   ngOnInit() {
     this.getTest();
 
   }
 
-  createQuestionGroup(question: Question) {
+  createQuestionGroup(question: QuestionEdit) {
     return this.formBuilder.group({
       ...question,
       ...{
@@ -43,12 +41,12 @@ export class EditTestComponent implements OnInit {
     });
   }
 
-  createAnswerGroup(answer: Answer) {
+  createAnswerGroup(answer: AnswerEdit) {
     return this.formBuilder.group({
       ...answer,
       ...{
         answer: [answer.answer, [Validators.required, RxwebValidators.unique()]],
-        correctAnswer: [answer.correctAnswer, Validators.required]
+        correctAnswer: [answer.correctAnswer]
       }
     })
   }
@@ -62,8 +60,18 @@ export class EditTestComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.testForm.invalid)
+      return;
+    this.loading = true;
     const id = +this.route.snapshot.paramMap.get('id');
-    this.testService.save(this.testForm.value, id).subscribe()
+    this.testService.save(this.testForm.value, id).subscribe(data => {
+        this.alertService.error('You successfully update test', true);
+        this.router.navigate(['/course/' + id + '/edit']);
+      },
+      error1 => {
+        this.alertService.error('Failed to update test');
+        this.loading = false;
+      })
   }
 
   getTest() {
@@ -86,11 +94,22 @@ export class EditTestComponent implements OnInit {
     return this.questions.at(index).get('answers') as FormArray;
   }
 
-  addAnswer(index: number) {
-    this.answers(index).push(this.createAnswerGroup(new Answer("")));
+  get questions() {
+    return this.testForm.get('questions') as FormArray;
   }
 
+  addAnswer(index: number) {
+    this.answers(index).push(this.createAnswerGroup(new AnswerEdit({parentQuestion: this.questions.at(index).value.id})));
+  }
+
+  popAnswer(answer: any, question: number) {
+    this.answers(question).removeAt(this.answers(question).value.findIndex(answ => answ.answer == answer.value.answer))
+  }
+
+  deleteQuestion(questionID: number) {
+    this.questions.removeAt(questionID);
+  }
   addQuestion() {
-    this.questions.push(this.createQuestionGroup(new Question("", [new Answer("")])));
+    this.questions.push(this.createQuestionGroup(new QuestionEdit({parentTest: this.testForm.value.testName})));
   }
 }

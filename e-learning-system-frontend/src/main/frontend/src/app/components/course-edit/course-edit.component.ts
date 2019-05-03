@@ -32,6 +32,7 @@ export class CourseEditComponent implements OnInit {
   course: CourseInfo;
   show = false;
   url = '';
+  loading = false;
   readonly id = +this.route.snapshot.paramMap.get('id');
 
   constructor(private courseService: CourseService,
@@ -88,6 +89,9 @@ export class CourseEditComponent implements OnInit {
     return this.openFormTest;
   }
 
+  deleteTest() {
+    this.testService.deleteTest(this.id).subscribe(data => this.course.test = null);
+  }
   saveTest() {
     this.createTest = new CreateTest(
       this.testTitle.value,
@@ -95,7 +99,7 @@ export class CourseEditComponent implements OnInit {
     this.testService.saveTest(this.createTest).subscribe(data => {
         this.course.test = data;
         this.openFormTest = false;
-      }, error => console.log(error)
+      }, error => this.alertService.error("Failed to create test", false)
     )
   }
 
@@ -112,17 +116,17 @@ export class CourseEditComponent implements OnInit {
 
   deleteTopic(topic: Topic) {
     this.topicService.deleteTopic(topic).subscribe(data => {
-      console.log(data);
       this.course.topics = this.course.topics.filter(h => h !== topic);
-    });
+      },
+      error => this.alertService.error("Failed to delete topic", false));
   }
 
-  deleteResource(resource: Resource) {
+  deleteResource(resource: Resource, index: number) {
     this.fileEx.deleteResource(resource.url).subscribe(data => {
-        console.log(data);
-        window.location.reload();
+        this.course.topics[index].courseResources.filter(elem => elem !== resource);
       },
-      error => console.log(error));
+      error => this.alertService.error("Failed to delete resource", false)
+    )
   }
 
   deleteCheck(values: any) {
@@ -159,6 +163,7 @@ export class CourseEditComponent implements OnInit {
     if (this.courseEditForm.invalid) {
       return;
     }
+    this.loading = true;
     if (this.checkbox) {
       this.deleteFile();
     }
@@ -173,6 +178,7 @@ export class CourseEditComponent implements OnInit {
               },
               error => {
                 this.alertService.error('error', false);
+                this.loading = false;
               }
             );
           }

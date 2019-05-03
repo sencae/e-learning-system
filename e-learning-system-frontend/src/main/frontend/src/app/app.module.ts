@@ -25,13 +25,14 @@ import {AlertService} from "./services/alert.service";
 import {AlertComponent} from './components/alert/alert.component';
 import {ProfessorPageComponent} from './components/professor-page/professor-page.component';
 import {StudentPageComponent} from './components/student-page/student-page.component';
-import {TestComponent} from './test/test.component';
+import {TestComponent} from './components/course-test/test/test.component';
 import {DownloadResourceComponent} from './components/download-resource/download-resource.component';
 import {MyPageComponent} from './components/my-page/my-page.component';
 import {CourseManagementComponent} from './components/course-management/course-management.component';
 import {CourseTestComponent} from './components/course-test/course-test.component';
 import {EditTestComponent} from './components/edit-test/edit-test.component';
 import {CourseResourcesComponent} from './components/course-resources/course-resources.component';
+import {ConfirmAccountComponent} from './components/confirm-account/confirm-account.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {CourseResourcesComponent} from './components/course-resources/course-res
     CourseManagementComponent,
     CourseTestComponent,
     EditTestComponent,
-    CourseResourcesComponent
+    CourseResourcesComponent,
+    ConfirmAccountComponent
   ],
   imports: [
     BrowserModule,

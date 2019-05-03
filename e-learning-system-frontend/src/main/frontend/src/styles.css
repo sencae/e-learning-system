@@ -1,10 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-
+* {
+  margin: 0
+}
 html, body {
   height: 100%;
 }
 .wrapper {
-  min-height: calc(100% - 50px);
+  min-height: 100%;
+  margin-bottom: -60px;
 }
 .content {
   flex: 1 0 auto;
@@ -15,8 +18,14 @@ html, body {
   height: 16px;
   width: 16px;
 }
-.footers{
-  flex: 0 0 auto;
+
+.wrapper:after {
+  content: "";
+  display: block;
+}
+
+.footers, .wrapper:after {
+  height: 60px;
 }
 .header{
    flex: 0 0 auto;
@@ -83,13 +92,7 @@ a:hover {
   padding-bottom: 50px;
   font-size: 25px;
 }
-.card-body{
-  width: 1000px;
-}
-.card{
-  position: center;
-  border: none;
-}
+
 .divider-text {
   position: relative;
   text-align: center;
@@ -97,22 +100,6 @@ a:hover {
   margin-bottom: 30px;
 }
 
-.btn-vk {
-  background-color: #4d7198;
-  color: #fff;
-}
-.btn-twitter {
-  background-color: #1faee9;
-  color: #fff;
-}
-.btn-facebook {
-  background-color: #405D9D;
-  color: #fff;
-}
-.btn-google{
-  background-color: #d34836;
-  color: #fff;
-}
 .form-group {
   width: fit-content;
   margin: 0 auto;

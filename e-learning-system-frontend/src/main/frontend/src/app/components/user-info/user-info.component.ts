@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../services/user/user.service";
 import {UserInfo} from "../../models/UserInfo";
 import {TokenStorageService} from "../../services/auth/token-storage.service";
@@ -15,7 +15,8 @@ export class UserInfoComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
-              private tokenStorage: TokenStorageService) {
+              private tokenStorage: TokenStorageService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -38,6 +39,9 @@ export class UserInfoComponent implements OnInit {
     this.userService.getUser(id).subscribe(
       user => {
         this.user = user;
+      },
+      error1 => {
+        this.router.navigate(['404']);
       }
     );
   }

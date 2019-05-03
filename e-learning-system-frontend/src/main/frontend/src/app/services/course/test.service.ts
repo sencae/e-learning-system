@@ -13,6 +13,7 @@ export class TestService {
   private getTestEditUrl = '/api/getTestEdit';
   private saveUrl = '/api/saveTest';
   private completeTestUrl = '/api/completeTest';
+  private deleteTestUrl = '/api/deleteTest';
   constructor(private http: HttpClient) {
   }
 
@@ -33,6 +34,9 @@ export class TestService {
     return this.http.post<number>(this.completeTestUrl, test)
   }
 
+  deleteTest(id: number) {
+    return this.http.post(this.deleteTestUrl, id);
+  }
   save(test: Test, id: number) {
     test.id = id;
     return this.http.post(this.saveUrl, test)

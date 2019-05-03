@@ -52,7 +52,10 @@ public class ModelMapperUtil extends ModelMapper {
             @Override
             protected void configure() {
                 map().setUserId(source.getId());
+                map().setUrl(source.getUserInfo().getAvatarUrl());
             }
         });
+
+
     }
 }

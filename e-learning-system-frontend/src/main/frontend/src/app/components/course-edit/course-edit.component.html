@@ -60,72 +60,90 @@
             </div>
           </div>
         </div>
-        <div *ngIf="course">
-          <div id="accordionEdit">
-            <div class="card" *ngFor="let file of course.topics; let i = index">
-              <div class="card-header" [attr.id]="'headEdit-'+file.title">
-                <h5 class="mb-0">
-                  <button type="button" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#edit-'+i"
-                          aria-expanded="true" [attr.aria-controls]="'edit-'+i">
-                    {{file.title}}
-                  </button>
-                  <button class="btn btn-danger" type="button" title="delete topic"
-                          (click)="deleteTopic(file)">x
-                  </button>
-                </h5>
+        <div style="text-align: center; padding-top: 10px; padding-bottom: 10px">
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseTopics"
+                  aria-expanded="false" aria-controls="collapseTopics">
+            Show topics
+          </button>
+        </div>
+        <div class="collapse" id="collapseTopics">
+          <div class="card card-body">
+            <div *ngIf="course">
+              <div id="accordionEdit">
+                <div class="card" *ngFor="let file of course.topics; let i = index">
+                  <div class="card-header" [attr.id]="'headEdit-'+file.title">
+                    <h5 class="mb-0">
+                      <button type="button" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#edit-'+i"
+                              aria-expanded="true" [attr.aria-controls]="'edit-'+i">
+                        {{file.title}}
+                      </button>
+                      <button class="btn btn-danger delete"
+                              type="button" title="delete topic"
+                              (click)="deleteTopic(file)">x
+                      </button>
+                    </h5>
+                  </div>
+
+                  <div [attr.id]="'edit-'+i" class="collapse" [attr.aria-labelledby]="'headEdit-'+file.title"
+                       data-parent="#accordionEdit">
+                    <div class="card-body" *ngFor="let res of file.courseResources">
+                      <a href="{{res.url}}"> {{res.title}}</a>
+                      <button class="btn btn-danger delete" type="button" title="delete resource"
+                              (click)="deleteResource(res, i)">x
+                      </button>
+                    </div>
+                    <div style="padding-bottom: 10px;padding-top: 10px">
+                      <button type="button" (click)="info(file.id)" class="btn btn-primary" data-toggle="modal"
+                              data-target="#downloadModal">
+                        Attach files
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div [attr.id]="'edit-'+i" class="collapse" [attr.aria-labelledby]="'headEdit-'+file.title"
-                   data-parent="#accordionEdit">
-                <div class="card-body" *ngFor="let res of file.courseResources">
-                  <a href="{{res.url}}"> {{res.title}}</a>
-                  <button class="btn btn-danger" type="button" title="delete resource"
-                          (click)="deleteResource(res)">x
-                  </button>
-                </div>
-                <button type="button" (click)="info(file.id)" class="btn btn-primary" data-toggle="modal"
-                        data-target="#downloadModal">
-                  attach files
+              <br>
+              <button type="button" class="btn btn-link" (click)="onClickOpenForm()">Add topic</button>
+              <div [hidden]="!openForm">
+                <input type="text"
+                       placeholder="Topic title"
+                       class="form-control"
+                       [formControl]="topicTitle"
+                />
+                <button type="button" class="btn btn-primary" (click)="saveTopic()">
+                  Save
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="openForm=false">
+                  Cancel
                 </button>
               </div>
             </div>
           </div>
-
-          <br>
-          <button type="button" class="btn btn-link" (click)="onClickOpenForm()">Add topic</button>
-          <div [hidden]="!openForm">
-            <input type="text"
-                   placeholder="Topic title"
-                   class="form-control"
-                   [formControl]="topicTitle"
-            />
-            <button type="button" class="btn btn-primary" (click)="saveTopic()">
-              Save
-            </button>
-            <button type="button" class="btn btn-secondary" (click)="openForm=false">
-              Cancel
-            </button>
-          </div>
-          <div *ngIf="course.test!=null">
-            <button type="button" class="btn btn-primary" routerLink="../test/edit">Edit test</button>
-          </div>
-          <div *ngIf="!course.test">
-            <button type="button" (click)="onClickOpenFormTest()" class="btn btn-link">Add final test</button>
-          </div>
-          <div [hidden]="!openFormTest">
-            <input type="text"
-                   placeholder="Test title"
-                   class="form-control"
-                   [formControl]="testTitle"
-            />
-            <button type="button" class="btn btn-primary" (click)="saveTest()">
-              Save
-            </button>
-            <button type="button" class="btn btn-secondary" (click)="openFormTest=false">Cancel</button>
-          </div>
+        </div>
+        <div *ngIf="course.test!=null" style="padding-top: 10px;padding-bottom: 10px">
+          <button type="button" class="btn btn-primary" routerLink="../test/edit">Edit test</button>
+        </div>
+        <div *ngIf="!course.test">
+          <button type="button" (click)="onClickOpenFormTest()" class="btn btn-link">Add final test</button>
+        </div>
+        <div [hidden]="!openFormTest">
+          <input type="text"
+                 placeholder="Test title"
+                 class="form-control"
+                 [formControl]="testTitle"
+          />
+          <button type="button" class="btn btn-primary" (click)="saveTest()">
+            Save
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="openFormTest=false">Cancel</button>
         </div>
         <div class="form-group" style="margin-top: 20px">
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button [disabled]="loading"
+                  type="submit"
+                  class="btn btn-primary">
+            Save
+          </button>
+          <img *ngIf="loading" src="../../../assets/img/loading.gif">
           <button type="button" class="btn btn-secondary" routerLink="../">Cancel</button>
         </div>
       </form>

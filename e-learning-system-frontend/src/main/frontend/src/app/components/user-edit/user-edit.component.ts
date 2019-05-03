@@ -19,7 +19,7 @@ export class UserEditComponent implements OnInit {
   show = false;
   url = '';
   checkbox = false;
-
+  loading = false;
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
               private tokenStorage: TokenStorageService,
@@ -89,6 +89,7 @@ export class UserEditComponent implements OnInit {
     if (this.userEditForm.invalid) {
       return;
     }
+    this.loading = true;
     if (this.checkbox) {
       this.deleteFile();
     }
@@ -101,6 +102,7 @@ export class UserEditComponent implements OnInit {
           },
           error => {
             this.alertService.error('Failed to update profile', false);
+            this.loading = false;
           }
         );
         },

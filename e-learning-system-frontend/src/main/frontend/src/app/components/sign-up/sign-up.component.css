@@ -7,3 +7,12 @@
 .content{
   padding-top: 0;
 }
+
+.card-body {
+  width: 1000px;
+}
+
+.card {
+  border: unset;
+  border-radius: unset;
+}

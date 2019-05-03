@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 import {AuthInfo} from "../../models/AuthInfo";
 import {JwtResponse} from "../../models/JwtResponse";
@@ -17,6 +17,7 @@ export class AuthService {
 
   private loginUrl = '/login';
   private signupUrl = 'registration/user';
+  private confirmUrl = 'confirm-account';
 
   constructor(private http: HttpClient) {
   }
@@ -27,5 +28,9 @@ export class AuthService {
 
   signUp(info: SignUpInfo){
     return this.http.post(this.signupUrl, info, httpOptions);
+  }
+
+  confirm(id: string) {
+    return this.http.post(this.confirmUrl, id);
   }
 }

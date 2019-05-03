@@ -1,3 +1,4 @@
+\connect -reuse-previous=on "dbname='e_learning_system'"
 --
 -- PostgreSQL database dump
 --
@@ -5,7 +6,7 @@
 -- Dumped from database version 11.1
 -- Dumped by pg_dump version 11.1
 
--- Started on 2019-04-09 12:09:25
+-- Started on 2019-05-03 21:27:04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -47,7 +48,7 @@ CREATE TABLE public.answers (
     id bigint NOT NULL,
     answer character varying(255) NOT NULL,
     parent_question bigint,
-    correct_answer boolean NOT NULL
+    correct_answer boolean DEFAULT false NOT NULL
 );
 
 
@@ -69,7 +70,7 @@ CREATE SEQUENCE public.answers_id_seq
 ALTER TABLE public.answers_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2999 (class 0 OID 0)
+-- TOC entry 3001 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -109,7 +110,7 @@ CREATE SEQUENCE public.confirmation_token_token_id_seq
 ALTER TABLE public.confirmation_token_token_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3000 (class 0 OID 0)
+-- TOC entry 3002 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: confirmation_token_token_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -149,7 +150,7 @@ CREATE SEQUENCE public.course_resources_id_seq
 ALTER TABLE public.course_resources_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3001 (class 0 OID 0)
+-- TOC entry 3003 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: course_resources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -186,7 +187,7 @@ CREATE SEQUENCE public.course_type_id_seq
 ALTER TABLE public.course_type_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3002 (class 0 OID 0)
+-- TOC entry 3004 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: course_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -202,10 +203,11 @@ ALTER SEQUENCE public.course_type_id_seq OWNED BY public.course_type.id;
 CREATE TABLE public.courses (
     id bigint NOT NULL,
     title character varying(255) NOT NULL,
-    description character varying(255),
+    description character varying(1000),
     professor_id bigint NOT NULL,
     start_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    end_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    end_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    img_url character varying(255)
 );
 
 
@@ -227,7 +229,7 @@ CREATE SEQUENCE public.courses_id_seq
 ALTER TABLE public.courses_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3003 (class 0 OID 0)
+-- TOC entry 3005 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -257,9 +259,9 @@ ALTER TABLE public.id_increment OWNER TO postgres;
 
 CREATE TABLE public.questions (
     id bigint NOT NULL,
-    question character varying(255) NOT NULL,
+    question character varying(2000) NOT NULL,
     parent_test bigint,
-    checkbox_type boolean DEFAULT false
+    checkbox_type boolean DEFAULT false NOT NULL
 );
 
 
@@ -281,7 +283,7 @@ CREATE SEQUENCE public.questions_id_seq
 ALTER TABLE public.questions_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3004 (class 0 OID 0)
+-- TOC entry 3006 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -320,7 +322,7 @@ CREATE SEQUENCE public.resources_of_course_id_seq
 ALTER TABLE public.resources_of_course_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3005 (class 0 OID 0)
+-- TOC entry 3007 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: resources_of_course_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -360,7 +362,7 @@ CREATE SEQUENCE public.test_results_id_seq
 ALTER TABLE public.test_results_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3006 (class 0 OID 0)
+-- TOC entry 3008 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: test_results_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -397,7 +399,7 @@ CREATE SEQUENCE public.tests_id_seq
 ALTER TABLE public.tests_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3007 (class 0 OID 0)
+-- TOC entry 3009 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -435,7 +437,7 @@ CREATE SEQUENCE public.topics_id_seq
 ALTER TABLE public.topics_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3008 (class 0 OID 0)
+-- TOC entry 3010 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: topics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -512,7 +514,7 @@ CREATE TABLE public.user_info (
     user_id bigint NOT NULL,
     avatar_url character varying(255),
     university character varying(255),
-    brief_information character varying(255)
+    brief_information character varying(1000)
 );
 
 
@@ -548,7 +550,7 @@ CREATE SEQUENCE public.users_on_courses_id_seq
 ALTER TABLE public.users_on_courses_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3009 (class 0 OID 0)
+-- TOC entry 3011 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: users_on_courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -557,7 +559,7 @@ ALTER SEQUENCE public.users_on_courses_id_seq OWNED BY public.users_on_courses.i
 
 
 --
--- TOC entry 2785 (class 2604 OID 65929)
+-- TOC entry 2786 (class 2604 OID 65929)
 -- Name: answers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -565,7 +567,7 @@ ALTER TABLE ONLY public.answers ALTER COLUMN id SET DEFAULT nextval('public.answ
 
 
 --
--- TOC entry 2773 (class 2604 OID 49347)
+-- TOC entry 2774 (class 2604 OID 49347)
 -- Name: confirmation_token token_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -573,7 +575,7 @@ ALTER TABLE ONLY public.confirmation_token ALTER COLUMN token_id SET DEFAULT nex
 
 
 --
--- TOC entry 2778 (class 2604 OID 57578)
+-- TOC entry 2779 (class 2604 OID 57578)
 -- Name: course_resources id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -581,7 +583,7 @@ ALTER TABLE ONLY public.course_resources ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 2777 (class 2604 OID 57572)
+-- TOC entry 2778 (class 2604 OID 57572)
 -- Name: course_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -589,7 +591,7 @@ ALTER TABLE ONLY public.course_type ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 2774 (class 2604 OID 57549)
+-- TOC entry 2775 (class 2604 OID 57549)
 -- Name: courses id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -597,7 +599,7 @@ ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.cour
 
 
 --
--- TOC entry 2783 (class 2604 OID 65909)
+-- TOC entry 2784 (class 2604 OID 65909)
 -- Name: questions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -605,7 +607,7 @@ ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.qu
 
 
 --
--- TOC entry 2779 (class 2604 OID 65837)
+-- TOC entry 2780 (class 2604 OID 65837)
 -- Name: resources_of_course id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -613,7 +615,7 @@ ALTER TABLE ONLY public.resources_of_course ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- TOC entry 2786 (class 2604 OID 65943)
+-- TOC entry 2788 (class 2604 OID 65943)
 -- Name: test_results id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -621,7 +623,7 @@ ALTER TABLE ONLY public.test_results ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
--- TOC entry 2782 (class 2604 OID 65900)
+-- TOC entry 2783 (class 2604 OID 65900)
 -- Name: tests id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -629,7 +631,7 @@ ALTER TABLE ONLY public.tests ALTER COLUMN id SET DEFAULT nextval('public.tests_
 
 
 --
--- TOC entry 2780 (class 2604 OID 65859)
+-- TOC entry 2781 (class 2604 OID 65859)
 -- Name: topics id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -637,17 +639,204 @@ ALTER TABLE ONLY public.topics ALTER COLUMN id SET DEFAULT nextval('public.topic
 
 
 --
--- TOC entry 2781 (class 2604 OID 65879)
+-- TOC entry 2782 (class 2604 OID 65879)
 -- Name: users_on_courses id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_on_courses ALTER COLUMN id SET DEFAULT nextval('public.users_on_courses_id_seq'::regclass);
 
 
+--
+-- TOC entry 2993 (class 0 OID 65926)
+-- Dependencies: 221
+-- Data for Name: answers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.answers VALUES (50, 'All of the above', 23, true);
+INSERT INTO public.answers VALUES (51, 'It is cheaper to put them in space', 24, false);
+INSERT INTO public.answers VALUES (52, 'You can only see visible light from space', 24, false);
+INSERT INTO public.answers VALUES (54, 'They are closer to what they are studying', 24, false);
+INSERT INTO public.answers VALUES (53, 'The atmosphere blocks certain EM waves', 24, true);
+INSERT INTO public.answers VALUES (55, 'It makes them bigger than the other planets', 25, false);
+INSERT INTO public.answers VALUES (56, 'It makes them orbit in the same direction', 25, false);
+INSERT INTO public.answers VALUES (58, 'It means they will all spiral into the sun in 2 million years', 25, false);
+INSERT INTO public.answers VALUES (57, 'It made them consist primarily of rock', 25, true);
+INSERT INTO public.answers VALUES (60, 'Supernova and neutron star', 26, false);
+INSERT INTO public.answers VALUES (61, 'Neutron star and black hole', 26, false);
+INSERT INTO public.answers VALUES (62, 'Supergiant star and neutron star', 26, false);
+INSERT INTO public.answers VALUES (59, 'Planetary nebula and white dwarf', 26, true);
+INSERT INTO public.answers VALUES (6, 'answer#21', 2, true);
+INSERT INTO public.answers VALUES (9, 'jjj', 13, false);
+INSERT INTO public.answers VALUES (10, 'kkk', 13, true);
+INSERT INTO public.answers VALUES (3, 'answer#2', 1, true);
+INSERT INTO public.answers VALUES (1, 'answer#1', 1, false);
+INSERT INTO public.answers VALUES (15, 'High heat and low pressure', 15, false);
+INSERT INTO public.answers VALUES (17, 'Hydrogen and helium
+', 15, false);
+INSERT INTO public.answers VALUES (18, 'Uranium and plutonium', 15, false);
+INSERT INTO public.answers VALUES (16, 'High heat and high pressure', 15, true);
+INSERT INTO public.answers VALUES (19, 'White dwarf and black dwarf', 16, false);
+INSERT INTO public.answers VALUES (21, 'Red giant and red supergiant', 16, false);
+INSERT INTO public.answers VALUES (22, 'black hole and black dwarf', 16, false);
+INSERT INTO public.answers VALUES (20, 'Neutron star and black hole', 16, true);
+INSERT INTO public.answers VALUES (23, 'Red', 17, false);
+INSERT INTO public.answers VALUES (24, 'White', 17, false);
+INSERT INTO public.answers VALUES (26, 'Yellow', 17, false);
+INSERT INTO public.answers VALUES (25, 'Blue', 17, true);
+INSERT INTO public.answers VALUES (27, 'When it runs out of helium to fuse', 18, false);
+INSERT INTO public.answers VALUES (28, 'When it turns into a black dwarf', 18, false);
+INSERT INTO public.answers VALUES (29, 'When it turns into a planetary nebula', 18, false);
+INSERT INTO public.answers VALUES (30, 'When it runs out of hydrogen to fuse', 18, true);
+INSERT INTO public.answers VALUES (32, 'Gravity and mass', 19, false);
+INSERT INTO public.answers VALUES (33, 'Stars are unstable and not at equilibrium', 19, false);
+INSERT INTO public.answers VALUES (34, 'Nuclear fusion and magnetism', 19, false);
+INSERT INTO public.answers VALUES (31, 'Gravity and pressure from nuclear fusion', 19, true);
+INSERT INTO public.answers VALUES (35, 'Mass
+
+
+
+
+
+', 20, false);
+INSERT INTO public.answers VALUES (36, 'Speed of light', 20, false);
+INSERT INTO public.answers VALUES (38, 'Wavelength', 20, false);
+INSERT INTO public.answers VALUES (37, 'Energy', 20, true);
+INSERT INTO public.answers VALUES (39, 'The sun''s existence
+
+
+
+
+
+', 21, false);
+INSERT INTO public.answers VALUES (41, 'Life on this planet', 21, false);
+INSERT INTO public.answers VALUES (42, 'Most objects in the universe are coming towards us', 21, false);
+INSERT INTO public.answers VALUES (40, 'Cosmic background radiation', 21, true);
+INSERT INTO public.answers VALUES (43, 'Hydrogen and helium', 22, false);
+INSERT INTO public.answers VALUES (45, 'Uranium and plutonium', 22, false);
+INSERT INTO public.answers VALUES (46, 'Pressure and water', 22, false);
+INSERT INTO public.answers VALUES (44, 'High heat and force', 22, true);
+INSERT INTO public.answers VALUES (47, 'Means an object is moving away from us', 23, false);
+INSERT INTO public.answers VALUES (48, 'Means the objects light has had its frequency lowered', 23, false);
+INSERT INTO public.answers VALUES (49, 'It is evidence for an expanding universe', 23, false);
 
 
 --
--- TOC entry 2967 (class 0 OID 32833)
+-- TOC entry 2973 (class 0 OID 49344)
+-- Dependencies: 201
+-- Data for Name: confirmation_token; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2980 (class 0 OID 57575)
+-- Dependencies: 208
+-- Data for Name: course_resources; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.course_resources VALUES (65, 'https://drive.google.com/uc?id=15_UBze9CZc5hRiHfqvJUfEyrCNwb72FE&export=download', 'hintersee-3601004_960_720.jpg', 1);
+
+
+--
+-- TOC entry 2976 (class 0 OID 57550)
+-- Dependencies: 204
+-- Data for Name: course_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2974 (class 0 OID 57534)
+-- Dependencies: 202
+-- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.courses VALUES (15, 'Digital devices and microprocessors', 'The course “Digital devices and microprocessors” introduces students to the modern element base of digital devices, and is devoted to the study of obtaining knowledge about the general principles of building digital systems and organizing their programmed control, methods and techniques of programming microcontrollers. The course "Digital devices and microprocessors" includes theoretical and practical parts.', 46, '2019-04-24 19:59:00', '2019-04-30 19:59:00', NULL);
+INSERT INTO public.courses VALUES (1, 'Basic Astronomy', 'The purpose of this course of lectures is to introduce students to the basic concepts of astronomy, its main achievements and modern problems.
+It will focus on the most important concepts of astronomy and the features of the work of astronomers, their instruments and objects of study: about what can be seen in the telescope - planets, stars, galaxies; and that which is not visible - dark matter and dark energy.', 46, '2019-04-02 19:59:00', '2019-04-02 19:59:00', 'https://drive.google.com/uc?id=1379BgS8hRO1IShvwj6wO14HkIYB1goiG&export=download');
+
+
+--
+-- TOC entry 2991 (class 0 OID 65906)
+-- Dependencies: 219
+-- Data for Name: questions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.questions VALUES (2, 'question#2', 15, false);
+INSERT INTO public.questions VALUES (1, 'question', 15, false);
+INSERT INTO public.questions VALUES (13, 'question#3', 15, false);
+INSERT INTO public.questions VALUES (15, 'What two things are needed to start nuclear fusion?', 1, false);
+INSERT INTO public.questions VALUES (16, 'What two stellar objects can arise from a supernova?', 1, false);
+INSERT INTO public.questions VALUES (17, 'What color are the hottest stars?', 1, false);
+INSERT INTO public.questions VALUES (18, 'When does a star leave the main sequence?', 1, false);
+INSERT INTO public.questions VALUES (19, 'What competing forces keep main sequence stars at equilibrium?', 1, false);
+INSERT INTO public.questions VALUES (21, 'What evidence do we have of the inflation right after the Big Bang?', 1, false);
+INSERT INTO public.questions VALUES (22, 'What two things are required for nuclear fusion?', 1, false);
+INSERT INTO public.questions VALUES (23, 'What is a redshift?', 1, false);
+INSERT INTO public.questions VALUES (24, 'Why are certain telescopes in space?', 1, false);
+INSERT INTO public.questions VALUES (25, 'What does being close to the sun mean to the inner planets?', 1, false);
+INSERT INTO public.questions VALUES (26, 'What two steller objects come after a red giant in the life cycle of stars?', 1, false);
+INSERT INTO public.questions VALUES (20, 'In the equation E=mc^2, what does the E stand for?', 1, false);
+
+
+--
+-- TOC entry 2981 (class 0 OID 57586)
+-- Dependencies: 209
+-- Data for Name: resources_of_course; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2995 (class 0 OID 65940)
+-- Dependencies: 223
+-- Data for Name: test_results; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.test_results VALUES (2, 49, '2019-05-03 18:08:46.947', 66, 15);
+
+
+--
+-- TOC entry 2989 (class 0 OID 65897)
+-- Dependencies: 217
+-- Data for Name: tests; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.tests VALUES (15, 'test#1');
+INSERT INTO public.tests VALUES (1, 'Final test');
+
+
+--
+-- TOC entry 2985 (class 0 OID 65856)
+-- Dependencies: 213
+-- Data for Name: topics; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.topics VALUES (1, 'Lecture', 15);
+INSERT INTO public.topics VALUES (0, 'Practice', 15);
+INSERT INTO public.topics VALUES (12, 'ggg', 15);
+
+
+--
+-- TOC entry 2977 (class 0 OID 57557)
+-- Dependencies: 205
+-- Data for Name: type_of_courses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2971 (class 0 OID 41150)
+-- Dependencies: 199
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public."user" VALUES (49, 'votteban@mail.ru', 'Jhon', 'Doe', '$2a$10$1dGCPa6SLzvZQuL.0M4rY./Ah2kKHFUs3CiPEEPWIIAzl3cWWWWxy', 'student', 5);
+INSERT INTO public."user" VALUES (46, 'xarder1@gmail.com', 'Mark', 'Krinsberg', '$2a$10$HoFTawB5fZ5gtAFnHtCYJO3S7YEMQdNtR3l/ttYfVXxXKYaJzV/Ei', 'prof', 4);
+
+
+--
+-- TOC entry 2969 (class 0 OID 32833)
 -- Dependencies: 197
 -- Data for Name: user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -660,47 +849,58 @@ INSERT INTO public.user_groups VALUES (5, 'student', 'group of students');
 
 
 --
--- TOC entry 2980 (class 0 OID 57627)
+-- TOC entry 2982 (class 0 OID 57627)
 -- Dependencies: 210
 -- Data for Name: user_info; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.user_info VALUES (49, NULL, NULL, NULL);
+INSERT INTO public.user_info VALUES (46, 'https://drive.google.com/uc?id=1B9UIv5RbyzpeAcmY7BRQRGEq01SmkeOM&export=download', 'Voronezh State University', 'The world and its environment has been going through an enormous upheaval particularly in the last few decades. We need to develop thinkers who will be creative, engaged, skilled, informed and thoughtful about the past, present and future interactions of people with each other and their environment.
+
+Previously I''ve worked in a law firm and travelled the world,  but the job which gives me the the most fulfilment is... teaching. It''s a privilege to be a part of this school community and watch those in our care blossom into maturity..
+
+That''s the picture of my (always messy) desk in Society & Environment office, where you can find me or call x226');
+
+
 --
--- TOC entry 2985 (class 0 OID 65876)
+-- TOC entry 2987 (class 0 OID 65876)
 -- Dependencies: 215
 -- Data for Name: users_on_courses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-
---
--- TOC entry 3010 (class 0 OID 0)
--- Dependencies: 220
--- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.answers_id_seq', 1, false);
-
-
---
--- TOC entry 3011 (class 0 OID 0)
--- Dependencies: 200
--- Name: confirmation_token_token_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.confirmation_token_token_id_seq', 1, false);
+INSERT INTO public.users_on_courses VALUES (4, 49, 15);
+INSERT INTO public.users_on_courses VALUES (5, 49, 1);
 
 
 --
 -- TOC entry 3012 (class 0 OID 0)
--- Dependencies: 207
--- Name: course_resources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 220
+-- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.course_resources_id_seq', 1, false);
+SELECT pg_catalog.setval('public.answers_id_seq', 62, true);
 
 
 --
 -- TOC entry 3013 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: confirmation_token_token_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.confirmation_token_token_id_seq', 31, true);
+
+
+--
+-- TOC entry 3014 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: course_resources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.course_resources_id_seq', 65, true);
+
+
+--
+-- TOC entry 3015 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: course_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -709,88 +909,88 @@ SELECT pg_catalog.setval('public.course_type_id_seq', 1, false);
 
 
 --
--- TOC entry 3014 (class 0 OID 0)
+-- TOC entry 3016 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.courses_id_seq', 1, false);
-
-
---
--- TOC entry 3015 (class 0 OID 0)
--- Dependencies: 196
--- Name: id_increment; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.id_increment', 1, false);
-
-
---
--- TOC entry 3016 (class 0 OID 0)
--- Dependencies: 218
--- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.questions_id_seq', 1, false);
+SELECT pg_catalog.setval('public.courses_id_seq', 17, true);
 
 
 --
 -- TOC entry 3017 (class 0 OID 0)
--- Dependencies: 211
--- Name: resources_of_course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 196
+-- Name: id_increment; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.resources_of_course_id_seq', 1, false);
+SELECT pg_catalog.setval('public.id_increment', 50, true);
 
 
 --
 -- TOC entry 3018 (class 0 OID 0)
--- Dependencies: 222
--- Name: test_results_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 218
+-- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.test_results_id_seq', 1, false);
+SELECT pg_catalog.setval('public.questions_id_seq', 26, true);
 
 
 --
 -- TOC entry 3019 (class 0 OID 0)
--- Dependencies: 216
--- Name: tests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 211
+-- Name: resources_of_course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tests_id_seq', 1, false);
+SELECT pg_catalog.setval('public.resources_of_course_id_seq', 8, true);
 
 
 --
 -- TOC entry 3020 (class 0 OID 0)
--- Dependencies: 212
--- Name: topics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 222
+-- Name: test_results_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.topics_id_seq', 1, false);
+SELECT pg_catalog.setval('public.test_results_id_seq', 2, true);
 
 
 --
 -- TOC entry 3021 (class 0 OID 0)
--- Dependencies: 198
--- Name: user_groups_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 216
+-- Name: tests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_groups_seq', 1, false);
+SELECT pg_catalog.setval('public.tests_id_seq', 2, true);
 
 
 --
 -- TOC entry 3022 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: topics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.topics_id_seq', 12, true);
+
+
+--
+-- TOC entry 3023 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: user_groups_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_groups_seq', 5, true);
+
+
+--
+-- TOC entry 3024 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: users_on_courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_on_courses_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_on_courses_id_seq', 5, true);
 
 
 --
--- TOC entry 2788 (class 2606 OID 41092)
+-- TOC entry 2790 (class 2606 OID 41092)
 -- Name: user_groups UG_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -799,7 +999,7 @@ ALTER TABLE ONLY public.user_groups
 
 
 --
--- TOC entry 2823 (class 2606 OID 65931)
+-- TOC entry 2825 (class 2606 OID 65931)
 -- Name: answers answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -808,7 +1008,7 @@ ALTER TABLE ONLY public.answers
 
 
 --
--- TOC entry 2792 (class 2606 OID 49349)
+-- TOC entry 2794 (class 2606 OID 49349)
 -- Name: confirmation_token confirmation_token_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -817,7 +1017,7 @@ ALTER TABLE ONLY public.confirmation_token
 
 
 --
--- TOC entry 2801 (class 2606 OID 57583)
+-- TOC entry 2803 (class 2606 OID 57583)
 -- Name: course_resources course_resources_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -826,7 +1026,7 @@ ALTER TABLE ONLY public.course_resources
 
 
 --
--- TOC entry 2797 (class 2606 OID 57554)
+-- TOC entry 2799 (class 2606 OID 57554)
 -- Name: course_type course_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -835,7 +1035,7 @@ ALTER TABLE ONLY public.course_type
 
 
 --
--- TOC entry 2794 (class 2606 OID 57541)
+-- TOC entry 2796 (class 2606 OID 57541)
 -- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -844,7 +1044,7 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- TOC entry 2820 (class 2606 OID 65911)
+-- TOC entry 2822 (class 2606 OID 65911)
 -- Name: questions questions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -853,7 +1053,7 @@ ALTER TABLE ONLY public.questions
 
 
 --
--- TOC entry 2805 (class 2606 OID 65843)
+-- TOC entry 2807 (class 2606 OID 65843)
 -- Name: resources_of_course resources_of_course_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -862,7 +1062,7 @@ ALTER TABLE ONLY public.resources_of_course
 
 
 --
--- TOC entry 2826 (class 2606 OID 65945)
+-- TOC entry 2828 (class 2606 OID 65945)
 -- Name: test_results test_results_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -871,7 +1071,7 @@ ALTER TABLE ONLY public.test_results
 
 
 --
--- TOC entry 2817 (class 2606 OID 65902)
+-- TOC entry 2819 (class 2606 OID 65902)
 -- Name: tests tests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -880,7 +1080,7 @@ ALTER TABLE ONLY public.tests
 
 
 --
--- TOC entry 2811 (class 2606 OID 65861)
+-- TOC entry 2813 (class 2606 OID 65861)
 -- Name: topics topics_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -889,7 +1089,7 @@ ALTER TABLE ONLY public.topics
 
 
 --
--- TOC entry 2808 (class 2606 OID 57634)
+-- TOC entry 2810 (class 2606 OID 57634)
 -- Name: user_info user_info_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -898,7 +1098,7 @@ ALTER TABLE ONLY public.user_info
 
 
 --
--- TOC entry 2790 (class 2606 OID 41157)
+-- TOC entry 2792 (class 2606 OID 41157)
 -- Name: user user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -907,7 +1107,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 2814 (class 2606 OID 65881)
+-- TOC entry 2816 (class 2606 OID 65881)
 -- Name: users_on_courses users_on_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -916,7 +1116,7 @@ ALTER TABLE ONLY public.users_on_courses
 
 
 --
--- TOC entry 2821 (class 1259 OID 65937)
+-- TOC entry 2823 (class 1259 OID 65937)
 -- Name: answers_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -924,7 +1124,7 @@ CREATE UNIQUE INDEX answers_id_uindex ON public.answers USING btree (id);
 
 
 --
--- TOC entry 2799 (class 1259 OID 57584)
+-- TOC entry 2801 (class 1259 OID 57584)
 -- Name: course_resources_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -932,7 +1132,7 @@ CREATE UNIQUE INDEX course_resources_id_uindex ON public.course_resources USING 
 
 
 --
--- TOC entry 2802 (class 1259 OID 57585)
+-- TOC entry 2804 (class 1259 OID 57585)
 -- Name: course_resources_url_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -940,7 +1140,7 @@ CREATE UNIQUE INDEX course_resources_url_uindex ON public.course_resources USING
 
 
 --
--- TOC entry 2795 (class 1259 OID 57555)
+-- TOC entry 2797 (class 1259 OID 57555)
 -- Name: course_type_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -948,7 +1148,7 @@ CREATE UNIQUE INDEX course_type_id_uindex ON public.course_type USING btree (id)
 
 
 --
--- TOC entry 2798 (class 1259 OID 57556)
+-- TOC entry 2800 (class 1259 OID 57556)
 -- Name: course_type_type_name_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -956,7 +1156,7 @@ CREATE UNIQUE INDEX course_type_type_name_uindex ON public.course_type USING btr
 
 
 --
--- TOC entry 2818 (class 1259 OID 65917)
+-- TOC entry 2820 (class 1259 OID 65917)
 -- Name: questions_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -964,7 +1164,7 @@ CREATE UNIQUE INDEX questions_id_uindex ON public.questions USING btree (id);
 
 
 --
--- TOC entry 2803 (class 1259 OID 65841)
+-- TOC entry 2805 (class 1259 OID 65841)
 -- Name: resources_of_course_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -972,7 +1172,7 @@ CREATE UNIQUE INDEX resources_of_course_id_uindex ON public.resources_of_course 
 
 
 --
--- TOC entry 2824 (class 1259 OID 65956)
+-- TOC entry 2826 (class 1259 OID 65956)
 -- Name: test_results_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -980,7 +1180,7 @@ CREATE UNIQUE INDEX test_results_id_uindex ON public.test_results USING btree (i
 
 
 --
--- TOC entry 2815 (class 1259 OID 65903)
+-- TOC entry 2817 (class 1259 OID 65903)
 -- Name: tests_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -988,7 +1188,7 @@ CREATE UNIQUE INDEX tests_id_uindex ON public.tests USING btree (id);
 
 
 --
--- TOC entry 2809 (class 1259 OID 65867)
+-- TOC entry 2811 (class 1259 OID 65867)
 -- Name: topics_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -996,7 +1196,7 @@ CREATE UNIQUE INDEX topics_id_uindex ON public.topics USING btree (id);
 
 
 --
--- TOC entry 2806 (class 1259 OID 57640)
+-- TOC entry 2808 (class 1259 OID 57640)
 -- Name: user_info_avatar_url_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1004,7 +1204,7 @@ CREATE UNIQUE INDEX user_info_avatar_url_uindex ON public.user_info USING btree 
 
 
 --
--- TOC entry 2812 (class 1259 OID 65892)
+-- TOC entry 2814 (class 1259 OID 65892)
 -- Name: users_on_courses_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1012,7 +1212,7 @@ CREATE UNIQUE INDEX users_on_courses_id_uindex ON public.users_on_courses USING 
 
 
 --
--- TOC entry 2844 (class 2620 OID 65834)
+-- TOC entry 2846 (class 2620 OID 65834)
 -- Name: user create_user_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1020,7 +1220,7 @@ CREATE TRIGGER create_user_trigger AFTER INSERT ON public."user" FOR EACH ROW EX
 
 
 --
--- TOC entry 2841 (class 2606 OID 65932)
+-- TOC entry 2843 (class 2606 OID 65932)
 -- Name: answers answers_questions_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1029,7 +1229,7 @@ ALTER TABLE ONLY public.answers
 
 
 --
--- TOC entry 2828 (class 2606 OID 49350)
+-- TOC entry 2830 (class 2606 OID 49350)
 -- Name: confirmation_token confirmation_token_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1038,7 +1238,7 @@ ALTER TABLE ONLY public.confirmation_token
 
 
 --
--- TOC entry 2832 (class 2606 OID 74145)
+-- TOC entry 2834 (class 2606 OID 74145)
 -- Name: course_resources course_resources_topics_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1047,7 +1247,7 @@ ALTER TABLE ONLY public.course_resources
 
 
 --
--- TOC entry 2827 (class 2606 OID 41158)
+-- TOC entry 2829 (class 2606 OID 41158)
 -- Name: user fklthmvyi4mp8c4y133xlmvdfq0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1056,7 +1256,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 2829 (class 2606 OID 57604)
+-- TOC entry 2831 (class 2606 OID 57604)
 -- Name: courses professor_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1065,7 +1265,7 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- TOC entry 2840 (class 2606 OID 65912)
+-- TOC entry 2842 (class 2606 OID 65912)
 -- Name: questions questions_tests_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1074,7 +1274,7 @@ ALTER TABLE ONLY public.questions
 
 
 --
--- TOC entry 2833 (class 2606 OID 65844)
+-- TOC entry 2835 (class 2606 OID 65844)
 -- Name: resources_of_course resources_of_course_course_resources_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1083,7 +1283,7 @@ ALTER TABLE ONLY public.resources_of_course
 
 
 --
--- TOC entry 2834 (class 2606 OID 65849)
+-- TOC entry 2836 (class 2606 OID 65849)
 -- Name: resources_of_course resources_of_course_courses_id_fk_2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1092,7 +1292,7 @@ ALTER TABLE ONLY public.resources_of_course
 
 
 --
--- TOC entry 2843 (class 2606 OID 65951)
+-- TOC entry 2845 (class 2606 OID 65951)
 -- Name: test_results test_results_tests_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1101,7 +1301,7 @@ ALTER TABLE ONLY public.test_results
 
 
 --
--- TOC entry 2842 (class 2606 OID 65946)
+-- TOC entry 2844 (class 2606 OID 65946)
 -- Name: test_results test_results_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1110,7 +1310,7 @@ ALTER TABLE ONLY public.test_results
 
 
 --
--- TOC entry 2839 (class 2606 OID 74130)
+-- TOC entry 2841 (class 2606 OID 74130)
 -- Name: tests tests_courses_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1119,7 +1319,7 @@ ALTER TABLE ONLY public.tests
 
 
 --
--- TOC entry 2836 (class 2606 OID 65862)
+-- TOC entry 2838 (class 2606 OID 65862)
 -- Name: topics topics_courses_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1128,7 +1328,7 @@ ALTER TABLE ONLY public.topics
 
 
 --
--- TOC entry 2830 (class 2606 OID 57560)
+-- TOC entry 2832 (class 2606 OID 57560)
 -- Name: type_of_courses type_of_courses_course_type_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1137,7 +1337,7 @@ ALTER TABLE ONLY public.type_of_courses
 
 
 --
--- TOC entry 2831 (class 2606 OID 57565)
+-- TOC entry 2833 (class 2606 OID 57565)
 -- Name: type_of_courses type_of_courses_courses_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1146,7 +1346,7 @@ ALTER TABLE ONLY public.type_of_courses
 
 
 --
--- TOC entry 2835 (class 2606 OID 57641)
+-- TOC entry 2837 (class 2606 OID 57641)
 -- Name: user_info user_info_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1155,7 +1355,7 @@ ALTER TABLE ONLY public.user_info
 
 
 --
--- TOC entry 2838 (class 2606 OID 65887)
+-- TOC entry 2840 (class 2606 OID 65887)
 -- Name: users_on_courses users_on_courses_courses_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1164,7 +1364,7 @@ ALTER TABLE ONLY public.users_on_courses
 
 
 --
--- TOC entry 2837 (class 2606 OID 65882)
+-- TOC entry 2839 (class 2606 OID 65882)
 -- Name: users_on_courses users_on_courses_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1172,7 +1372,7 @@ ALTER TABLE ONLY public.users_on_courses
     ADD CONSTRAINT users_on_courses_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
--- Completed on 2019-04-09 12:09:28
+-- Completed on 2019-05-03 21:27:09
 
 --
 -- PostgreSQL database dump complete

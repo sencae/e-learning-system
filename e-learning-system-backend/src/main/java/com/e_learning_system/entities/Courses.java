@@ -1,6 +1,5 @@
 package com.e_learning_system.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -21,10 +20,6 @@ public class Courses {
     private Timestamp endDate;
     private String url;
     private List<TopicsEntity> topicsEntities;
-
-    @JsonIgnore
-    @OneToOne
-    private User userById;
     @OneToOne
     private TestsEntity testsEntity;
     private Set<User> usersOnCourse;
@@ -52,15 +47,7 @@ public class Courses {
     }
 
 
-    @OneToOne
-    @JoinColumn(name = "professor_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    public User getUserById() {
-        return userById;
-    }
 
-    public void setUserById(User userById) {
-        this.userById = userById;
-    }
 
     @OneToMany
     @JoinColumn(name = "course_id")
@@ -71,19 +58,6 @@ public class Courses {
     public void setTopicsEntities(List<TopicsEntity> topicsEntities) {
         this.topicsEntities = topicsEntities;
     }
-
-//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = CourseResources.class)
-//    @JoinTable(name = "resources_of_course",
-//            joinColumns = @JoinColumn(name = "course_id"),
-//            inverseJoinColumns = @JoinColumn(name = "resource_id"))
-//    public Set<CourseResources> getResources() {
-//        return resources;
-//    }
-//
-//
-//    public void setResources(Set<CourseResources> resources) {
-//        this.resources = resources;
-//    }
 
 
     @Id
@@ -170,12 +144,11 @@ public class Courses {
                 Objects.equals(professorId, courses.professorId) &&
                 Objects.equals(startDate, courses.startDate) &&
                 Objects.equals(endDate, courses.endDate) &&
-                Objects.equals(topicsEntities, courses.topicsEntities) &&
-                Objects.equals(userById, courses.userById);
+                Objects.equals(topicsEntities, courses.topicsEntities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, professorId, startDate, endDate, topicsEntities, userById);
+        return Objects.hash(id, title, description, professorId, startDate, endDate, topicsEntities);
     }
 }

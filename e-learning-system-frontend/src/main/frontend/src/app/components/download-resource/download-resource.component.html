@@ -11,7 +11,7 @@
         </button>
       </div>
       <div class="modal-body">
-
+        <div *ngIf="loading ==null" data-dismiss="modal" hidden></div>
         <input id="cin" name="cin"
                type="file" (change)="fileChangeEvent($event)"
                placeholder="Upload a file..." multiple
@@ -19,10 +19,12 @@
         />
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button"
                 (click)="upload()"
+                [disabled]="loading"
                 class="btn btn-primary">Save changes</button>
+        <img *ngIf="loading" src="../../../assets/img/loading.gif">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

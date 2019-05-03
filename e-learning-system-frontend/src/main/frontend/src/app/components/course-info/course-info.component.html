@@ -68,9 +68,10 @@
             <h3><a id="authorLink" routerLink="/user/{{course.professorId}}">{{professor}}</a>
             </h3>
             <p>
-              <br>
-              <span class="comment"></span>
-              {{user.briefInformation}}
+              <span class="comment">University: </span>
+              {{user.university}}<br>
+              <span class="comment">Contact details: </span>
+              {{user.email}}
             </p>
             <div *ngIf="course.author">
               <div class="course-edit">
@@ -81,9 +82,9 @@
           </div>
         </div>
       </div>
+      <app-course-resources [topics]="course.topics" [test]="course.test"></app-course-resources>
     </div>
   </div>
-  <app-course-resources [topics]="course.topics" [test]="course.test"></app-course-resources>
 </div>
 
 

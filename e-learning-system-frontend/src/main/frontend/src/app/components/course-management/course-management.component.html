@@ -1,16 +1,52 @@
 <div class="wrapper">
   <div class="content">
-    <ul *ngFor="let student of students">
-      <li>
-        <div class="student-info">
-          <span>
-          <a routerLink="/user/{{student.userId}}">{{student.userId}}
-            {{student.firstName}} {{student.lastName}}</a>
-            {{student.testResults.date|date:'long'}}
-            {{student.testResults.result}}%
-          </span>
+    <h1 style="text-align: center">Students</h1>
+    <div *ngFor="let student of students">
+      <div id="accordionResult">
+        <div class="card">
+          <div class="card-header" [attr.id]="'headResult'">
+            <div class="student-info">
+              <a routerLink="/user/{{student.userId}}">
+                <div *ngIf="student.url; else standartImg">
+                  <img align="center" src="{{student.url}}" class="img-circle">
+                </div>
+                <ng-template #standartImg>
+                  <img align="center" src="../../../assets/img/noavatar.png" class="img-circle">
+                </ng-template>
+                {{student.firstName}} {{student.lastName}}</a>
+              <div class="mb-0" style="float: right">
+                <button type="button" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#result'"
+                        aria-expanded="true" [attr.aria-controls]="'result'">
+                  Show results
+                </button>
+              </div>
+            </div>
+          </div>
+          <div [attr.id]="'result'" class="collapse" [attr.aria-labelledby]="'headResult'"
+               data-parent="#accordionResult">
+            <div class="card-body">
+              <div *ngIf="student.testResults; else noPass">
+                <table width="100%">
+                  <tr>
+                    <th>Test name</th>
+                    <th>Date</th>
+                    <th>Result %</th>
+                  </tr>
+                  <tr>
+                    <td>{{student.testName}}</td>
+                    <td>{{student.testResults.date|date:'medium'}}</td>
+                    <td>{{student.testResults.result}}%</td>
+                  </tr>
+                </table>
+              </div>
+              <ng-template #noPass>
+                <p>Test is not passed</p>
+              </ng-template>
+            </div>
+          </div>
         </div>
-      </li>
-    </ul>
+      </div>
+
+    </div>
   </div>
 </div>

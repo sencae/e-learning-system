@@ -50,6 +50,7 @@ public class CourseManageController extends BaseGetController {
             for (TestResultsEntity testResultsEntity : testResultsEntities) {
                 if (studentManageDto.getUserId().equals(testResultsEntity.getUserId()))
                     studentManageDto.setTestResults(testResultsEntity);
+                studentManageDto.setTestName(testResultsEntity.getTestsEntity().getTestName());
             }
 
         return new ResponseEntity<>(dto, HttpStatus.OK);

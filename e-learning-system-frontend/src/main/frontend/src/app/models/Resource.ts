@@ -1,5 +1,5 @@
 export class Resource {
   title: string;
-  description: string;
+  topicId: string;
   url: string;
 }

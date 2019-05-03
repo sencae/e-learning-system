@@ -11,7 +11,7 @@
     <li class="navbar-item">
       <a routerLink="/courses/all" class="nav-link">Courses</a>
     </li>
-    <li class="navbar-item">
+    <li *ngIf="auth" class="navbar-item">
       <a routerLink="my" class="nav-link">Dashboard</a>
     </li>
     <li class="navbar-item">

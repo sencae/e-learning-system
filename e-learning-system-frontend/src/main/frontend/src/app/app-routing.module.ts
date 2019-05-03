@@ -12,11 +12,11 @@ import {CourseInfoComponent} from "./components/course-info/course-info.componen
 import {UserInfoComponent} from "./components/user-info/user-info.component";
 import {UserEditComponent} from "./components/user-edit/user-edit.component";
 import {CourseEditComponent} from "./components/course-edit/course-edit.component";
-import {TestComponent} from "./test/test.component";
 import {MyPageComponent} from "./components/my-page/my-page.component";
 import {CourseManagementComponent} from "./components/course-management/course-management.component";
 import {CourseTestComponent} from "./components/course-test/course-test.component";
 import {EditTestComponent} from "./components/edit-test/edit-test.component";
+import {ConfirmAccountComponent} from "./components/confirm-account/confirm-account.component";
 
 const appRoutes: Routes = [
   {path: 'signup', component: SignUpComponent},
@@ -32,7 +32,7 @@ const appRoutes: Routes = [
   {path: 'user/:id', component: UserInfoComponent},
   {path:'user/:id/edit',component:UserEditComponent},
   {path: 'my', component: MyPageComponent},
-  {path: 'testing', component: TestComponent},
+  {path: 'confirm-account/:id', component: ConfirmAccountComponent},
   {path: '404', component:NotFoundComponent},
   {path: '**', redirectTo: '404'}
 ];

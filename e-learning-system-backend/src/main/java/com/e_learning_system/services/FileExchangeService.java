@@ -3,6 +3,8 @@ package com.e_learning_system.services;
 import com.e_learning_system.dao.DetachObject;
 import com.e_learning_system.entities.CourseResources;
 import com.e_learning_system.googleApi.GoogleDriveService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeTypeUtils;
@@ -13,6 +15,7 @@ import java.util.Objects;
 
 @Service
 public class FileExchangeService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveService.class);
     private final GoogleDriveService googleDriveService;
     private final ResourcesService resourcesService;
 
@@ -26,12 +29,20 @@ public class FileExchangeService {
 
     public com.google.api.services.drive.model.File uploadPageImg(MultipartFile file) {
         File fileUpload = googleDriveService.multipartToFile(file);
-        if (file != null && Objects.requireNonNull(file.getContentType()).equals(MimeTypeUtils.IMAGE_JPEG_VALUE))
-            return googleDriveService.uploadFile(
-                    file.getOriginalFilename(),
-                    fileUpload, file.getContentType());
-        else
+        try {
+            if (file != null && Objects.requireNonNull(file.getContentType()).equals(MimeTypeUtils.IMAGE_JPEG_VALUE))
+                return googleDriveService.uploadFile(
+                        file.getOriginalFilename(),
+                        fileUpload, file.getContentType());
+            else
+                return null;
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
             return null;
+        } finally {
+            fileUpload.delete();
+        }
     }
 
     public Integer uploadResources(MultipartFile[] files, Long topicId) {

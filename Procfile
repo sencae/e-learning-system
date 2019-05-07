@@ -1,0 +1,1 @@
+web: java -jar e-learning-system-backend/target/e-learning-system-backend-0.0.1-SNAPSHOT.jar

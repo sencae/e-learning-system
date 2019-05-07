@@ -1,4 +1,4 @@
-FROM openjdk:10
+FROM openjdk:8
 EXPOSE 8080 8080
 ARG JAR_FILE=e-learning-system-backend/target/e-learning-system-backend-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} e-learning-system.jar

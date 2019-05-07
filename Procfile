@@ -1,1 +1,1 @@
-web: java -jar e-learning-system-backend/target/e-learning-system-backend-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -Dspring.profiles.active=heroku $JAVA_OPTS -jar e-learning-system-backend/target/e-learning-system-backend-0.0.1-SNAPSHOT.jar

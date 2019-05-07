@@ -12,6 +12,8 @@ env:
   - secure: "encrypted-heroku-api-key"
 
 
+script:
+- ./mvn clean install -B
 
 
 after_success:

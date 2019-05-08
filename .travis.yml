@@ -19,7 +19,7 @@ deploy:
   provider: heroku
   api_key:
     secure: $HEROKU_API_KEY
-  app: e-learning-system
+  app: e-learning-system-app
 
 before_install:
 - chmod +x mvnw

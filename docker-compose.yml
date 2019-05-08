@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    build: ./e-learning-system-backend
+    image: xarder/e-learning-system
+    ports:
+    - "8080:8080"
+  db:
+    build: ./db
+    image: xarder/e-learning-system-db
+    container_name: "e-learning-system-db"
+    ports:
+    - "5432:5432"

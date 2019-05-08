@@ -5,12 +5,6 @@ jdk: oraclejdk8
 services:
 - docker
 
-env:
-  global:
-  - secure: "encrypted-dockerhub-username"
-  - secure: "encrypted-dockerhub-password"
-  - secure: "encrypted-heroku-api-key"
-
 
 script:
 - ./mvnw clean install -B
@@ -18,15 +12,13 @@ script:
 
 after_success:
 - docker login -u $DOCKER_USER -p $DOCKER_PASS
-- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
-- export IMAGE_NAME=xarder/e-learning-system
-- docker build -t $IMAGE_NAME:$COMMIT .
-- docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
-- docker push $IMAGE_NAME
+- docker-compose build
+- docker-compose push
 
 deploy:
   provider: heroku
-  api_key: $HEROKU_API_KEY
+  api_key:
+    secure: $HEROKU_API_KEY
   app: e-learning-system
 
 before_install:

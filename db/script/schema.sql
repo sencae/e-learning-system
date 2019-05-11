@@ -1,4 +1,4 @@
-\connect -reuse-previous=on "dbname='e_learning_system'"
+
 --
 -- PostgreSQL database dump
 --

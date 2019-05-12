@@ -36,14 +36,14 @@ public class TestController extends BaseGetController {
 
     @PreAuthorize("hasAuthority('professor')")
     @PostMapping("/createTest")
-    public ResponseEntity<String> createTest(@RequestBody CreateTestDto createTestDto) {
+    public ResponseEntity<TestsEntity> createTest(@RequestBody CreateTestDto createTestDto) {
         if (createTestDto.getCourseId() < 0)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         if (coursesService.getCourseById(createTestDto.getCourseId()).getTestsEntity() != null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         TestsEntity testsEntity = modelMapperUtil.map(createTestDto, TestsEntity.class);
         testsEntity = testService.createTest(testsEntity);
-        return new ResponseEntity<>(testsEntity.getTestName(), HttpStatus.OK);
+        return new ResponseEntity<>(testsEntity, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('professor')")

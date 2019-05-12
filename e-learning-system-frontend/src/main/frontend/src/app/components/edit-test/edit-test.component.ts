@@ -65,7 +65,7 @@ export class EditTestComponent implements OnInit {
     this.loading = true;
     const id = +this.route.snapshot.paramMap.get('id');
     this.testService.save(this.testForm.value, id).subscribe(data => {
-        this.alertService.error('You successfully update test', true);
+        this.alertService.success('You successfully update test', true);
         this.router.navigate(['/course/' + id + '/edit']);
       },
       error1 => {
@@ -110,6 +110,6 @@ export class EditTestComponent implements OnInit {
     this.questions.removeAt(questionID);
   }
   addQuestion() {
-    this.questions.push(this.createQuestionGroup(new QuestionEdit({parentTest: this.testForm.value.testName})));
+    this.questions.push(this.createQuestionGroup(new QuestionEdit({parentTest: this.testForm.value.id})));
   }
 }

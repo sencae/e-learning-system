@@ -17,8 +17,8 @@ export class TestService {
   constructor(private http: HttpClient) {
   }
 
-  saveTest(createTest: CreateTest): Observable<string> {
-    return this.http.post<string>(this.createTestUrl, createTest)
+  saveTest(createTest: CreateTest): Observable<Test> {
+    return this.http.post<Test>(this.createTestUrl, createTest)
   }
 
   getTest(id: number): Observable<Test> {

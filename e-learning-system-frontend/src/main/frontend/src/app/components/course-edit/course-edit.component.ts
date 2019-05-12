@@ -97,7 +97,7 @@ export class CourseEditComponent implements OnInit {
       this.testTitle.value,
       this.id);
     this.testService.saveTest(this.createTest).subscribe(data => {
-        this.course.test = data;
+      this.course.test = data.testName;
         this.openFormTest = false;
       }, error => this.alertService.error("Failed to create test", false)
     )

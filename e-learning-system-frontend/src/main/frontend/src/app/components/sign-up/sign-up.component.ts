@@ -28,7 +28,7 @@ export class SignUpComponent implements OnInit {
       password: new FormControl('',
         [Validators.required, Validators.pattern('^(?=.*[0-9])(?=.*[a-zа-я])(?=.*[A-ZА-Я]).{8,}$')]),
       email: new FormControl('',
-        [Validators.required, Validators.pattern('[a-zA-z0-9_\.]+@[a-zA-Z]+\.[a-zA-Z]+')]),
+        [Validators.required, Validators.email]),
       profession: new FormControl('', [Validators.required])
     });
   }

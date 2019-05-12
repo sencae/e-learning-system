@@ -20,8 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -56,11 +54,7 @@ public class GoogleDriveService {
         Drive service = null;
         try{
             java.io.File key = new java.io.File("targetFile.tmp");
-            URL resource = GoogleDriveService.class.getResource("/"+this.serviceAccountKey);
-            if (resource.toURI().toString().equals("jar:file:/e-learning-system.jar!/BOOT-INF/classes!/e-learning-system-234321-560d76c46817.p12")) {
-                FileUtils.copyInputStreamToFile(new ClassPathResource("e-learning-system-234321-560d76c46817.p12").getInputStream(), key);
-            } else
-                key = Paths.get(resource.toURI()).toFile();
+            FileUtils.copyInputStreamToFile(new ClassPathResource("e-learning-system-234321-560d76c46817.p12").getInputStream(), key);
             HttpTransport httpTransport = new NetHttpTransport();
             JacksonFactory jsonFactory = new JacksonFactory();
 

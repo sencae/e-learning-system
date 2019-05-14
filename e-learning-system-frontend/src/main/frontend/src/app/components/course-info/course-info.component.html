@@ -44,14 +44,17 @@
             </ng-template>
           </div>
           <ng-template #alreadyStarted>
-            <span class="course-status">Course started</span>
+            <span *ngIf="dateDif()>0; else finished" class="course-status">Course started</span>
+            <ng-template #finished>
+              <span class="course-status">Course finished</span>
+            </ng-template>
           </ng-template>
         </div>
         <div class="col-md-4 col-sm-6 advansed-info">
           <div *ngIf="!course.join && !course.author&& !course.started&& isSignIn()">
             <button class="btn btn-primary" (click)="joinTo()">Join</button>
           </div>
-          <div *ngIf="course.author || (course.join && course.started)">
+          <div *ngIf="course.author || (course.join && course.started && course.topics)">
             <button class="btn btn-primary" data-toggle="modal"
                     data-target="#course-resources-modal">Show resources
             </button>

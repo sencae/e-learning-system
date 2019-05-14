@@ -37,7 +37,7 @@ export class CourseTestComponent implements OnInit {
         this.router.navigate(['course/', id]);
       },
       error1 => {
-        this.alertService.error("Failed");
+        this.alertService.error("Failed to complete");
         this.loading = false;
       });
   }
@@ -53,7 +53,7 @@ export class CourseTestComponent implements OnInit {
         })
       },
       error1 => {
-        this.alertService.error(error1.message, true);
+        this.alertService.error('Test is already passed', true);
         this.router.navigate(['/course/' + id]);
       });
   }

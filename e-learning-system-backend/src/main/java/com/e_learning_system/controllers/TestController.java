@@ -4,9 +4,9 @@ import com.e_learning_system.dto.*;
 import com.e_learning_system.entities.*;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.CoursesService;
-import com.e_learning_system.services.QuestionService;
 import com.e_learning_system.services.TestResultsService;
 import com.e_learning_system.services.TestService;
+import com.e_learning_system.services.registrationService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,21 +17,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 public class TestController extends BaseGetController {
     private final ModelMapperUtil modelMapperUtil;
     private final TestService testService;
     private final CoursesService coursesService;
-    private final QuestionService questionService;
     private final TestResultsService testResultsService;
+    private final UserService userService;
     @Autowired
-    public TestController(ModelMapperUtil modelMapperUtil, TestService testService, CoursesService coursesService, QuestionService questionService, TestResultsService testResultsService) {
+    public TestController(ModelMapperUtil modelMapperUtil, TestService testService, CoursesService coursesService, TestResultsService testResultsService, UserService userService) {
         this.modelMapperUtil = modelMapperUtil;
         this.testService = testService;
         this.coursesService = coursesService;
-        this.questionService = questionService;
         this.testResultsService = testResultsService;
+        this.userService = userService;
     }
 
     @PreAuthorize("hasAuthority('professor')")
@@ -59,6 +60,18 @@ public class TestController extends BaseGetController {
     public ResponseEntity<TestDto> getTest(@RequestBody Long courseId) {
         if (courseId < 0)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        User user = userService.getUserById(userPrinciple.getId());
+        AtomicBoolean completed = new AtomicBoolean(false);
+        user.getTestResults().forEach(result -> {
+            if (result.getTestId().equals(courseId))
+                completed.set(true);
+        });
+        if (completed.get()) {
+            return new ResponseEntity<>(HttpStatus.FOUND);
+        }
         TestDto testDto = modelMapperUtil.map(coursesService.getCourseById(courseId).getTestsEntity(), TestDto.class);
         testDto.getQuestions().forEach(questionDto -> questionDto.getAnswers().forEach(answerDto -> answerDto.setCorrectAnswer(false)));
         return new ResponseEntity<>(testDto, HttpStatus.OK);

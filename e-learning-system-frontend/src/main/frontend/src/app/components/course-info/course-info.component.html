@@ -8,6 +8,12 @@
         <div class="col-md-8 col-sm-12">
           <h1 class="course-title">{{course.title}}
           </h1>
+
+          <div *ngIf="course.author" style="padding-top: 100px;">
+            <button type="button" class="btn btn-primary" routerLink="edit">Edit Course</button>
+
+            <button type="button" class="btn btn-primary" routerLink="manage">Manage</button>
+          </div>
         </div>
         <div class="col-sm-6 col-md-4">
           <img *ngIf="course.url!=null; else standartCourseImg" src="{{course.url}}" class="img-course">
@@ -78,12 +84,6 @@
               <span class="comment">Contact details: </span>
               {{user.email}}
             </p>
-            <div *ngIf="course.author">
-              <div class="course-edit">
-                <a class="siteLink" routerLink="edit">Edit Course</a>
-              </div>
-              <a class="siteLink" routerLink="manage">Manage</a>
-            </div>
           </div>
         </div>
       </div>

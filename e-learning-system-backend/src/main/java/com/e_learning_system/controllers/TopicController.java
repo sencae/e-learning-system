@@ -47,28 +47,33 @@ public class TopicController extends BaseGetController {
     @PostMapping("/deleteTopic")
     public ResponseEntity<Void> deleteTopic(@RequestBody TopicsEntity topic) {
         int counter = 0;
-        for (CourseResources courseResources : topic.getCourseResources()) {
-            if (
-                    googleDriveService.deleteFile(
-                            googleDriveService.getDriveService(),
-                            utilService.getFileIdFromUrl(
-                                    courseResources.getUrl()
-                            )
-                    )
-            )
-                counter++;
-            else
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        if (counter == topic.getCourseResources().size()) {
-            try {
-                topicsService.deleteTopic(topic);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } catch (Exception ex) {
-                logger.error("Error. Message - {}", ex.getMessage());
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (topic.getCourseResources() != null) {
+            for (CourseResources courseResources : topic.getCourseResources()) {
+                if (
+                        googleDriveService.deleteFile(
+                                googleDriveService.getDriveService(),
+                                utilService.getFileIdFromUrl(
+                                        courseResources.getUrl()
+                                )
+                        )
+                )
+                    counter++;
+                else
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } else
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            if (counter == topic.getCourseResources().size()) {
+                try {
+                    topicsService.deleteTopic(topic);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                } catch (Exception ex) {
+                    logger.error("Error. Message - {}", ex.getMessage());
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            topicsService.deleteTopic(topic);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }

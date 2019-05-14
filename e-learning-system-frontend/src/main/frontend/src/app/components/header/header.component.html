@@ -14,9 +14,6 @@
     <li *ngIf="auth" class="navbar-item">
       <a routerLink="my" class="nav-link">Dashboard</a>
     </li>
-    <li class="navbar-item">
-      <a href="#" class="nav-link">About us</a>
-    </li>
     <li class="navbar-item" >
     <div *ngIf="auth===false; else other">
     <a class="btn btn-primary" routerLink="/login" role="button" aria-pressed="true">Sign in</a>

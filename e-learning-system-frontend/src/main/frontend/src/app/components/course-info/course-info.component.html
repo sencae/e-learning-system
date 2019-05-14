@@ -37,7 +37,7 @@
           </ng-template>
         </div>
         <div class="col-md-4 col-sm-6 advansed-info">
-          <div *ngIf="!course.join && !course.author&& !course.started">
+          <div *ngIf="!course.join && !course.author&& !course.started&& isSignIn()">
             <button class="btn btn-primary" (click)="joinTo()">Join</button>
           </div>
           <div *ngIf="course.author || (course.join && course.started)">

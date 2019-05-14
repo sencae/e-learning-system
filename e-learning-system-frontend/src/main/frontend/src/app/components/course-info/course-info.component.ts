@@ -44,13 +44,16 @@ export class CourseInfoComponent implements OnInit {
     );
   }
 
+  isSignIn(): boolean {
+    return this.tokenStorage.getAuthorities().length !== 0;
+  }
   dateDif() {
     return Math.round((Date.parse(this.course.startDate.toString()) - Date.parse(new Date().toString())) / 86400000);
   }
   joinTo() {
     const id = +this.route.snapshot.paramMap.get('id');
     this.courseService.join(id).subscribe(success => window.location.reload(),
-      error => this.alertService.error(error.value))
+      error => this.alertService.error('Please, confirm account'))
   }
 
   showFiles(enable: boolean) {

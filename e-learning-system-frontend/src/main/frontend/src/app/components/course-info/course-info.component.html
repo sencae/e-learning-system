@@ -30,7 +30,12 @@
         </div>
         <div class="col-md-4 col-sm-6 advansed-info course-date">
           <div class="course-date" *ngIf="!course.started; else alreadyStarted"><span>{{dateDif()}} days</span>
-            <div class="course-status">Time to join</div>
+            <div *ngIf="course.join; else ttj">
+              <div class="course-status">To start</div>
+            </div>
+            <ng-template #ttj>
+              <div class="course-status">Time to join</div>
+            </ng-template>
           </div>
           <ng-template #alreadyStarted>
             <span class="course-status">Course started</span>

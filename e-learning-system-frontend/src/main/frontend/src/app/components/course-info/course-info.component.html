@@ -44,10 +44,7 @@
             </ng-template>
           </div>
           <ng-template #alreadyStarted>
-            <span *ngIf="dateDif()>0; else finished" class="course-status">Course started</span>
-            <ng-template #finished>
-              <span class="course-status">Course finished</span>
-            </ng-template>
+            <span class="course-status">Course started</span>
           </ng-template>
         </div>
         <div class="col-md-4 col-sm-6 advansed-info">

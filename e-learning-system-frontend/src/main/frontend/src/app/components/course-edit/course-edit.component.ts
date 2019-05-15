@@ -66,7 +66,7 @@ export class CourseEditComponent implements OnInit {
           startDate: [course.startDate.toString().substring(0, 16), Validators.required],
           endDate: [this.course.endDate.toString().substring(0, 16), Validators.required],
           file: [null],
-          url: [null]
+          url: [course.url]
         })
       },
       error1 => {

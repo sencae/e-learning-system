@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="content">
     <h1 style="text-align: center">Students</h1>
-    <div *ngFor="let student of students">
+    <div *ngFor="let student of students; index as i">
       <div id="accordionResult">
         <div class="card">
           <div class="card-header" [attr.id]="'headResult'">
@@ -15,14 +15,14 @@
                 </ng-template>
                 {{student.firstName}} {{student.lastName}}</a>
               <div class="mb-0" style="float: right">
-                <button type="button" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#result'"
-                        aria-expanded="true" [attr.aria-controls]="'result'">
+                <button type="button" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#result'+i"
+                        aria-expanded="true" [attr.aria-controls]="'result'+i">
                   Show results
                 </button>
               </div>
             </div>
           </div>
-          <div [attr.id]="'result'" class="collapse" [attr.aria-labelledby]="'headResult'"
+          <div [attr.id]="'result'+i" class="collapse" [attr.aria-labelledby]="'headResult'"
                data-parent="#accordionResult">
             <div class="card-body">
               <div *ngIf="student.testResults; else noPass">

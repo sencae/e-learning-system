@@ -47,6 +47,10 @@ export class CourseInfoComponent implements OnInit {
   isSignIn(): boolean {
     return this.tokenStorage.getAuthorities().length !== 0;
   }
+
+  isProfessor(): boolean {
+    return !this.userService.hasAuthority('professor');
+  }
   dateDif() {
     return Math.round((Date.parse(this.course.startDate.toString()) - Date.parse(new Date().toString())) / 86400000);
   }

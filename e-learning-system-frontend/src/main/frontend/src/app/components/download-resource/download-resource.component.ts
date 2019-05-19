@@ -26,7 +26,8 @@ export class DownloadResourceComponent implements OnInit {
     this.fileEx.uploadResourceFiles(this.filesToUpload,this.topic).subscribe(
       data => {
         this.alertService.success('You successfully uploaded '+ this.filesToUpload.length+  ' files!',true);
-        window.location.reload();
+        document.getElementById('downloadModal').click();
+        this.loading = false;
         },
       error => {
         this.alertService.error('FAIL to upload files!', false);

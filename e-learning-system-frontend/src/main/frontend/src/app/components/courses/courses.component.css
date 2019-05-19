@@ -64,5 +64,9 @@
   width: 100%;
   bottom: 0;
   left: 0;
+  font-weight: bold;
 }
 
+.join-to-course {
+  font-weight: bold;
+}

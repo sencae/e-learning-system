@@ -56,7 +56,9 @@ export class CourseInfoComponent implements OnInit {
   }
   joinTo() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.courseService.join(id).subscribe(success => window.location.reload(),
+    this.courseService.join(id).subscribe(success => {
+        this.alertService.success('You successfully joined to course', true);
+      },
       error => this.alertService.error('Please, confirm account'))
   }
 

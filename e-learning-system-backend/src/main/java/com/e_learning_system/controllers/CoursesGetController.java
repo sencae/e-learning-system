@@ -4,6 +4,7 @@ import com.e_learning_system.dto.CoursesDto;
 import com.e_learning_system.dto.ModelMapperUtil;
 import com.e_learning_system.entities.Courses;
 import com.e_learning_system.entities.User;
+import com.e_learning_system.entities.UsersOnCoursesEntity;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.services.UserOnCoursesService;
@@ -94,8 +95,11 @@ public class CoursesGetController extends BaseGetController {
             coursesDto.setAuthor(userPrinciple.getId().equals(course.getProfessorId()));
             if (coursesDto.isAuthor() || (coursesDto.isJoin() && coursesDto.isStarted() &&
                     course.getEndDate().getTime() > System.currentTimeMillis())) {
-                coursesDto.setFinished(userOnCoursesService.getUserOnCourseByUserIdAndCourseId(userPrinciple.getId(), courseId).getFinished());
-                return new ResponseEntity<>(coursesDto, HttpStatus.OK);
+                for (User user: course.getUsersOnCourse()){
+                    if(user.getId()==userPrinciple.getId())
+                        coursesDto.setFinished(userOnCoursesService.getUserOnCourseByUserIdAndCourseId(userPrinciple.getId(), courseId).getFinished());
+                }
+                 return new ResponseEntity<>(coursesDto, HttpStatus.OK);
             }
             else {
                 coursesDto.setTopics(null);

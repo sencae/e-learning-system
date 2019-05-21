@@ -3,6 +3,8 @@ package com.e_learning_system.controllers;
 import com.e_learning_system.dto.CoursesDto;
 import com.e_learning_system.dto.ModelMapperUtil;
 import com.e_learning_system.entities.Courses;
+import com.e_learning_system.entities.User;
+import com.e_learning_system.entities.UsersOnCoursesEntity;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.CoursesService;
 import com.e_learning_system.services.registrationService.UserService;
@@ -43,10 +45,15 @@ public class MyPageController extends BaseGetController {
             List<CoursesDto> coursesDto = modelMapperUtil.map(courses, listType);
             return new ResponseEntity<>(coursesDto, HttpStatus.OK);
         }else {
-            List<Courses> courses = userService.getUserById(userPrinciple.getId()).getCoursesList();
+            User user = userService.getUserById(userPrinciple.getId());
             Type listType = new TypeToken<List<CoursesDto>>() {
             }.getType();
-            List<CoursesDto> coursesDto = modelMapperUtil.map(courses, listType);
+            List<CoursesDto> coursesDto = modelMapperUtil.map(user.getCoursesList(), listType);
+            for(CoursesDto coursesDto1: coursesDto){
+                for(UsersOnCoursesEntity usersOnCoursesEntity: user.getUsersOnCoursesEntities())
+                    if(coursesDto1.getId().equals(usersOnCoursesEntity.getCourseId()))
+                        coursesDto1.setFinished(usersOnCoursesEntity.getFinished());
+                }
             return new ResponseEntity<>(coursesDto, HttpStatus.OK);
         }
     }

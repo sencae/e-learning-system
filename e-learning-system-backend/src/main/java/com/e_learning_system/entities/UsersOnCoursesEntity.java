@@ -8,6 +8,7 @@ public class UsersOnCoursesEntity {
     private Long id;
     private Long userId;
     private Long courseId;
+    private Boolean finished;
 
     public UsersOnCoursesEntity(){}
 
@@ -38,6 +39,16 @@ public UsersOnCoursesEntity(Long userId,Long courseId){
     }
 
     @Basic
+    @Column(name = "finished", nullable = false)
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
+    }
+
+    @Basic
     @Column(name = "course_id", nullable = true)
     public Long getCourseId() {
         return courseId;
@@ -55,11 +66,12 @@ public UsersOnCoursesEntity(Long userId,Long courseId){
         UsersOnCoursesEntity that = (UsersOnCoursesEntity) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(userId, that.userId) &&
-                Objects.equals(courseId, that.courseId);
+                Objects.equals(courseId, that.courseId) &&
+                Objects.equals(finished, that.finished);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, courseId);
+        return Objects.hash(id, userId, courseId, finished);
     }
 }

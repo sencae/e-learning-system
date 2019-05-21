@@ -23,7 +23,6 @@ export class CourseManagementComponent implements OnInit {
   }
 
   getUsersOnCourse() {
-
     const id = +this.route.snapshot.paramMap.get('id');
     this.courseManagementService.getUsersOnCourse(id).subscribe(data => this.students = data,
       error1 => {
@@ -31,5 +30,12 @@ export class CourseManagementComponent implements OnInit {
           this.alertService.error('Access denied')
         }
       });
+  }
+  endCourse(studentId:number){
+    this.courseManagementService.endCourse(studentId,+this.route.snapshot.paramMap.get('id')).subscribe(data=>
+    {
+      this.alertService.success('student '+this.students.find(x=>x.userId==studentId).firstName
+      + ' '+ this.students.find(x=>x.userId==studentId).lastName + ' successfully end course');
+    })
   }
 }

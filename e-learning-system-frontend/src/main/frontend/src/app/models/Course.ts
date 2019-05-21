@@ -12,4 +12,5 @@ export class Course {
   join: boolean;
   author: boolean;
   url: string;
+  finished: boolean;
 }

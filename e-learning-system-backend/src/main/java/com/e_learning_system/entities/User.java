@@ -22,6 +22,19 @@ public class User {
 
     private Set<TestResultsEntity> testResults;
 
+
+    private List<UsersOnCoursesEntity> usersOnCoursesEntities;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    public List<UsersOnCoursesEntity> getUsersOnCoursesEntities() {
+        return usersOnCoursesEntities;
+    }
+
+    public void setUsersOnCoursesEntities(List<UsersOnCoursesEntity> usersOnCoursesEntities) {
+        this.usersOnCoursesEntities = usersOnCoursesEntities;
+    }
+
     @OneToMany
     @JoinColumn(name = "user_id")
     public Set<TestResultsEntity> getTestResults() {

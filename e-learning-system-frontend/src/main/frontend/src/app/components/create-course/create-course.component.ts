@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {CourseService} from "../../services/course/course.service";
 import {Router} from "@angular/router";
 import {AlertService} from "../../services/alert.service";
@@ -13,6 +13,7 @@ export class CreateCourseComponent implements OnInit {
 
   courseCreateForm: FormGroup;
   submitted = false;
+
   constructor(private courseService: CourseService,
               private router:Router,
               private alertService: AlertService) { }
@@ -21,12 +22,19 @@ export class CreateCourseComponent implements OnInit {
     this.courseCreateForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      startDate: new FormControl('',[Validators.required]),
-      endDate: new FormControl('',[Validators.required])
+      startDate: new FormControl(null,[Validators.required,this.dateValidator]),
+      endDate: new FormControl(null,[Validators.required])
     });
+
   }
   get f() {
     return this.courseCreateForm.controls;
+  }
+  dateValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (control.value !== undefined && Math.round((Date.parse(control.value.toString()) - Date.parse(new Date().toString())) / 86400000)<0) {
+      return { 'pastDate': true };
+    }
+    return null;
   }
   onSubmit() {
     this.submitted = true;

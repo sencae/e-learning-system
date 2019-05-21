@@ -58,6 +58,12 @@
               <a routerLink="/course/{{course.id}}" class="btn btn-primary">
                 <span class="fa fa-graduation-cap"></span> Go to course
               </a>
+              <span *ngIf="course.finished; else notFinished">
+                Course finished
+              </span>
+              <ng-template #notFinished>
+                Course is not finished
+              </ng-template>
             </div>
           </div>
         </div>

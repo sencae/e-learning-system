@@ -59,9 +59,7 @@ export class LoginComponent implements OnInit {
         this.tokenStorage.saveAuthorities(data.authorities);
         this.tokenStorage.saveId(data.id);
         this.isLoggedIn = true;
-        this.router.navigate(['/user/' + data.id]).then(() => {
-          window.location.reload();
-        });
+        this.router.navigate(['/user/' + data.id]);
       },
       error => {
         let msg = "Wrong email or password";

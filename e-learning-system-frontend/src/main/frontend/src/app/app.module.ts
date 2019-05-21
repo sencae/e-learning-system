@@ -33,6 +33,7 @@ import {CourseTestComponent} from './components/course-test/course-test.componen
 import {EditTestComponent} from './components/edit-test/edit-test.component';
 import {CourseResourcesComponent} from './components/course-resources/course-resources.component';
 import {ConfirmAccountComponent} from './components/confirm-account/confirm-account.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {ConfirmAccountComponent} from './components/confirm-account/confirm-acco
     ReactiveFormsModule,
     AngularFontAwesomeModule,
     AppRoutingModule,
-    RxReactiveFormsModule
+    RxReactiveFormsModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [httpInterceptorProviders,
   AuthorityGuard,

@@ -13,4 +13,5 @@ export class CourseInfo {
   join: boolean;
   test: string;
   url: string;
+  finished:boolean;
 }

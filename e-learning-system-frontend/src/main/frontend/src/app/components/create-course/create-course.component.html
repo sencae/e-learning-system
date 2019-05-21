@@ -45,10 +45,14 @@
             <input type="datetime-local" formControlName="startDate"
                    class="form-control"
                    id="date"
+                   [(ngModel)]="startDate"
                    [ngClass]="{ 'is-invalid': f.startDate.errors && (submitted ||f.startDate.touched) }">
-            <div *ngIf=" f.title.errors && (submitted ||f.title.touched)" class="invalid-feedback">
-              <div *ngIf="f.title.errors.required">
+            <div *ngIf=" f.startDate.errors && (submitted ||f.startDate.touched)" class="invalid-feedback">
+              <div *ngIf="f.startDate.errors.required">
                 Start date is required
+              </div>
+              <div *ngIf="f.startDate.errors.pastDate">
+                Start date is in past
               </div>
             </div>
           </div>
@@ -58,8 +62,8 @@
                    class="form-control"
                    id="endDate"
                    [ngClass]="{ 'is-invalid': f.endDate.errors && (submitted ||f.endDate.touched) }">
-            <div *ngIf=" f.title.errors && (submitted ||f.title.touched)" class="invalid-feedback">
-              <div *ngIf="f.title.errors.required">
+            <div *ngIf=" f.endDate.errors && (submitted ||f.endDate.touched)" class="invalid-feedback">
+              <div *ngIf="f.endDate.errors.required">
                 End date is required
               </div>
             </div>

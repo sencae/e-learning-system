@@ -19,7 +19,7 @@ public class CoursesDto {
     private Timestamp startDate;
     private Timestamp endDate;
     private String url;
-
+    private boolean finished;
     private String test;
 
     public String getTest() {
@@ -117,6 +117,14 @@ public class CoursesDto {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
 

@@ -44,7 +44,12 @@
             </ng-template>
           </div>
           <ng-template #alreadyStarted>
-            <span class="course-status">Course started</span>
+            <span class="course-status" *ngIf="course.finished;else courseStarted">
+              You finished this course
+            </span>
+            <ng-template #courseStarted >
+              <span class="course-status">Course started</span>
+            </ng-template>
           </ng-template>
         </div>
         <div class="col-md-4 col-sm-6 advansed-info">

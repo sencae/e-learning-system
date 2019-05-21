@@ -4,9 +4,11 @@ import com.e_learning_system.dto.ModelMapperUtil;
 import com.e_learning_system.dto.StudentManageDto;
 import com.e_learning_system.entities.TestResultsEntity;
 import com.e_learning_system.entities.User;
+import com.e_learning_system.entities.UsersOnCoursesEntity;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.TestResultsService;
 import com.e_learning_system.services.UserOnCoursesService;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,5 +57,13 @@ public class CourseManageController extends BaseGetController {
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasAuthority('professor')")
+    @PostMapping("endCourse")
+    public ResponseEntity<Void> endCourse(@RequestBody ObjectNode objectNode ){
+        UsersOnCoursesEntity usersOnCoursesEntity = userOnCoursesService.getUserOnCourseByUserIdAndCourseId(objectNode.get("studentId").asLong(),
+                objectNode.get("courseId").asLong());
+        usersOnCoursesEntity.setFinished(true);
+        userOnCoursesService.save(usersOnCoursesEntity);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

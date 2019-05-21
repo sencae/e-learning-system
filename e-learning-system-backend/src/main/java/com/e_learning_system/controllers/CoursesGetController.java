@@ -93,8 +93,10 @@ public class CoursesGetController extends BaseGetController {
             coursesDto.setJoin(userOnCoursesService.checkUser(userPrinciple.getId(), courseId));
             coursesDto.setAuthor(userPrinciple.getId().equals(course.getProfessorId()));
             if (coursesDto.isAuthor() || (coursesDto.isJoin() && coursesDto.isStarted() &&
-                    course.getEndDate().getTime() > System.currentTimeMillis()))
+                    course.getEndDate().getTime() > System.currentTimeMillis())) {
+                coursesDto.setFinished(userOnCoursesService.getUserOnCourseByUserIdAndCourseId(userPrinciple.getId(), courseId).getFinished());
                 return new ResponseEntity<>(coursesDto, HttpStatus.OK);
+            }
             else {
                 coursesDto.setTopics(null);
                 return new ResponseEntity<>(coursesDto, HttpStatus.OK);

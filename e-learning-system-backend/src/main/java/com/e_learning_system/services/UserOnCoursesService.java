@@ -38,4 +38,10 @@ public class UserOnCoursesService {
         else
             return null;
     }
+    public UsersOnCoursesEntity getUserOnCourseByUserIdAndCourseId(Long userId,Long courseId){
+        return usersOnCoursesRepository.getByCourseIdAndUserId(courseId,userId).get(0);
+    }
+    public void save(UsersOnCoursesEntity usersOnCoursesEntity){
+        usersOnCoursesRepository.save(usersOnCoursesEntity);
+    }
 }

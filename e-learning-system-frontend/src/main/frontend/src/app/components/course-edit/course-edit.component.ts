@@ -5,7 +5,7 @@ import {Resource} from "../../models/Resource";
 import {FileExchangeService} from "../../services/fileExchange.service";
 import {TopicService} from "../../services/course/topic.service";
 import {CreateTopic} from "../../models/CreateTopic";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CreateTest} from "../../models/CreateTest";
 import {TestService} from "../../services/course/test.service";
 import {Topic} from "../../models/Topic";
@@ -63,7 +63,7 @@ export class CourseEditComponent implements OnInit {
           id: [''],
           title: [course.title, Validators.required],
           description: [course.description],
-          startDate: [course.startDate.toString().substring(0, 16), Validators.required],
+          startDate: [course.startDate.toString().substring(0, 16), [Validators.required,this.dateValidator]],
           endDate: [this.course.endDate.toString().substring(0, 16), Validators.required],
           file: [null],
           url: [course.url]
@@ -74,7 +74,12 @@ export class CourseEditComponent implements OnInit {
       }
     )
   }
-
+  dateValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (control.value !== undefined && Math.round((Date.parse(control.value.toString()) - Date.parse(new Date().toString())) / 86400000)<0) {
+      return { 'pastDate': true };
+    }
+    return null;
+  }
   info(title: number) {
     this.topicTtl = title;
   }
@@ -123,7 +128,7 @@ export class CourseEditComponent implements OnInit {
 
   deleteResource(resource: Resource, index: number) {
     this.fileEx.deleteResource(resource.url).subscribe(data => {
-        this.course.topics[index].courseResources.filter(elem => elem !== resource);
+        this.course.topics[index].courseResources.filter(elem => elem.url !== resource.url);
       },
       error => this.alertService.error("Failed to delete resource", false)
     )

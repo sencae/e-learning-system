@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CourseService} from "../../services/course/course.service";
 import {Router} from "@angular/router";
 import {AlertService} from "../../services/alert.service";
@@ -22,8 +22,8 @@ export class CreateCourseComponent implements OnInit {
     this.courseCreateForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      startDate: new FormControl(null,[Validators.required,this.dateValidator]),
-      endDate: new FormControl(null,[Validators.required])
+      startDate: new FormControl('',[Validators.required,this.dateValidator]),
+      endDate: new FormControl('',[Validators.required])
     });
 
   }

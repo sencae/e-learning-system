@@ -24,6 +24,9 @@ public class TopicsService {
         topicsRepository.delete(topicsEntity);
     }
 
+    public TopicsEntity save(TopicsEntity topicsEntity){
+       return topicsRepository.save(topicsEntity);
+    }
     public TopicsEntity getById(Long id) {
         return topicsRepository.getById(id);
     }

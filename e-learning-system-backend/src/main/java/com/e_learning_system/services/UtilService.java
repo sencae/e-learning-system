@@ -6,6 +6,11 @@ import org.springframework.stereotype.Service;
 public class UtilService {
 
     public String getFileIdFromUrl(String url) {
-        return url.substring(url.indexOf('=') + 1, url.indexOf('&'));
+        try {
+            return url.substring(url.indexOf('=') + 1, url.indexOf('&'));
+        }
+        catch (Exception ex){
+            return null;
+        }
     }
 }

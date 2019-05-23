@@ -1,5 +1,6 @@
 package com.e_learning_system.controllers;
 
+import com.e_learning_system.dto.CourseResourcesDto;
 import com.e_learning_system.entities.CourseResources;
 import com.e_learning_system.entities.Courses;
 import com.e_learning_system.entities.TopicsEntity;
@@ -8,6 +9,7 @@ import com.e_learning_system.googleApi.GoogleDriveService;
 import com.e_learning_system.security.service.UserPrinciple;
 import com.e_learning_system.services.*;
 import com.e_learning_system.services.registrationService.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +33,12 @@ public class FileExchangeController extends BaseGetController {
     private final TopicsService topicsService;
     private final UtilService utilService;
 
+    private final ObjectMapper objectMapper;
     @Autowired
     public FileExchangeController(GoogleDriveService googleDriveService,
                                   UserInfoService userInfoService,
                                   CoursesService coursesService,
-                                  UserService userService, FileExchangeService fileExchangeService, ResourcesService resourcesService, TopicsService topicsService, UtilService utilService) {
+                                  UserService userService, FileExchangeService fileExchangeService, ResourcesService resourcesService, TopicsService topicsService, UtilService utilService, ObjectMapper objectMapper) {
         this.googleDriveService = googleDriveService;
         this.userInfoService = userInfoService;
         this.coursesService = coursesService;
@@ -44,6 +47,7 @@ public class FileExchangeController extends BaseGetController {
         this.resourcesService = resourcesService;
         this.topicsService = topicsService;
         this.utilService = utilService;
+        this.objectMapper = objectMapper;
     }
 
 
@@ -129,12 +133,18 @@ public class FileExchangeController extends BaseGetController {
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         CourseResources courseResource = resourcesService.getResourceByUrl(url);
-        if (courseResource.getTopic().getCourse().getProfessorId().equals(userPrinciple.getId()) &&
-                googleDriveService.deleteFile(googleDriveService.getDriveService(), utilService.getFileIdFromUrl(url)) &&
-                coursesService.deleteResource(url))
+        if(utilService.getFileIdFromUrl(url)==null){
+            coursesService.deleteResource(url);
             return new ResponseEntity<>(HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        else {
+            if (courseResource.getTopic().getCourse().getProfessorId().equals(userPrinciple.getId()) &&
+                    googleDriveService.deleteFile(googleDriveService.getDriveService(), utilService.getFileIdFromUrl(url)) &&
+                    coursesService.deleteResource(url))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @PreAuthorize("hasAuthority('professor')")
@@ -154,6 +164,14 @@ public class FileExchangeController extends BaseGetController {
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
+    @PreAuthorize("hasAuthority('professor')")
+    @PostMapping("/uploadreslink")
+    public ResponseEntity<Void> uploadLinks(@RequestBody CourseResourcesDto courseResourcesDto) {
+        TopicsEntity topic = topicsService.getById(courseResourcesDto.getTopicId());
+        topic.getCourseResources().addAll(courseResourcesDto.getLinks());
+        topicsService.save(topic);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

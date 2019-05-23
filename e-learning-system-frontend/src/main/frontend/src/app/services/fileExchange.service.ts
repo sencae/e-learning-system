@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 export class FileExchangeService {
   private uploadResUrl='/api/uploadres';
   private uploadCourseImgUrl = '/api/uploadCourseImg';
+  private uploadResLinkUrl='/api/uploadreslink';
   constructor(private http:HttpClient) { }
 
   uploadResourceFiles(files:File[],topic:number):Observable<string>{
@@ -18,7 +19,13 @@ export class FileExchangeService {
     formData.append('topic',topic.toString());
     return this.http.post<string>(this.uploadResUrl,formData);
   }
-
+  uploadResourceLinks(resources:any, topicId: number){
+    let data = {
+      links: resources.links,
+      topicId: topicId
+    };
+    return this.http.post(this.uploadResLinkUrl, data)
+  }
   uploadCourseImg(file: File, courseId: number): Observable<string> {
     const formData: FormData = new FormData();
     formData.append('file', file);

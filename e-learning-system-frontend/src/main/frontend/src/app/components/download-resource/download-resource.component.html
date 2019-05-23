@@ -1,28 +1,43 @@
-
 <!-- Modal -->
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel"
      aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="downloadModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="downloadModalLabel">Add resources</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div *ngIf="loading ==null" data-dismiss="modal" hidden></div>
-        <input id="cin" name="cin"
-               type="file" (change)="fileChangeEvent($event)"
-               placeholder="Upload a file..." multiple
-               #attach
-        />
+        <div>
+          <input id="cin" name="cin"
+                 type="file" (change)="fileChangeEvent($event)"
+                 placeholder="Upload a file..." multiple
+                 #attach
+          />
+        </div>
+        <div *ngIf="linkGroup" [formGroup]="linkGroup">
+          <div formArrayName="links"
+               *ngFor="let link of linkGroup.get('links').controls; let i = index;">
+            <div [formGroupName]="i" style="padding-top: 10px">
+              New link:
+              <input class="form-control" formControlName="title" placeholder="Link title">
+              <input class="form-control" formControlName="url" placeholder="Url">
+            </div>
+          </div>
+        </div>
+        <div>
+          <a (click)="addLink()">+Add link</a>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button"
                 (click)="upload()"
                 [disabled]="loading"
-                class="btn btn-primary">Save changes</button>
+                class="btn btn-primary">Save changes
+        </button>
         <img *ngIf="loading" src="../../../assets/img/loading.gif">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>

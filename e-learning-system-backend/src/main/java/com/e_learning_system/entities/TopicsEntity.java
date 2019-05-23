@@ -15,8 +15,8 @@ public class TopicsEntity {
     @JsonIgnore
     private Courses course;
 
-    @OneToMany
-    @JoinColumn(name = "topic_id", updatable = false)
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "topic_id")
     public List<CourseResources> getCourseResources() {
         return courseResources;
     }

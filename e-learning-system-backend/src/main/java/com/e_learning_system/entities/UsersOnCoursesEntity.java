@@ -9,12 +9,14 @@ public class UsersOnCoursesEntity {
     private Long userId;
     private Long courseId;
     private Boolean finished;
+    private String checkUrl;
 
     public UsersOnCoursesEntity(){}
 
 public UsersOnCoursesEntity(Long userId,Long courseId){
     this.userId = userId;
     this.courseId = courseId;
+    this.finished = false;
 }
     @Id
     @SequenceGenerator(name = "seqUOC", sequenceName = "users_on_courses_id_seq", allocationSize = 1)
@@ -59,6 +61,16 @@ public UsersOnCoursesEntity(Long userId,Long courseId){
     }
 
 
+    @Basic
+    @Column(name = "check_url")
+    public String getCheckUrl() {
+        return checkUrl;
+    }
+
+    public void setCheckUrl(String checkUrl) {
+        this.checkUrl = checkUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,11 +79,12 @@ public UsersOnCoursesEntity(Long userId,Long courseId){
         return Objects.equals(id, that.id) &&
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(courseId, that.courseId) &&
-                Objects.equals(finished, that.finished);
+                Objects.equals(finished, that.finished) &&
+                Objects.equals(checkUrl, that.checkUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, courseId, finished);
+        return Objects.hash(id, userId, courseId, finished, checkUrl);
     }
 }

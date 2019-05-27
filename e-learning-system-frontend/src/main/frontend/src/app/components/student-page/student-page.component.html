@@ -24,9 +24,53 @@
   </div>
   <div class="container">
     <h4>Course list</h4>
-    <div class="row courses">
-      <div class="col-md-12 my-courses-list" *ngFor="let course of courses">
-        <div class="course">
+    <ul class="nav nav-tabs">
+      <li class="nav-item active"><a class="nav-link" data-toggle="tab" href="#notFinished" role="tab">Not finished</a></li>
+      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#finished" role="tab">Finished</a></li>
+    </ul>
+    <div class="tab-content">
+      <div  id="finished" role="tabpanel" class="row courses tab-pane" >
+        <div class="col-md-12 my-courses-list" *ngFor="let course of courses">
+          <div class="course" *ngIf="course.finished">
+            <div class="row">
+              <div class="col-md-4 col-sm-12 col-xs-12">
+                <a routerLink="/course/{{course.id}}"> <img *ngIf=" course.url; else img" src="{{course.url}}"
+                                                            class="course-image" width="275"
+                                                            height="155">
+                  <ng-template #img>
+                    <img src="../../../assets/img/notebook-1587525_960_720.jpg" routerLink="/course/{{course.id}}"
+                         class="course-image" width="275"
+                         height="155">
+                  </ng-template>
+                </a>
+              </div>
+              <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="course-title">
+                  <a routerLink="/course/{{course.id}}">
+                    {{course.title}}
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="course-date">
+                  <span class="fa fa-calendar"></span>
+                  <span>
+                      {{course.startDate|date:'mediumDate'}} - {{course.endDate|date:'mediumDate'}}
+                    </span>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-6 col-xs-12">
+                <a routerLink="/course/{{course.id}}" class="btn btn-primary">
+                  <span class="fa fa-graduation-cap"></span> Go to course
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="notFinished" role="tabpanel" class="row courses tab-pane active" >
+        <div class="col-md-12 my-courses-list" *ngFor="let course of courses">
+        <div class="course"  *ngIf="!course.finished">
           <div class="row">
             <div class="col-md-4 col-sm-12 col-xs-12">
               <a routerLink="/course/{{course.id}}"> <img *ngIf=" course.url; else img" src="{{course.url}}"
@@ -58,14 +102,9 @@
               <a routerLink="/course/{{course.id}}" class="btn btn-primary">
                 <span class="fa fa-graduation-cap"></span> Go to course
               </a>
-              <span *ngIf="course.finished; else notFinished">
-                Course finished
-              </span>
-              <ng-template #notFinished>
-                Course is not finished
-              </ng-template>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div><!--/row-->

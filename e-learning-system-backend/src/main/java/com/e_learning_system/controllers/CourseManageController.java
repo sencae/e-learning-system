@@ -48,13 +48,22 @@ public class CourseManageController extends BaseGetController {
         Type setType = new TypeToken<Set<StudentManageDto>>() {
         }.getType();
         Set<StudentManageDto> dto = modelMapperUtil.map(f, setType);
-        for (StudentManageDto studentManageDto : dto)
+        for (StudentManageDto studentManageDto : dto) {
             for (TestResultsEntity testResultsEntity : testResultsEntities) {
                 if (studentManageDto.getUserId().equals(testResultsEntity.getUserId()))
                     studentManageDto.setTestResults(testResultsEntity);
                 studentManageDto.setTestName(testResultsEntity.getTestsEntity().getTestName());
             }
-
+            for(User user: f){
+                if(studentManageDto.getUserId().equals(user.getId())){
+                    user.getUsersOnCoursesEntities().forEach(course->{
+                        if(course.getCourseId().equals(courseId)){
+                            studentManageDto.setTaskUrl(course.getCheckUrl());
+                        }
+                    });
+                }
+            }
+        }
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
     @PreAuthorize("hasAuthority('professor')")
@@ -62,6 +71,17 @@ public class CourseManageController extends BaseGetController {
     public ResponseEntity<Void> endCourse(@RequestBody ObjectNode objectNode ){
         UsersOnCoursesEntity usersOnCoursesEntity = userOnCoursesService.getUserOnCourseByUserIdAndCourseId(objectNode.get("studentId").asLong(),
                 objectNode.get("courseId").asLong());
+        usersOnCoursesEntity.setFinished(true);
+        userOnCoursesService.save(usersOnCoursesEntity);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PreAuthorize("hasAuthority('student')")
+    @PostMapping("endCourseBut")
+    public ResponseEntity<Void> endCourse(@RequestBody Long courseId){
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        UsersOnCoursesEntity usersOnCoursesEntity = userOnCoursesService.getUserOnCourseByUserIdAndCourseId(userPrinciple.getId(),
+                courseId);
         usersOnCoursesEntity.setFinished(true);
         userOnCoursesService.save(usersOnCoursesEntity);
         return new ResponseEntity<>(HttpStatus.OK);

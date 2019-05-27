@@ -39,6 +39,7 @@ public class CoursesController {
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         course.setProfessorId(userPrinciple.getId());
+        course.setEndType(3);
         coursesService.saveCourse(course);
 
         return new ResponseEntity<>(course.getId(), HttpStatus.OK);

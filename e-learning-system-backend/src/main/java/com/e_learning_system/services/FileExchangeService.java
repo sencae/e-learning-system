@@ -66,5 +66,22 @@ public class FileExchangeService {
         }
         return fileUploadCounter;
     }
+    public com.google.api.services.drive.model.File uploadAnswers(MultipartFile file){
+        File fileUpload = googleDriveService.multipartToFile(file);
+        try {
+            if (file != null)
+                return googleDriveService.uploadFile(
+                        file.getOriginalFilename(),
+                        fileUpload, file.getContentType());
+            else
+                return null;
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+            return null;
+        } finally {
+            fileUpload.delete();
+        }
+    }
 }
 

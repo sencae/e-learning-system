@@ -25,14 +25,17 @@ export class CourseEditComponent implements OnInit {
   topicTitle = new FormControl('');
   createTest: CreateTest;
   testTitle = new FormControl('');
+  FinalFile:File;
   submitted = false;
   openForm = false;
   topicTtl: number;
   checkbox = false;
+  check :boolean;
   course: CourseInfo;
   show = false;
   url = '';
   loading = false;
+  choose=3;
   readonly id = +this.route.snapshot.paramMap.get('id');
 
   constructor(private courseService: CourseService,
@@ -66,7 +69,8 @@ export class CourseEditComponent implements OnInit {
           startDate: [course.startDate.toString().substring(0, 16), [Validators.required,this.dateValidator]],
           endDate: [this.course.endDate.toString().substring(0, 16), Validators.required],
           file: [null],
-          url: [course.url]
+          url: [course.url],
+          endType:[course.endType]
         })
       },
       error1 => {
@@ -137,6 +141,14 @@ export class CourseEditComponent implements OnInit {
   deleteCheck(values: any) {
     this.checkbox = values.currentTarget.checked;
   }
+  checkValue(value:any){
+    this.check = value.currentTarget.checked;
+  }
+  deleteTaskFile(){
+    this.fileEx.deleteTaskFile(this.course.fileUrl).subscribe(data=>{
+      this.course.fileUrl=null;
+    })
+  }
 
   deleteFile() {
     this.fileEx.deleteCourseImage(this.course.url).subscribe(data => {
@@ -149,10 +161,12 @@ export class CourseEditComponent implements OnInit {
     )
   }
 
+  selectFinalTask(event){
+    this.FinalFile = event.target.files[0];
+  }
   selectFile(event) {
     const reader = new FileReader();
     this.courseEditForm.patchValue({file: event.target.files[0]});
-
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
@@ -163,16 +177,27 @@ export class CourseEditComponent implements OnInit {
     }
   }
 
+  uploadTaskFile(file:File){
+    this.fileEx.uploadTaskFile(file,this.id).subscribe(data=>{this.FinalFile = null;})
+  }
+
   onSubmit() {
     this.submitted = true;
     if (this.courseEditForm.invalid) {
       return;
     }
     this.loading = true;
+
     if (this.checkbox) {
       this.deleteFile();
     }
+    if(this.choose ===2 && this.FinalFile){
+      this.uploadTaskFile(this.FinalFile);
+    }
+
     this.courseEditForm.patchValue({id: this.id});
+    this.courseEditForm.patchValue({endType: this.choose});
+
     if (this.courseEditForm.value.file !== null) {
       this.fileEx.uploadCourseImg(this.courseEditForm.value.file, this.id)
         .subscribe(data => {

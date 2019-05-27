@@ -9,6 +9,7 @@ public class StudentManageDto {
     private String url;
     private TestResultsEntity testResults;
     private String testName;
+    private String taskUrl;
 
     public Long getUserId() {
         return userId;
@@ -56,5 +57,13 @@ public class StudentManageDto {
 
     public void setTestName(String testName) {
         this.testName = testName;
+    }
+
+    public String getTaskUrl() {
+        return taskUrl;
+    }
+
+    public void setTaskUrl(String taskUrl) {
+        this.taskUrl = taskUrl;
     }
 }

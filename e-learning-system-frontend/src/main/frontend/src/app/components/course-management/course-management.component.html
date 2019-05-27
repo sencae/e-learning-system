@@ -33,7 +33,7 @@
           <div [attr.id]="'result'+i" class="collapse" [attr.aria-labelledby]="'headResult'"
                data-parent="#accordionResult">
             <div class="card-body">
-              <div *ngIf="student.testResults; else noPass">
+              <div *ngIf="student.testResults">
                 <table width="100%">
                   <tr>
                     <th>Test name</th>
@@ -46,6 +46,9 @@
                     <td>{{student.testResults.result}}%</td>
                   </tr>
                 </table>
+              </div>
+              <div *ngIf="student.taskUrl">
+                <a  href="{{student.taskUrl}}">Download final task</a>
               </div>
               <ng-template #noPass>
                 <p>Test is not passed</p>

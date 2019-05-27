@@ -123,23 +123,67 @@
             </div>
           </div>
         </div>
-        <div *ngIf="course.test!=null" style="padding-top: 10px;padding-bottom: 10px">
-          <button type="button" class="btn btn-primary" routerLink="../test/edit">Edit test</button>
+        <div class="how-to-end">
+          <h3 style="text-align: center;">Choose final task</h3>
+          <div class="row">
+            <div class="col-4">
+              <div class="list-group" id="list-tab" role="tablist">
+                <a (click)="choose = 1" class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-test" role="tab" aria-controls="home">Test</a>
+                <a (click)="choose = 2"  class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-file" role="tab" aria-controls="profile">File</a>
+                <a (click)="choose = 3" class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-no-tasks" role="tab" aria-controls="messages">No tasks</a>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="tab-content" id="nav-tabContent">
+                <div  class="tab-pane fade show active" id="list-test" role="tabpanel" aria-labelledby="list-home-list">
+                  <div *ngIf="!course.test">
+                    <button type="button" (click)="onClickOpenFormTest()" class="btn btn-link">Add final test</button>
+                  </div>
+                  <div [hidden]="!openFormTest">
+                    <input type="text"
+                           placeholder="Test title"
+                           class="form-control"
+                           [formControl]="testTitle"
+                    />
+                    <button type="button" class="btn btn-primary" (click)="saveTest()">
+                      Save
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="openFormTest=false">Cancel</button>
+                  </div>
+                  <div *ngIf="course.test!=null" style="padding-top: 10px;padding-bottom: 10px">
+                    <button type="button" class="btn btn-primary" routerLink="../test/edit">Edit test</button>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="list-file" role="tabpanel" aria-labelledby="list-profile-list">
+                  <div class="final-file" *ngIf="!course.fileUrl; else withFinal">
+                    <input type="file"
+                           (change)="selectFinalTask($event)"
+                           class="form-control-file">
+                  </div>
+                  <ng-template #withFinal>
+                    <a href="{{course.fileUrl}}">
+                      Final task
+                    </a>
+                    <button  class="btn btn-danger delete" type="button" title="delete resource"
+                            (click)="deleteTaskFile()">X
+                    </button>
+                  </ng-template>
+
+                </div>
+                <div  class="tab-pane fade" id="list-no-tasks" role="tabpanel" aria-labelledby="list-messages-list">
+                  <div class="no-file">
+                    <label>
+                      <input (change)="checkValue($event)" type="checkbox" value="check" />
+                      No final tasks
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div *ngIf="!course.test">
-          <button type="button" (click)="onClickOpenFormTest()" class="btn btn-link">Add final test</button>
-        </div>
-        <div [hidden]="!openFormTest">
-          <input type="text"
-                 placeholder="Test title"
-                 class="form-control"
-                 [formControl]="testTitle"
-          />
-          <button type="button" class="btn btn-primary" (click)="saveTest()">
-            Save
-          </button>
-          <button type="button" class="btn btn-secondary" (click)="openFormTest=false">Cancel</button>
-        </div>
+
+
         <div class="form-group" style="margin-top: 20px">
           <button [disabled]="loading"
                   type="submit"

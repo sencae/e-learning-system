@@ -9,6 +9,8 @@ export class FileExchangeService {
   private uploadResUrl='/api/uploadres';
   private uploadCourseImgUrl = '/api/uploadCourseImg';
   private uploadResLinkUrl='/api/uploadreslink';
+  private uploadFinalTaskUrl='/api/uploadFinalTask';
+  private uploadTaskFileUrl='/api/uploadTaskFile';
   constructor(private http:HttpClient) { }
 
   uploadResourceFiles(files:File[],topic:number):Observable<string>{
@@ -43,6 +45,27 @@ export class FileExchangeService {
   }
   deleteResource(url:string){
     return this.http.post('/api/delete/courseres',url)
+  }
+  deleteTaskFile(url:string){
+    return this.http.post('/api/delete/TaskFile',url)
+  }
+  uploadFinalTask(file:File, courseId:number){
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('id', courseId.toString());
+    return this.http.post(this.uploadFinalTaskUrl, formData, {
+      reportProgress: false,
+      responseType: 'text'
+    });
+  }
+  uploadTaskFile(file:File,courseId:number){
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('id', courseId.toString());
+    return this.http.post(this.uploadTaskFileUrl, formData, {
+      reportProgress: false,
+      responseType: 'text'
+    });
   }
 
   deleteCourseImage(url: string) {

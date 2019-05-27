@@ -17,6 +17,7 @@ import {CourseManagementComponent} from "./components/course-management/course-m
 import {CourseTestComponent} from "./components/course-test/course-test.component";
 import {EditTestComponent} from "./components/edit-test/edit-test.component";
 import {ConfirmAccountComponent} from "./components/confirm-account/confirm-account.component";
+import {CourseFileComponent} from "./components/course-file/course-file.component";
 
 const appRoutes: Routes = [
   {path: 'signup', component: SignUpComponent},
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
   {path: 'course/:id/manage', component: CourseManagementComponent},
   {path: 'course/:id/test', component: CourseTestComponent},
   {path: 'course/:id/test/edit', component: EditTestComponent},
+  {path: 'course/:id/file', component: CourseFileComponent},
   {path: 'user/:id', component: UserInfoComponent},
   {path:'user/:id/edit',component:UserEditComponent},
   {path: 'my', component: MyPageComponent},

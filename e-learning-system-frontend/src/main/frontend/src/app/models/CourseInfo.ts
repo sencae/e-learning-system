@@ -14,4 +14,6 @@ export class CourseInfo {
   test: string;
   url: string;
   finished:boolean;
+  endType:number;
+  fileUrl:string;
 }

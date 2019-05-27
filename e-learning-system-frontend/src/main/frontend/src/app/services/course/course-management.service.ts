@@ -16,7 +16,7 @@ export class CourseManagementService {
     return this.http.post<StudentManage[]>(this.getUsersOnCourseUrl, id)
   }
   endCourse(studentId:number, courseId:number){
-    var data = {
+    let data = {
       studentId: studentId,
       courseId: courseId
     };

@@ -19,6 +19,8 @@ public class Courses {
     private Timestamp startDate;
     private Timestamp endDate;
     private String url;
+    private CourseFile courseFile;
+    private Integer endType;
     private List<TopicsEntity> topicsEntities;
     @OneToOne
     private TestsEntity testsEntity;
@@ -72,6 +74,16 @@ public class Courses {
         this.id = id;
     }
 
+
+    @Basic
+    @Column(name = "end_type", nullable = false)
+    public Integer getEndType() {
+        return endType;
+    }
+
+    public void setEndType(Integer endType) {
+        this.endType = endType;
+    }
 
     @Basic
     @Column(name = "title", nullable = false)
@@ -150,5 +162,15 @@ public class Courses {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, description, professorId, startDate, endDate, topicsEntities);
+    }
+
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    public CourseFile getCourseFile() {
+        return courseFile;
+    }
+
+    public void setCourseFile(CourseFile courseFile) {
+        this.courseFile = courseFile;
     }
 }

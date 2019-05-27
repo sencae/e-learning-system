@@ -21,6 +21,8 @@ public class CoursesDto {
     private String url;
     private boolean finished;
     private String test;
+    private Integer endType;
+    private String fileUrl;
 
     public String getTest() {
         return test;
@@ -125,6 +127,22 @@ public class CoursesDto {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public Integer getEndType() {
+        return endType;
+    }
+
+    public void setEndType(Integer endType) {
+        this.endType = endType;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
 

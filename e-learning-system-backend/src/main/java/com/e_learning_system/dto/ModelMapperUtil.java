@@ -55,6 +55,13 @@ public class ModelMapperUtil extends ModelMapper {
                 map().setUrl(source.getUserInfo().getAvatarUrl());
             }
         });
+        this.addMappings(new PropertyMap<Courses,CoursesDto>() {
+            @Override
+            protected void configure(){
+                map().setFileUrl(source.getCourseFile().getUrl());
+            }
+        });
+
 
 
     }

@@ -7,4 +7,5 @@ export class StudentManage {
   lastName: string;
   testResults: TestResults;
   testName: string;
+  taskUrl:string;
 }

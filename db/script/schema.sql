@@ -169,7 +169,7 @@ CREATE TABLE public.course_type (
 );
 
 
-ALTER TABLE public.course_type OWNER TO postgres;
+ALTER TABLE public.course_files OWNER TO postgres;
 
 --
 -- TOC entry 206 (class 1259 OID 57570)

@@ -44,10 +44,11 @@ export class DownloadResourceComponent implements OnInit {
   }
   upload() {
     this.loading = true;
-    let f = this.linkGroup.controls;
     this.fileEx.uploadResourceFiles(this.filesToUpload,this.topic).subscribe(
       data => {
+        if(this.linkGroup){
         this.fileEx.uploadResourceLinks(this.linkGroup.value,this.topic).subscribe(data=>{
+
           this.alertService.success('You successfully uploaded resources!',true);
           document.getElementById('closeModal').click();
           this.loading = false;
@@ -58,7 +59,11 @@ export class DownloadResourceComponent implements OnInit {
         document.getElementById('closeModal').click();
         this.linkGroup.reset()
         })
-        },
+        }else {
+          this.alertService.success('You successfully uploaded resources!',true);
+          document.getElementById('closeModal').click();
+          this.loading = false;
+        }},
       error => {
         this.alertService.error('FAIL to upload files!', false);
         this.loading = null;

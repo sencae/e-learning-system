@@ -17,10 +17,11 @@
               <div style="    display: inline-block;
                               width: 70%;
                               text-align: center;">
-                <button type="button" class="btn btn-success" id="success+{{i}}" (click)="endCourse(student.userId);">
+                <button type="button" class="btn btn-success" id="success+{{i}}" (click)="endCourse(student.userId);
+">
                   Course passed
                 </button>
-                <button type="button" class="btn btn-danger">Delete from course</button>
+                <button type="button" class="btn btn-danger" (click)="deleteFromC(student.userId)">Deduct</button>
               </div>
               <div class="mb-0" style="float: right">
                 <button type="button" class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#result'+i"

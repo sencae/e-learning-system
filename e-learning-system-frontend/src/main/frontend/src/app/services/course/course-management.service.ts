@@ -9,6 +9,7 @@ import {StudentManage} from "../../models/StudentManage";
 export class CourseManagementService {
   private getUsersOnCourseUrl = 'api/usersoncourse';
   private endCourseUrl = 'api/endCourse';
+  private deleteFromCourse = 'api/deletefromcourse'
   constructor(private http: HttpClient) {
   }
 
@@ -21,5 +22,12 @@ export class CourseManagementService {
       courseId: courseId
     };
     return this.http.post(this.endCourseUrl, data)
+  }
+  deleteFromC(studentId:number, courseId:number){
+    let data = {
+      studentId: studentId,
+      courseId: courseId
+    };
+    return this.http.post(this.deleteFromCourse, data)
   }
 }

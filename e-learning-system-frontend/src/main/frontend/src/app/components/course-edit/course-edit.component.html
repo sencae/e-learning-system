@@ -156,9 +156,19 @@
                 </div>
                 <div class="tab-pane fade" id="list-file" role="tabpanel" aria-labelledby="list-profile-list">
                   <div class="final-file" *ngIf="!course.fileUrl; else withFinal">
-                    <input type="file"
-                           (change)="selectFinalTask($event)"
-                           class="form-control-file">
+
+                      <div class="input-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                 aria-describedby="inputGroupFileAddon01" (change)="selectFinalTask($event)">
+
+                          <label *ngIf="FinalFile;else nofile" class="custom-file-label" for="inputGroupFile01">{{FinalFile.name}}</label>
+                          <ng-template #nofile>
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                          </ng-template>
+                        </div>
+                      </div>
+
                   </div>
                   <ng-template #withFinal>
                     <a href="{{course.fileUrl}}">

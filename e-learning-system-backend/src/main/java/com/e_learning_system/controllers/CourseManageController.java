@@ -75,6 +75,14 @@ public class CourseManageController extends BaseGetController {
         userOnCoursesService.save(usersOnCoursesEntity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PreAuthorize("hasAuthority('professor')")
+    @PostMapping("deletefromcourse")
+    public ResponseEntity<Void> deleteFromCourse(@RequestBody ObjectNode objectNode ){
+        UsersOnCoursesEntity usersOnCoursesEntity = userOnCoursesService.getUserOnCourseByUserIdAndCourseId(objectNode.get("studentId").asLong(),
+                objectNode.get("courseId").asLong());
+        userOnCoursesService.delete(usersOnCoursesEntity);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @PreAuthorize("hasAuthority('student')")
     @PostMapping("endCourseBut")
     public ResponseEntity<Void> endCourse(@RequestBody Long courseId){

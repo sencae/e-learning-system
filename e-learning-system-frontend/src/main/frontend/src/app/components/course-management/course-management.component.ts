@@ -38,4 +38,14 @@ export class CourseManagementComponent implements OnInit {
       + ' '+ this.students.find(x=>x.userId==studentId).lastName + ' successfully end course');
     })
   }
+  deleteFromC(studentId:number){
+    this.courseManagementService.deleteFromC(studentId,+this.route.snapshot.paramMap.get('id')).subscribe(
+      data=>{
+        this.alertService.success('student '+this.students.find(x=>x.userId==studentId).firstName
+          + ' '+ this.students.find(x=>x.userId==studentId).lastName + ' successfully deducted');
+       this.students = this.students.filter(x=>x.userId!==studentId);
+
+      }
+    )
+  }
 }

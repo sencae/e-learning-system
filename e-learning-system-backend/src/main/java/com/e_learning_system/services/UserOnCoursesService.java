@@ -7,6 +7,7 @@ import com.e_learning_system.entities.User;
 import com.e_learning_system.entities.UsersOnCoursesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -43,5 +44,9 @@ public class UserOnCoursesService {
     }
     public void save(UsersOnCoursesEntity usersOnCoursesEntity){
         usersOnCoursesRepository.save(usersOnCoursesEntity);
+    }
+    @Transactional
+    public void delete(UsersOnCoursesEntity usersOnCoursesEntity){
+        usersOnCoursesRepository.delete(usersOnCoursesEntity);
     }
 }

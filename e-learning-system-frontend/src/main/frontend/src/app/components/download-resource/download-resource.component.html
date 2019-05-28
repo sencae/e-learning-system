@@ -12,11 +12,17 @@
       <div class="modal-body">
         <div *ngIf="loading ==null" data-dismiss="modal" hidden></div>
         <div>
-          <input id="cin" name="cin"
-                 type="file" (change)="fileChangeEvent($event)"
-                 placeholder="Upload a file..." multiple
-                 #attach
-          />
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile01"
+                     aria-describedby="inputGroupFileAddon01" (change)="fileChangeEvent($event)"
+              multiple>
+              <label *ngIf="filesToUpload;else nofile" class="custom-file-label" for="inputGroupFile01">You select {{filesToUpload.length}} files</label>
+              <ng-template #nofile>
+                <label class="custom-file-label" for="inputGroupFile01">Choose files</label>
+              </ng-template>
+            </div>
+          </div>
         </div>
         <div *ngIf="linkGroup" [formGroup]="linkGroup">
           <div formArrayName="links"

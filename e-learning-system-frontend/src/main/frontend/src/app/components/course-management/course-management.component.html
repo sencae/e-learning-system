@@ -17,10 +17,12 @@
               <div style="    display: inline-block;
                               width: 70%;
                               text-align: center;">
-                <button type="button" class="btn btn-success" id="success+{{i}}" (click)="endCourse(student.userId);
+
+                <button *ngIf="!student.finished; else finished" type="button" class="btn btn-success" id="success+{{i}}" (click)="endCourse(student.userId);
 ">
                   Course passed
                 </button>
+                <ng-template #finished> <span style="padding-right: 10px;">Course passed</span> </ng-template>
                 <button type="button" class="btn btn-danger" (click)="deleteFromC(student.userId)">Deduct</button>
               </div>
               <div class="mb-0" style="float: right">

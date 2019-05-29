@@ -36,6 +36,7 @@ export class CourseManagementComponent implements OnInit {
     {
       this.alertService.success('student '+this.students.find(x=>x.userId==studentId).firstName
       + ' '+ this.students.find(x=>x.userId==studentId).lastName + ' successfully end course');
+      this.students.find(x=>x.userId===studentId).finished = true;
     })
   }
   deleteFromC(studentId:number){

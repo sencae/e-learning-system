@@ -10,6 +10,7 @@ public class StudentManageDto {
     private TestResultsEntity testResults;
     private String testName;
     private String taskUrl;
+    private Boolean finished;
 
     public Long getUserId() {
         return userId;
@@ -65,5 +66,13 @@ public class StudentManageDto {
 
     public void setTaskUrl(String taskUrl) {
         this.taskUrl = taskUrl;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 }

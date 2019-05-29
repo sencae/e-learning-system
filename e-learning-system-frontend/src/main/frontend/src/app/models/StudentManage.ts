@@ -8,4 +8,5 @@ export class StudentManage {
   testResults: TestResults;
   testName: string;
   taskUrl:string;
+  finished:boolean;
 }

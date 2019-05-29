@@ -58,6 +58,7 @@ public class CourseManageController extends BaseGetController {
                 if(studentManageDto.getUserId().equals(user.getId())){
                     user.getUsersOnCoursesEntities().forEach(course->{
                         if(course.getCourseId().equals(courseId)){
+                            studentManageDto.setFinished(course.getFinished());
                             studentManageDto.setTaskUrl(course.getCheckUrl());
                         }
                     });
